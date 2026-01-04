@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <!-- github 角标 -->
-    <github-corner class="github-corner" />
+    <!-- <github-corner class="github-corner" /> -->
 
     <el-card shadow="never" class="mt-2">
       <div class="flex flex-wrap">
@@ -21,7 +21,7 @@
         <div class="hidden sm:block">
           <div class="flex items-end space-x-6">
             <!-- 仓库 -->
-            <div>
+            <!-- <div>
               <div class="font-bold color-#ff9a2e text-sm flex items-center">
                 <el-icon class="mr-2px"><Folder /></el-icon>
                 仓库
@@ -39,10 +39,10 @@
                   <div class="i-svg:gitcode text-lg color-#FF9A2E" />
                 </el-link>
               </div>
-            </div>
+            </div> -->
 
             <!-- 文档 -->
-            <div>
+            <!-- <div>
               <div class="font-bold color-#4080ff text-sm flex items-center">
                 <el-icon class="mr-2px"><Document /></el-icon>
                 文档
@@ -63,10 +63,10 @@
                   <div class="i-svg:cnblogs text-lg" />
                 </el-link>
               </div>
-            </div>
+            </div> -->
 
             <!-- 视频 -->
-            <div>
+            <!-- <div>
               <div class="font-bold color-#f76560 text-sm flex items-center">
                 <el-icon class="mr-2px"><VideoCamera /></el-icon>
                 视频
@@ -76,7 +76,7 @@
                   <div class="i-svg:bilibili text-lg" />
                 </el-link>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -288,7 +288,7 @@
         </el-card>
       </el-col>
       <!-- 最新动态 -->
-      <el-col :xs="24" :span="8">
+      <!-- <el-col :xs="24" :span="8">
         <el-card>
           <template #header>
             <div class="flex-x-between">
@@ -342,7 +342,7 @@
             </el-timeline>
           </el-scrollbar>
         </el-card>
-      </el-col>
+      </el-col> -->
     </el-row>
   </div>
 </template>

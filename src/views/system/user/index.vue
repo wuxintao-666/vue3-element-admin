@@ -3,9 +3,9 @@
   <div class="app-container">
     <el-row :gutter="20">
       <!-- 部门树 -->
-      <el-col :lg="4" :xs="24" class="mb-[12px]">
+      <!-- <el-col :lg="4" :xs="24" class="mb-[12px]">
         <DeptTree v-model="queryParams.deptId" @node-click="handleQuery" />
-      </el-col>
+      </el-col> -->
 
       <!-- 用户列表 -->
       <el-col :lg="20" :xs="24">
@@ -98,24 +98,27 @@
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="50" align="center" />
+            <el-table-column label="用户ID" prop="id" />
             <el-table-column label="用户名" prop="username" />
-            <el-table-column label="昵称" width="150" align="center" prop="nickname" />
+            <el-table-column label="密码哈希" width="150" align="center" prop="password" />
             <el-table-column label="性别" width="100" align="center">
               <template #default="scope">
                 <DictLabel v-model="scope.row.gender" code="gender" />
               </template>
             </el-table-column>
-            <el-table-column label="部门" width="120" align="center" prop="deptName" />
+            <!-- <el-table-column label="部门" width="120" align="center" prop="deptName" /> -->
             <el-table-column label="手机号码" align="center" prop="mobile" width="120" />
             <el-table-column label="邮箱" align="center" prop="email" width="160" />
-            <el-table-column label="状态" align="center" prop="status" width="80">
+            <!-- <el-table-column label="状态" align="center" prop="status" width="80"/> -->
+            <el-table-column label="最近登陆时间" align="center" prop="recentsignin" width="150"/>
+            <el-table-column label="状态" align="center" prop="status" width="100">
               <template #default="scope">
                 <el-tag :type="scope.row.status == 1 ? 'success' : 'info'">
                   {{ scope.row.status == 1 ? "正常" : "禁用" }}
                 </el-tag>
               </template>
             </el-table-column>
-            <el-table-column label="创建时间" align="center" prop="createTime" width="150" />
+            <el-table-column label="创建时间" align="center" prop="createtime" width="150" />
             <el-table-column label="操作" fixed="right" width="220">
               <template #default="scope">
                 <el-button
