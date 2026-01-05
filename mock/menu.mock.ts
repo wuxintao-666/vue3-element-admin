@@ -34,8 +34,9 @@ export default defineMock([
               },
             },
             {
-              path: "role",
-              component: "system/theme/index",
+              path: "source",
+              component: "Layout",
+              redirect: "/system/source/theme",
               name: "Role",
               meta: {
                 title: "教学资源管理",
@@ -47,8 +48,8 @@ export default defineMock([
               },
               children: [
                 {
-                  path: "resource",
-                  component: "system/resource/index",
+                  path: "theme",
+                  component: "system/theme/index",
                   name: "Resource",
                   meta: {
                     title: "主题资源管理",
@@ -59,36 +60,36 @@ export default defineMock([
                     params: null,
                   },
                 },
+                // {
+                //   path: "resource-type",
+                //   component: "system/resource-type/index",
+                //   name: "ResourceType",
+                //   meta: {
+                //     title: "知识库/RAG文档管理",
+                //     icon: "el-icon-User",
+                //     hidden: false,
+                //     keepAlive: true,
+                //     alwaysShow: false,
+                //     params: null,
+                //   },
+                // },
+                // {
+                //   path: "resource-type-item",
+                //   component: "system/resource-type/resource-type-item",
+                //   name: "ResourceTypeItem",
+                //   meta: {
+                //     title: "编程题库和测试",
+                //     icon: "el-icon-User",
+                //     hidden: false,
+                //     keepAlive: true,
+                //     alwaysShow: false,
+                //     params: null,
+                //   },
+                // },
                 {
-                  path: "resource-type",
-                  component: "system/resource-type/index",
-                  name: "ResourceType",
-                  meta: {
-                    title: "知识库/RAG文档管理",
-                    icon: "el-icon-User",
-                    hidden: false,
-                    keepAlive: true,
-                    alwaysShow: false,
-                    params: null,
-                  },
-                },
-                {
-                  path: "resource-type-item",
-                  component: "system/resource-type/resource-type-item",
-                  name: "ResourceTypeItem",
-                  meta: {
-                    title: "编程题库和测试",
-                    icon: "el-icon-User",
-                    hidden: false,
-                    keepAlive: true,
-                    alwaysShow: false,
-                    params: null,
-                  },
-                },
-                {
-                  path: "resource-type-item-item",
-                  component: "system/resource-type/resource-type-item-item",
-                  name: "ResourceTypeItemItem",
+                  path: "knowledge-graph",
+                  component: "system/knowledge-graph/index",
+                  name: "KnowledgeGraph",
                   meta: {
                     title: "知识图谱构建",
                     icon: "el-icon-User",
