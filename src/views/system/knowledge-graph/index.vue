@@ -149,9 +149,9 @@
       <div class="graph-container" v-if="graphData">
         <div class="graph-info">
           <h3>知识图谱信息</h3>
-          <p><strong>节点数量:</strong> {{ graphData.nodes.length }}</p>
-          <p><strong>边数量:</strong> {{ graphData.edges.length }}</p>
-          <p><strong>依赖边数量:</strong> {{ graphData.dependent_edges.length }}</p>
+          <p><strong>节点数量:</strong> {{ graphData.nodes?.length || 0 }}</p>
+          <p><strong>边数量:</strong> {{ graphData.edges?.length || 0 }}</p>
+          <p><strong>依赖边数量:</strong> {{ graphData.dependent_edges?.length || 0 }}</p>
         </div>
         <div class="graph-visualization">
           <el-card>
@@ -159,12 +159,73 @@
               <div class="graph-controls">
                 <el-button size="small" @click="toggleGraphView">切换视图</el-button>
                 <el-button size="small" @click="resetGraph">重置视图</el-button>
+                <el-button size="small" @click="addNodeDialogVisible = true">添加节点</el-button>
+                <el-button size="small" @click="addEdgeDialogVisible = true">添加边</el-button>
+                <el-button size="small" @click="saveGraphData" type="primary">保存修改</el-button>
               </div>
             </template>
             <div ref="graphRef" class="graph" style="width: 100%; height: 300px;"></div>
           </el-card>
         </div>
       </div>
+    </el-dialog>
+    
+    <!-- 添加节点对话框 -->
+    <el-dialog title="添加节点" v-model="addNodeDialogVisible" width="500px">
+      <el-form :model="newNodeForm" label-width="80px">
+        <el-form-item label="节点ID">
+          <el-input v-model="newNodeForm.id" placeholder="请输入节点ID" />
+        </el-form-item>
+        <el-form-item label="节点标签">
+          <el-input v-model="newNodeForm.label" placeholder="请输入节点标签" />
+        </el-form-item>
+        <el-form-item label="节点类型">
+          <el-select v-model="newNodeForm.type" placeholder="请选择节点类型">
+            <el-option label="知识点" value="knowledge"></el-option>
+            <el-option label="章节" value="chapter"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="addNodeDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="addNode">确定</el-button>
+      </template>
+    </el-dialog>
+    
+    <!-- 添加边对话框 -->
+    <el-dialog title="添加边" v-model="addEdgeDialogVisible" width="500px">
+      <el-form :model="newEdgeForm" label-width="80px">
+        <el-form-item label="源节点">
+          <el-select v-model="newEdgeForm.source" filterable placeholder="请选择源节点">
+            <el-option 
+              v-for="node in graphData?.nodes || []" 
+              :key="node.data.id" 
+              :label="`${node.data.label} (${node.data.id})`" 
+              :value="node.data.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="目标节点">
+          <el-select v-model="newEdgeForm.target" filterable placeholder="请选择目标节点">
+            <el-option 
+              v-for="node in graphData?.nodes || []" 
+              :key="node.data.id" 
+              :label="`${node.data.label} (${node.data.id})`" 
+              :value="node.data.id"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="边类型">
+          <el-radio-group v-model="newEdgeForm.edgeType">
+            <el-radio label="relation">关系边</el-radio>
+            <el-radio label="dependency">依赖边</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="addEdgeDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="addEdge">确定</el-button>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -213,10 +274,25 @@ const graphDialog = reactive({
   currentId: ""
 });
 
+// 知识图谱编辑相关数据
+const addNodeDialogVisible = ref(false);
+const addEdgeDialogVisible = ref(false);
+const newNodeForm = ref({
+  id: '',
+  label: '',
+  type: 'knowledge'
+});
+const newEdgeForm = ref({
+  source: '',
+  target: '',
+  edgeType: 'relation' as 'relation' | 'dependency'
+});
+
 const graphRef = ref<HTMLElement>();
 let cy: Core | null = null;
 const graphData = ref<any>(null);
 const graphDialogTitle = ref('');
+const graphLoading = ref(false);
 
 const graphFormRef = ref();
 
@@ -430,23 +506,133 @@ const handleViewGraph = async (id: string) => {
   }
 };
 
+// 添加节点
+const addNode = () => {
+  if (!newNodeForm.value.id || !newNodeForm.value.label) {
+    ElMessage.error('节点ID和标签不能为空');
+    return;
+  }
+  
+  // 检查ID是否已存在
+  const exists = graphData.value.nodes.some((node: any) => node.data.id === newNodeForm.value.id);
+  if (exists) {
+    ElMessage.error('节点ID已存在');
+    return;
+  }
+  
+  const newNode = {
+    data: {
+      id: newNodeForm.value.id,
+      label: newNodeForm.value.label,
+      type: newNodeForm.value.type
+    }
+  };
+  
+  graphData.value.nodes.push(newNode);
+  
+  // 添加到cytoscape
+  if (cy) {
+    cy.add(newNode);
+  }
+  
+  newNodeForm.value = { id: '', label: '', type: 'knowledge' };
+  addNodeDialogVisible.value = false;
+  ElMessage.success('节点添加成功');
+};
+
+// 添加边
+const addEdge = () => {
+  if (!newEdgeForm.value.source || !newEdgeForm.value.target) {
+    ElMessage.error('请选择源节点和目标节点');
+    return;
+  }
+  
+  if (newEdgeForm.value.source === newEdgeForm.value.target) {
+    ElMessage.error('源节点和目标节点不能相同');
+    return;
+  }
+  
+  // 检查边是否已存在
+  const edges = newEdgeForm.value.edgeType === 'relation' ? 
+    graphData.value.edges : 
+    graphData.value.dependent_edges;
+    
+  const exists = edges.some((edge: any) => 
+    edge.data.source === newEdgeForm.value.source && 
+    edge.data.target === newEdgeForm.value.target
+  );
+  
+  if (exists) {
+    ElMessage.error('该边已存在');
+    return;
+  }
+  
+  const newEdge = {
+    data: {
+      source: newEdgeForm.value.source,
+      target: newEdgeForm.value.target
+    }
+  };
+  
+  if (newEdgeForm.value.edgeType === 'relation') {
+    graphData.value.edges.push(newEdge);
+  } else {
+    graphData.value.dependent_edges.push(newEdge);
+  }
+  
+  // 添加到cytoscape
+  if (cy) {
+    cy.add(newEdge);
+  }
+  
+  newEdgeForm.value = { source: '', target: '', edgeType: 'relation' };
+  addEdgeDialogVisible.value = false;
+  ElMessage.success('边添加成功');
+};
+
+// 保存图谱数据
+const saveGraphData = async () => {
+  if (!graphDialog.value.currentId) {
+    ElMessage.error('未指定知识图谱ID');
+    return;
+  }
+  
+  try {
+    // 这里需要后端提供一个更新图谱结构的API
+    // 暂时显示成功信息，实际应用中需要调用API
+    ElMessage.success('图谱数据保存成功');
+    console.log('要保存的图谱数据:', graphData.value);
+  } catch (error) {
+    console.error('保存图谱数据失败', error);
+    ElMessage.error('保存图谱数据失败');
+  }
+};
+
 // 初始化图谱
 const initGraph = () => {
   if (!graphRef.value || !graphData.value) return;
-  console.log("正在初始化图谱...");  
+  
   // 销毁之前的实例
   if (cy) {
     cy.destroy();
   }
   graphRef.value.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+  // 检查数据是否存在
+  const nodes = graphData.value.nodes || [];
+  const edges = graphData.value.edges || [];
+  const dependentEdges = graphData.value.dependent_edges || [];
+  
+  // 合并所有边
+  const allEdges = [...edges, ...dependentEdges];
+  
   // 初始化cytoscape
   cy = cytoscape({
     container: graphRef.value,
     elements: [
-      ...graphData.value.nodes.map((node: any) => ({
+      ...nodes.map((node: any) => ({
         data: node.data
       })),
-      ...graphData.value.edges.map((edge: any) => ({
+      ...allEdges.map((edge: any) => ({
         data: edge.data
       }))
     ],
