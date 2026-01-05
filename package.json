@@ -61,6 +61,7 @@
     "element-plus": "^2.11.7",
     "exceljs": "^4.4.0",
     "lodash-es": "^4.17.21",
+    "markdown-it": "^14.1.0",
     "nprogress": "^0.2.0",
     "path-browserify": "^1.0.1",
     "path-to-regexp": "^8.3.0",
