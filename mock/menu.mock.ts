@@ -35,7 +35,7 @@ export default defineMock([
             },
             {
               path: "role",
-              component: "system/role/index",
+              component: "system/theme/index",
               name: "Role",
               meta: {
                 title: "教学资源管理",
