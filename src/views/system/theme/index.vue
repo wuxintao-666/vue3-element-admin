@@ -228,7 +228,7 @@ const getList = async () => {
     const response = await ThemeAPI.getPageList(queryParams);
     themeList.value = response.list || [];
     console.log("获取主题列表成功", themeList.value);
-    total.value = response.data.total;
+    total.value = response.total;
   } catch (error) {
     console.error("获取主题列表失败", error);
   } finally {

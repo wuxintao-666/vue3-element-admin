@@ -70,3 +70,5 @@ export const ALL_STORAGE_KEYS = {
 } as const;
 
 export type StorageKey = (typeof STORAGE_KEYS)[keyof typeof STORAGE_KEYS];
+export const SUCCESS_CODE = 200
+export const ERROR_CODE = 500
