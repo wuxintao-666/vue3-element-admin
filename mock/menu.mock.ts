@@ -131,7 +131,7 @@ export default defineMock([
                   name: "ai-attribute",
                   meta: {
                     title: "AI属性配置",
-                    
+                    icon: "code",
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,

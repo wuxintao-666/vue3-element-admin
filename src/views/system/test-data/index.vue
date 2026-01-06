@@ -27,7 +27,7 @@
             :class="{ 'active-theme': activeThemeId === theme.id }"
             @click="selectTheme(theme.id)"
           >
-            <div class="theme-icon">📚</div>
+            <!-- <div class="theme-icon">📚</div> -->
             <div class="theme-content">
               <div class="theme-name">{{ theme.name }}</div>
               <div class="theme-stats">
@@ -1045,7 +1045,7 @@ const toggleFullPreview = () => {
 <style scoped>
 /* 左侧边栏 */
 .aside-container {
-  background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(180deg, #304156 0%, #16213e 100%);
   color: white;
   border-right: none;
 }

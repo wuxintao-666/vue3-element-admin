@@ -7,7 +7,7 @@
     <el-form label-width="160px">
       <el-form-item label="模型名称">
         <el-select v-model="form.model" style="width: 300px">
-          <el-option label="GPT-4o" value="gpt-4o" />
+          <el-option label="Bert-base-uncased" value="bert-base-uncased" />
           <el-option label="Qwen-30B" value="qwen-30b" />
           <el-option label="DeepSeek-R1" value="deepseek-coder" />
         </el-select>
@@ -46,7 +46,7 @@ import { reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const defaultConfig = {
-  model: 'gpt-4o',
+  model: 'Bert-base-uncased',
   temperature: 0.7,
   top_p: 0.9,
   max_tokens: 1024,

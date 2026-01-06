@@ -1,7 +1,7 @@
 <template>
   <el-card shadow="never">
     <template #header>
-      <span>AI 场景配置（Prompt Engineering）</span>
+      <span>Prompt配置</span>
     </template>
 
     <el-tabs v-model="activeScene">

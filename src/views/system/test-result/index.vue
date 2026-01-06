@@ -3,7 +3,7 @@
     <!-- 左侧主题列表 -->
     <el-aside width="280px" class="aside-container">
       <div class="aside-header">
-        <h2 class="aside-title">📊 测试报告</h2>
+        <h2 class="aside-title">测试报告</h2>
         <div class="aside-subtitle">查看各主题测试统计</div>
       </div>
       <el-scrollbar class="theme-scrollbar">
@@ -25,9 +25,9 @@
             <div class="theme-item">
               <div class="theme-header">
                 <div class="theme-icon">
-                  <span v-if="themeAccuracy(theme) >= 90">🏆</span>
-                  <span v-else-if="themeAccuracy(theme) >= 70">📈</span>
-                  <span v-else>⚠️</span>
+                  <span v-if="themeAccuracy(theme) >= 90"></span>
+                  <span v-else-if="themeAccuracy(theme) >= 70"></span>
+                  <span v-else></span>
                 </div>
                 <div class="theme-info">
                   <div class="theme-name">{{ theme.name }}</div>
@@ -66,7 +66,7 @@
         <div class="theme-header-info">
           <div class="theme-header-left">
             <h1 class="active-theme-name">
-              <span class="theme-emoji">📊</span>
+              <span class="theme-emoji"></span>
               {{ activeTheme.name }} 测试报告
             </h1>
             <div class="theme-meta">
@@ -599,7 +599,7 @@ const selectTheme = (id) => (activeThemeId.value = id);
 <style scoped>
 /* 左侧边栏样式 */
 .aside-container {
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: linear-gradient(135deg, #304156 0%, #34495e 100%);
   color: white;
 }
 
