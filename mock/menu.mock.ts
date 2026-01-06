@@ -40,7 +40,7 @@ export default defineMock([
               name: "Role",
               meta: {
                 title: "教学资源管理",
-                icon: "role",
+                icon: "cascader",
                 hidden: false,
                 keepAlive: true,
                 alwaysShow: false,
@@ -53,7 +53,7 @@ export default defineMock([
                   name: "Resource",
                   meta: {
                     title: "主题资源管理",
-                    icon: "el-icon-User",
+                    icon: "code",
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,
@@ -79,7 +79,7 @@ export default defineMock([
                   name: "LearningContent",
                   meta: {
                     title: "知识点管理",
-                    icon: "el-icon-User",
+                    icon: "code",
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,
@@ -92,7 +92,7 @@ export default defineMock([
                   name: "KnowledgeGraph",
                   meta: {
                     title: "知识图谱管理",
-                    icon: "el-icon-User",
+                    icon: "code",
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,
@@ -104,7 +104,7 @@ export default defineMock([
                   name: "ContentGenerator",
                   meta: {
                     title: "学习内容生成界面",
-                    icon: "el-icon-User",
+                    icon: "code",
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,
@@ -127,11 +127,11 @@ export default defineMock([
               children: [
                 {
                   path: "ai-attribute",
-                  component: "system/empty/index",
+                  component: "system/ai/attribute/index",
                   name: "ai-attribute",
                   meta: {
                     title: "AI属性配置",
-                    icon: "code",
+                    
                     hidden: false,
                     keepAlive: true,
                     alwaysShow: false,
@@ -172,7 +172,7 @@ export default defineMock([
               name: "static-analysisg",
               meta: {
                 title: "数据分析及可视化",
-                icon: "menu",
+                icon: "el-icon-Star",
                 hidden: false,
                 alwaysShow: false,
                 params: null,
@@ -238,7 +238,7 @@ export default defineMock([
               name: "test-data",
               meta: {
                 title: "编程题库与测试用例",
-                icon: "menu",
+                icon: "el-icon-MagicStick",
                 hidden: false,
                 alwaysShow: false,
                 params: null,
