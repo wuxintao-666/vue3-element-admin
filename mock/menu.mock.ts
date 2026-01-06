@@ -219,7 +219,7 @@ export default defineMock([
                 },
                 {
                   path: "codegene",
-                  component: "system/empty/index",
+                  component: "system/ai/massageAnalyse",
                   name: "Codegene",
                   meta: {
                     title: "ai对话分析",
