@@ -678,7 +678,7 @@ const initGraph = () => {
       padding: 30
     }, 
     userPanningEnabled: true,
-    wheelSensitivity: 0.2, // 调整滚轮缩放灵敏度
+    wheelSensitivity: 1, // 调整滚轮缩放灵敏度
   });
 };
 

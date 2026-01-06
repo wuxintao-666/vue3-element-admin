@@ -140,7 +140,7 @@ export default defineMock([
                 },
                 {
                   path: "codegen1",
-                  component: "system/empty/index",
+                  component: "system/ai/prompt/index",
                   name: "Codegen1",
                   meta: {
                     title: "提示词工程",
@@ -153,7 +153,7 @@ export default defineMock([
                 },
                 {
                   path: "codegen2",
-                  component: "system/empty/index",
+                  component: "system/ai/finetune/index",
                   name: "Codegen2",
                   meta: {
                     title: "ai-调参",
@@ -206,7 +206,7 @@ export default defineMock([
                 },
                 {
                   path: "codegenw",
-                  component: "system/empty/index",
+                  component: "system/test-result/index",
                   name: "Codegenw",
                   meta: {
                     title: "测试结果统计",
