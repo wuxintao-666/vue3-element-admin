@@ -6,17 +6,17 @@ const AuthAPI = {
   /** 登录接口*/
   login(data: LoginFormData) {
     const formData = new FormData();
-    formData.append("username", data.username);
-    formData.append("password", data.password);
-    formData.append("captchaKey", data.captchaKey);
-    formData.append("captchaCode", data.captchaCode);
+    const payload = {
+    username: data.username,
+    password: data.password,
+    captcha_key: data.captchaKey,
+    captcha_code: data.captchaCode,
+  };
+  console.log(payload);
     return request<any, LoginResult>({
       url: `${AUTH_BASE_URL}/login`,
       method: "post",
-      data: formData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      data: payload,
     });
   },
 

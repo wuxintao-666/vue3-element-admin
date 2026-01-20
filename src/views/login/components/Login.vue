@@ -180,7 +180,8 @@ function getCaptcha() {
     .then((data) => {
       loginFormData.value.captchaKey = data.captcha_key;
       captchaBase64.value = data.captcha_image;
-       console.log('Updated captchaBase64:', data.captchaBase64);
+       console.log('Updated captchaBase64:', data.captcha_image);
+       console.log('Updated key',data.captcha_key);
     })
     .finally(() => (codeLoading.value = false));
 }

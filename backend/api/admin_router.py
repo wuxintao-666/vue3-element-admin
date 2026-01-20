@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from typing import List, Optional
 
@@ -41,6 +41,10 @@ class UserResponse(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
+    # 暂时保留验证码字段，但不进行验证
+    captchaKey: Optional[str] = None
+    captchaCode: Optional[str] = None
+    rememberMe: bool = False
 
 class LoginResponse(BaseModel):
     code: str = "00000"
@@ -300,11 +304,78 @@ async def get_user_profile():
     
     return UserResponse(data=user_data)
 
+@admin_router.get("/users/me", response_model=UserResponse)
+async def get_current_user():
+    """
+    获取当前登录用户信息 - 符合vue3-element-admin前端要求
+    """
+    # 模拟当前登录用户信息
+    user_data = User(
+        userId=2,
+        username="admin",
+        nickname="系统管理员",
+        avatar="https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
+        roles=["ADMIN"],
+        perms=[
+            "sys:user:query",
+            "sys:user:add",
+            "sys:user:edit",
+            "sys:user:delete",
+            "sys:user:import",
+            "sys:user:export",
+            "sys:user:reset-password",
+
+            "sys:role:query",
+            "sys:role:add",
+            "sys:role:edit",
+            "sys:role:delete",
+
+            "sys:dept:query",
+            "sys:dept:add",
+            "sys:dept:edit",
+            "sys:dept:delete",
+
+            "sys:menu:query",
+            "sys:menu:add",
+            "sys:menu:edit",
+            "sys:menu:delete",
+
+            "sys:dict:query",
+            "sys:dict:add",
+            "sys:dict:edit",
+            "sys:dict:delete",
+            "sys:dict:delete",
+
+            "sys:dict-item:query",
+            "sys:dict-item:add",
+            "sys:dict-item:edit",
+            "sys:dict-item:delete",
+
+            "sys:notice:query",
+            "sys:notice:add",
+            "sys:notice:edit",
+            "sys:notice:delete",
+            "sys:notice:revoke",
+            "sys:notice:publish",
+
+            "sys:config:query",
+            "sys:config:add",
+            "sys:config:update",
+            "sys:config:delete",
+            "sys:config:refresh",
+        ]
+    )
+    
+    return UserResponse(data=user_data)
+
 @admin_router.post("/auth/login", response_model=LoginResponse)
 async def login(login_request: LoginRequest):
     """
     用户登录接口
     """
+    # 未来可以在这里添加验证码验证逻辑
+    # 暂时跳过验证码验证，只验证用户名和密码
+    
     # 简单的验证，实际项目中需要连接数据库验证密码
     if login_request.username == "admin" and login_request.password == "123456":
         # 生成模拟token
@@ -319,7 +390,6 @@ async def login(login_request: LoginRequest):
             msg="登录成功"
         )
     else:
-        from fastapi import HTTPException
         raise HTTPException(status_code=401, detail="用户名或密码错误")
 
 @admin_router.post("/auth/logout")
