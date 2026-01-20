@@ -1,0 +1,330 @@
+from fastapi import APIRouter
+from pydantic import BaseModel
+from typing import List, Optional
+
+admin_router = APIRouter(prefix="/api/v1")
+
+class Meta(BaseModel):
+    title: str
+    icon: Optional[str] = ""
+    hidden: Optional[bool] = False
+    keepAlive: Optional[bool] = True
+    alwaysShow: Optional[bool] = False
+    params: Optional[dict] = None
+
+class RouteItem(BaseModel):
+    path: str
+    component: str
+    name: Optional[str] = ""
+    meta: Optional[Meta] = None
+    redirect: Optional[str] = None
+    children: Optional[List['RouteItem']] = []
+
+class RouteResponse(BaseModel):
+    code: str = "00000"
+    data: List[RouteItem]
+    msg: str = "success"
+
+class User(BaseModel):
+    userId: int
+    username: str
+    nickname: str
+    avatar: str
+    roles: List[str]
+    perms: List[str]
+
+class UserResponse(BaseModel):
+    code: str = "00000"
+    data: User
+    msg: str = "success"
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+class LoginResponse(BaseModel):
+    code: str = "00000"
+    data: dict
+    msg: str = "success"
+
+@admin_router.get("/menus/routes", response_model=RouteResponse)
+async def get_routes():
+    """
+    获取用户权限路由 - 符合vue3-element-admin前端要求
+    """
+    routes_data = [
+    {
+        "path": "/system",
+        "component": "Layout",
+        "redirect": "/system/user",
+        "name": "/system",
+        "meta": {
+            "title": "系统管理",
+            "icon": "system",
+            "hidden": False,
+            "alwaysShow": False,
+            "params": None,
+        },
+        "children": [
+            {
+                "path": "user",
+                "component": "system/user/index",
+                "name": "User",
+                "meta": {
+                    "title": "用户管理",
+                    "icon": "el-icon-User",
+                    "hidden": False,
+                    "keepAlive": True,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+            },
+            {
+                "path": "source",
+                "component": "Layout",
+                "redirect": "/system/source/theme",
+                "name": "Role",
+                "meta": {
+                    "title": "教学资源管理",
+                    "icon": "cascader",
+                    "hidden": False,
+                    "keepAlive": True,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+                "children": [
+                    {
+                        "path": "theme",
+                        "component": "system/theme/index",
+                        "name": "Resource",
+                        "meta": {
+                            "title": "主题资源管理",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "learning-content",
+                        "component": "system/learning-content/index",
+                        "name": "LearningContent",
+                        "meta": {
+                            "title": "知识点管理",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "knowledge-graph",
+                        "component": "system/knowledge-graph/index",
+                        "name": "KnowledgeGraph",
+                        "meta": {
+                            "title": "知识图谱管理",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                        },
+                    },
+                    {
+                        "path": "content-generator",
+                        "component": "system/content-generator/index",
+                        "name": "ContentGenerator",
+                        "meta": {
+                            "title": "学习内容生成界面",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                ],
+            },
+            {
+                "path": "ai",
+                "component": "Layout",
+                "name": "ai",
+                "meta": {
+                    "title": "ai管理",
+                    "icon": "menu",
+                    "hidden": False,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+                "children": [
+                    {
+                        "path": "ai-attribute",
+                        "component": "system/ai/attribute/index",
+                        "name": "ai-attribute",
+                        "meta": {
+                            "title": "AI属性配置",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "codegen1",
+                        "component": "system/ai/prompt/index",
+                        "name": "Codegen1",
+                        "meta": {
+                            "title": "提示词工程",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "codegen2",
+                        "component": "system/ai/finetune/index",
+                        "name": "Codegen2",
+                        "meta": {
+                            "title": "ai-调参",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                ],
+            },
+            {
+                "path": "static-analysisg",
+                "component": "Layout",
+                "name": "static-analysisg",
+                "meta": {
+                    "title": "数据分析及可视化",
+                    "icon": "el-icon-Star",
+                    "hidden": False,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+                "children": [
+                    {
+                        "path": "user-draw",
+                        "component": "system/user-draw/index",
+                        "name": "user-draw",
+                        "meta": {
+                            "title": "用户画像分析",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "codegenq",
+                        "component": "system/course-analyse/index",
+                        "name": "Codegenq",
+                        "meta": {
+                            "title": "课程数据统计",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "codegenw",
+                        "component": "system/test-result/index",
+                        "name": "Codegenw",
+                        "meta": {
+                            "title": "测试结果统计",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                    {
+                        "path": "codegene",
+                        "component": "system/ai/massageAnalyse",
+                        "name": "Codegene",
+                        "meta": {
+                            "title": "ai对话分析",
+                            "icon": "code",
+                            "hidden": False,
+                            "keepAlive": True,
+                            "alwaysShow": False,
+                            "params": None,
+                        },
+                    },
+                ],
+            },
+            {
+                "path": "test-data",
+                "component": "system/test-data/index",
+                "name": "test-data",
+                "meta": {
+                    "title": "编程题库与测试用例",
+                    "icon": "el-icon-MagicStick",
+                    "hidden": False,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+            },
+        ],
+        "msg": "一切ok",
+    },
+]
+
+    return RouteResponse(data=[RouteItem(**route) for route in routes_data])
+          
+@admin_router.get("/users/profile", response_model=UserResponse)
+async def get_user_profile():
+    """
+    获取用户信息 - 符合vue3-element-admin前端要求
+    """
+    user_data = User(
+        userId=1,
+        username="admin",
+        nickname="超级管理员",
+        avatar="/images/avatar.jpg",
+        roles=["ROOT"],
+        perms=["*:*:*"]
+    )
+    
+    return UserResponse(data=user_data)
+
+@admin_router.post("/auth/login", response_model=LoginResponse)
+async def login(login_request: LoginRequest):
+    """
+    用户登录接口
+    """
+    # 简单的验证，实际项目中需要连接数据库验证密码
+    if login_request.username == "admin" and login_request.password == "123456":
+        # 生成模拟token
+        access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        
+        return LoginResponse(
+            data={
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            },
+            msg="登录成功"
+        )
+    else:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=401, detail="用户名或密码错误")
+
+@admin_router.post("/auth/logout")
+async def logout():
+    """
+    用户登出接口
+    """
+    return {"code": "00000", "msg": "登出成功"}
