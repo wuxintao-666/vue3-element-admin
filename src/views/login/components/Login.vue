@@ -178,8 +178,9 @@ function getCaptcha() {
   codeLoading.value = true;
   AuthAPI.getCaptcha()
     .then((data) => {
-      loginFormData.value.captchaKey = data.captchaKey;
-      captchaBase64.value = data.captchaBase64;
+      loginFormData.value.captchaKey = data.captcha_key;
+      captchaBase64.value = data.captcha_image;
+       console.log('Updated captchaBase64:', data.captchaBase64);
     })
     .finally(() => (codeLoading.value = false));
 }
