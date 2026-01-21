@@ -1,0 +1,292 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: HTML基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "HTML元素与结构",
+        "type": "knowledge",
+        "select_element": [
+          "html",
+          "head",
+          "body",
+          "div",
+          "span",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "文本格式化",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "p",
+          "strong",
+          "em"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "超链接与图片",
+        "type": "knowledge",
+        "select_element": [
+          "a",
+          "img"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "列表与表格",
+        "type": "knowledge",
+        "select_element": [
+          "ul",
+          "ol",
+          "li",
+          "table",
+          "tr",
+          "td"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: CSS基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "CSS选择器与样式",
+        "type": "knowledge",
+        "select_element": [
+          "class",
+          "id",
+          "tag",
+          "attribute",
+          "descendant"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "盒模型与布局",
+        "type": "knowledge",
+        "select_element": [
+          "margin",
+          "padding",
+          "border",
+          "width",
+          "height",
+          "display"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "字体与颜色",
+        "type": "knowledge",
+        "select_element": [
+          "font-family",
+          "font-size",
+          "color",
+          "background-color"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "定位与浮动",
+        "type": "knowledge",
+        "select_element": [
+          "position",
+          "float",
+          "clear"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: JavaScript基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "变量与数据类型",
+        "type": "knowledge"
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "函数与事件",
+        "type": "knowledge"
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "DOM操作与事件处理",
+        "type": "knowledge"
+      }
+    },
+    {
+      "data": {
+        "id": "3_4",
+        "label": "流程控制与表单验证",
+        "type": "knowledge"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_4"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_3",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_4"
+      }
+    }
+  ]
+}

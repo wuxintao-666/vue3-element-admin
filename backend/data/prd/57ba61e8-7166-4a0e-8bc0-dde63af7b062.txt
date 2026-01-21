@@ -1,0 +1,158 @@
+---
+
+### <context>
+#### 1. Website Overview
+参考网站是一个名为“SCOT-Web测试页面”的演示性站点，其主题围绕一个基于AI的结构化思维链网页生成系统。目标用户群主要为前端开发者、产品经理以及对自动化工具感兴趣的技术人员。主要用途是展示该网页生成系统（SCOT-Web）的核心功能与技术特点，并提供基础的联系表单。其核心价值在于通过一个简洁、直观的界面，清晰传达产品概念与能力。
+
+#### 2. **Visual & Style Characteristics**
+- **色彩搭配与主色调**：
+  - 主背景色: `#f5f5f5`
+  - 主容器背景色: `#ffffff`
+  - 主文字颜色: `#333333`
+  - 强调色（主色调）: `#4CAF50`
+  - 辅助/高亮背景色: `#e8f5e9`
+  - 次要文字颜色: `#666666`
+  - 边框/分隔线颜色: `#e0e0e0` (近似于 `#eee` 和 `#ddd`)
+  - 悬停/交互状态颜色变化:
+    - 按钮悬停: 从 `#4CAF50` 变为 `#45a049` (加深约6%)
+  - 阴影颜色: `rgba(0, 0, 0, 0.1)`
+- **字体选择与字号**：
+  - 主字体: `Arial, sans-serif`
+  - 标题字号与颜色:
+    - H1: `color: #333;`，有下边框 `2px solid #4CAF50`，`padding-bottom: 10px;`，居中。
+    - H2: `color: #4CAF50;`，具体大小未定义（依赖浏览器默认或父元素）。
+    - H3: 在 `.feature-card` 内，未特别定义（默认或继承）。
+  - 正文字号/行高: 未显式定义（依赖浏览器默认），如 `16px`。
+- **组件风格**：
+  - 主容器: 圆角 `8px`，内边距 `30px`，外边距 `margin: 0 auto;` 水平居中，最大宽度 `800px`，阴影 `0 2px 10px rgba(0,0,0,0.1)`。
+  - 按钮: 背景色 `#4CAF50`，文字颜色 `white`，内边距 `10px 20px`，无边框，圆角 `4px`，鼠标指针 `cursor: pointer;`。
+  - 输入框/文本域: 宽度 `100%`，内边距 `8px`，边框 `1px solid #ddd`，圆角 `4px`，`box-sizing: border-box`。
+  - 导航栏: 无独立导航栏。Header包含在主容器内。
+  - 功能卡片 (`.feature-card`): 背景色 `#e8f5e9`，内边距 `15px`，圆角 `5px`，文本居中。
+  - Footer: 上边框 `1px solid #eee`，上内边距 `20px`，上外边距 `30px`，文本居中，文字颜色 `#666`。
+- **图标、插画、图片风格**: 当前页面未使用图标或图片。
+- **动画与过渡效果**: 仅有一个基础的CSS状态切换（`:hover`），无显式的`transition`属性。交互变化是瞬时的。
+
+#### 3. **Layout & Structure**
+- 页面结构:
+  - Header: 包含标题和简介，位于主容器顶部。
+  - 主体区域: 由多个 `.section` 组成，包含“系统功能”、“技术特点”和“联系我们”三个主要部分。
+  - Footer: 位于主容器底部，包含版权声明。
+- 布局类型:
+  - 整体采用单列居中布局，主容器 `.container` 通过 `max-width` 和 `margin: auto` 实现。
+  - “系统功能”下的功能卡片区使用 `CSS Grid` 布局：`grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))`。
+  - 其余部分为常规块级流式布局。
+- 间距系统:
+  - 全局内边距: `body` 有 `padding: 20px`。
+  - 容器内边距: `.container` 有 `padding: 30px`。
+  - 区块间距: `.section` 有 `margin: 20px 0`。
+  - 表单内间距: `.form-group` 有 `margin: 10px 0`。
+  - Grid间隙: `.features` 的 `gap: 15px`。
+- 栅格参数: 仅功能卡片区域使用Grid，为自适应列，最小列宽 `200px`，间隔 `15px`。
+- 响应式适配方案:
+  - 核心是 `meta viewport` 标签。
+  - 主容器 `max-width: 800px` 限制桌面宽度。
+  - 功能卡片区使用 `auto-fill` 和 `minmax(200px, 1fr)`，实现响应式列数变化。小屏时可能变为单列。
+- 重要模块位置及占比:
+  - Header (~15%)
+  - 功能展示区 (~40%)
+  - 技术特点 (~15%)
+  - 联系表单 (~20%)
+  - Footer (~10%)
+
+#### 4. **Interaction Patterns**
+- 导航交互: 无多页面导航，为单页。
+- 按钮/链接的交互反馈: 按钮 (`button`) 有 `:hover` 状态，背景色加深。
+- 表单或搜索框交互: 表单输入框有默认边框，获得焦点时（未定义特定样式）依赖浏览器默认。提交按钮有悬停反馈。
+- 滚动与分页方式: 单页垂直滚动。
+- 悬停效果:
+  - 按钮背景色从 `#4CAF50` 变为 `#45a049`。
+- 过渡动画: 无定义过渡动画，状态切换是瞬时的。
+- 动效触发条件: 鼠标悬停在可交互元素上。
+
+#### 5. **Content Strategy**
+- 文本类型与信息层级:
+  - 一级标题 (H1): 品牌/主标题。
+  - 二级标题 (H2): 模块标题，使用强调色。
+  - 三级标题 (H3): 功能卡片标题。
+  - 正文段落和列表项：用于描述性内容。
+  - Footer文本：次要信息。
+- 图片与视频内容比例: 无。
+- 数据可视化或图表使用: 无。
+- CTA（Call to Action）的布局与策略:
+  - 主要CTA是“提交”按钮，位于联系表单底部，使用高对比度的强调色背景，吸引用户完成联系动作。
+  - 功能卡片本身也作为产品功能的视觉化CTA，引导用户了解特性。
+</context>
+
+<Analysis Doc>
+#### 1. **Technical Implementation Insights**
+- 前端框架 / UI 库: 纯HTML + 内联CSS实现，未使用任何前端框架或UI库。这是一个极简的静态演示页面。
+- CSS 组织方式: 内联样式 (`<style>` 标签内)。样式规则按元素和类名组织，非常扁平。未使用任何CSS方法论（如BEM）或CSS-in-JS。
+- 动画实现方式: 仅使用基础CSS状态选择器 (`:hover`)，无复杂动画。
+- 组件化结构与复用思路: 页面结构简单，复用思路体现在：
+  - `.section` 类用于统一内容区块的上下间距。
+  - `.form-group` 类用于统一表单字段的间距。
+  - `.feature-card` 类定义了功能卡片的统一样式，并通过Grid布局复用。
+  - 按钮样式通过类型选择器 `button` 统一应用。
+  - 这是一种基于“样式类”的初级复用，而非现代前端框架的组件化复用。
+
+#### 2. **Component Inventory**
+1.  **主容器 (Main Container)**
+    - **功能与作用**: 作为页面的视觉和布局中心，承载所有内容，提供卡片式阴影和留白，增强可读性和层次感。
+    - **样式特征**: `max-width: 800px; margin: 0 auto; background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);`
+    - **推荐的封装方式**: 可封装为一个 `.container` 或 `.card` 组件，并可接受 `maxWidth`, `padding`, `elevation` (阴影强度) 等作为可配置属性。
+2.  **内容区块 (Content Section)**
+    - **功能与作用**: 划分不同的内容主题区域，提供统一的垂直间距。
+    - **样式特征**: `margin: 20px 0;`
+    - **推荐的封装方式**: 封装为 `<Section>` 组件，可包含 `title` (H2), `children` (内容) 等props。
+3.  **功能卡片网格 (Feature Card Grid)**
+    - **功能与作用**: 以网格形式展示多项特性或服务，布局灵活自适应。
+    - **样式特征**: 容器: `display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;`。卡片: `background-color: #e8f5e9; padding: 15px; border-radius: 5px; text-align: center;`
+    - **推荐的封装方式**: 封装为 `<FeatureGrid>` 组件，接收一个 `features` 数组作为数据源，数组项包含 `title` (H3) 和 `description`。卡片样式可配置。
+4.  **基础表单 (Basic Contact Form)**
+    - **功能与作用**: 收集用户输入信息（如联系信息）。
+    - **样式特征**: 表单组: `.form-group { margin: 10px 0; }`。输入控件: `input, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }`。提交按钮: 复用基础按钮样式。
+    - **推荐的封装方式**: 封装为 `<ContactForm>` 组件，包含字段验证、提交处理逻辑。`<FormGroup>` 可作为子组件，管理标签和输入框的布局与间距。
+5.  **主按钮 (Primary Button)**
+    - **功能与作用**: 触发主要操作（如提交、确认）。
+    - **样式特征**: `background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;` 以及悬停状态。
+    - **推荐的封装方式**: 封装为 `<Button variant="primary">` 组件，`variant` 可扩展（如 `secondary`, `outline`）。应包含 `type`, `onClick`, `disabled` 等属性，并内置 `transition` 使悬停更平滑。
+
+#### 3. **Example Page Blueprint**
+基于以上分析，可抽象出一个典型的“产品展示/服务介绍”单页布局蓝图：
+
+```
+[Body: bg #f5f5f5]
+└── [Main Container: 居中, max-width 800px, card style]
+    ├── [Header]
+    │   ├── H1: “产品名称” (居中，带强调色下划线)
+    │   └── P: “一句话简介”
+    ├── [Section: “核心功能”]
+    │   ├── H2: “核心功能” (强调色)
+    │   ├── P: “功能概述…”
+    │   └── [FeatureGrid]
+    │       ├── [FeatureCard: 图标/标题/描述]
+    │       ├── [FeatureCard: 图标/标题/描述]
+    │       └── [FeatureCard: 图标/标题/描述]
+    ├── [Section: “技术优势”]
+    │   ├── H2: “技术优势” (强调色)
+    │   └── UL: 列表项1, 列表项2...
+    ├── [Section: “联系我们”]
+    │   ├── H2: “联系我们” (强调色)
+    │   └── [ContactForm]
+    │       ├── [FormGroup: 姓名/输入框]
+    │       ├── [FormGroup: 邮箱/输入框]
+    │       ├── [FormGroup: 留言/文本域]
+    │       └── [PrimaryButton: “提交”]
+    └── [Footer]
+        └── P: “版权信息 & 次要声明”
+```
+
+#### 4. **Risks & Considerations**
+- **响应式适配复杂度**: 当前响应式仅依赖Grid的`auto-fill`。在实际复杂项目中，更精细的断点（Breakpoints）管理是必须的，特别是导航、字体大小和复杂组件的适配。
+- **样式扩展性**: 内联样式和扁平化的CSS结构难以维护和扩展。在大型项目中，必须采用CSS模块化策略（如CSS Modules, Styled-components, Utility-first CSS）以提高可维护性。
+- **交互丰富度**: 页面交互非常简单。复刻时如需更丰富的动效（如滚动触发动画、加载动画），需要考虑使用CSS `@keyframes` 或 JavaScript 动画库（如 Framer Motion, GSAP）。
+- **性能瓶颈**: 当前页面极小，无性能问题。但若将内联样式模式应用于大型应用，会导致CSSOM解析和更新效率低下。应确保样式代码被合理拆分和按需加载。
+- **品牌与版权**: 此分析仅针对提供的HTML代码结构和样式。实际项目中，直接复刻其视觉风格（尤其是独特的配色、字体）需注意是否涉及第三方版权或品牌规范。主色调 `#4CAF50` 是常见的Material Design绿色，可安全使用。
+- **无障碍访问 (A11Y)**: 原页面未显式考虑无障碍特性（如表单字段的 `aria-label`、足够的颜色对比度验证）。在生成可访问性要求高的页面时，必须额外补充这些属性。
+</Analysis Doc>

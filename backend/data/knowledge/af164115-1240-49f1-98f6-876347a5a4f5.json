@@ -1,0 +1,324 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: HTML页面结构与语义化",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "使用HTML文档声明与基础结构",
+        "type": "knowledge",
+        "select_element": [
+          "<!DOCTYPE>",
+          "html",
+          "head",
+          "body",
+          "title",
+          "meta"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "使用语义化标签构建页面区块",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "section",
+          "footer",
+          "h1",
+          "h2",
+          "h3",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "创建表单元素与输入框",
+        "type": "knowledge",
+        "select_element": [
+          "form",
+          "label",
+          "input",
+          "textarea",
+          "button"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "使用列表与容器元素组织内容",
+        "type": "knowledge",
+        "select_element": [
+          "ul",
+          "li",
+          "div",
+          "span"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: CSS样式基础与布局",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "应用基础样式（字体、颜色、内外边距）",
+        "type": "knowledge",
+        "select_element": [
+          "style"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "理解和使用盒模型",
+        "type": "knowledge",
+        "select_element": [
+          "div",
+          "section"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "使用Flexbox或Grid实现响应式布局",
+        "type": "knowledge",
+        "select_element": [
+          "div"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "美化交互元素（按钮、卡片）",
+        "type": "knowledge",
+        "select_element": [
+          "button",
+          "div"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: CSS进阶样式与效果",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "应用边框与阴影效果",
+        "type": "knowledge",
+        "select_element": [
+          "div",
+          "section"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "控制表单元素的样式",
+        "type": "knowledge",
+        "select_element": [
+          "input",
+          "textarea",
+          "button"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "使用伪类实现交互状态（如:hover）",
+        "type": "knowledge",
+        "select_element": [
+          "button",
+          "a"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_4",
+        "label": "实现响应式设计（如媒体查询基础）",
+        "type": "knowledge",
+        "select_element": [
+          "meta[name=\"viewport\"]",
+          "style"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_4"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_4"
+      }
+    }
+  ]
+}

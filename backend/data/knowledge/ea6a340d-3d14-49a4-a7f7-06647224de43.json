@@ -1,0 +1,334 @@
+{
+  "id": "ea6a340d-3d14-49a4-a7f7-06647224de43",
+  "name": "知识点: test_sample.html",
+  "graph": {
+    "nodes": [
+      {
+        "data": {
+          "id": "1_end",
+          "label": "模块一：页面结构与语义HTML",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "1_1",
+          "label": "搭建基础HTML文档结构",
+          "type": "knowledge",
+          "select_element": [
+            "html",
+            "head",
+            "body",
+            "!DOCTYPE",
+            "meta",
+            "title"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_2",
+          "label": "应用语义化内容区块标签",
+          "type": "knowledge",
+          "select_element": [
+            "header",
+            "section",
+            "footer"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_3",
+          "label": "使用标题与段落构建内容层级",
+          "type": "knowledge",
+          "select_element": [
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "p"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_4",
+          "label": "使用列表呈现信息",
+          "type": "knowledge",
+          "select_element": [
+            "ul",
+            "li"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_5",
+          "label": "构建基础表单",
+          "type": "knowledge",
+          "select_element": [
+            "form",
+            "label",
+            "input",
+            "textarea",
+            "button"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_end",
+          "label": "模块二：CSS样式与基础布局",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "2_1",
+          "label": "应用CSS基础选择器与属性",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "2_2",
+          "label": "控制文本样式与颜色",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "2_3",
+          "label": "使用盒子模型调整间距与边框",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "2_4",
+          "label": "实现居中与响应式容器",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "2_5",
+          "label": "应用CSS Grid实现卡片网格布局",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "3_end",
+          "label": "模块三：CSS交互与视觉效果",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "3_1",
+          "label": "实现元素悬停交互效果",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "3_2",
+          "label": "应用CSS阴影与圆角效果",
+          "type": "knowledge",
+          "select_element": []
+        }
+      },
+      {
+        "data": {
+          "id": "3_3",
+          "label": "处理表单控件样式",
+          "type": "knowledge",
+          "select_element": []
+        }
+      }
+    ],
+    "edges": [
+      {
+        "data": {
+          "source": "1_end",
+          "target": "2_end"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_1"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_2"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_3"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_4"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_5"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "3_end"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_1"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_2"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_3"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_5"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_1"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_2"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_3"
+        }
+      }
+    ],
+    "dependent_edges": [
+      {
+        "data": {
+          "source": "1_end",
+          "target": "2_end"
+        }
+      },
+      {
+        "data": {
+          "source": "1_1",
+          "target": "1_2"
+        }
+      },
+      {
+        "data": {
+          "source": "1_2",
+          "target": "1_3"
+        }
+      },
+      {
+        "data": {
+          "source": "1_3",
+          "target": "1_4"
+        }
+      },
+      {
+        "data": {
+          "source": "1_4",
+          "target": "1_5"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "3_end"
+        }
+      },
+      {
+        "data": {
+          "source": "2_1",
+          "target": "2_2"
+        }
+      },
+      {
+        "data": {
+          "source": "2_2",
+          "target": "2_3"
+        }
+      },
+      {
+        "data": {
+          "source": "2_3",
+          "target": "2_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_4",
+          "target": "2_5"
+        }
+      },
+      {
+        "data": {
+          "source": "2_5",
+          "target": "3_1"
+        }
+      },
+      {
+        "data": {
+          "source": "3_1",
+          "target": "3_2"
+        }
+      },
+      {
+        "data": {
+          "source": "3_2",
+          "target": "3_3"
+        }
+      }
+    ]
+  },
+  "created_at": "2026-01-21T11:17:54.433431"
+}

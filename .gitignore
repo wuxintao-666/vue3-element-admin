@@ -21,4 +21,3 @@ package-lock.json
 
 backend/venv
 __pycache__/
-backend/data

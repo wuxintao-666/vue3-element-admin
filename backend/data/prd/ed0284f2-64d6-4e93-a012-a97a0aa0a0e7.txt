@@ -1,0 +1,164 @@
+### <context>
+#### 1. Website Overview
+*   **主题与用途**: 这是一个技术演示或概念验证（POC）页面，用于展示一个名为“SCOT-Web”的自动化网页生成系统。其主要目的是清晰、直观地介绍该系统的功能、技术特点，并提供简单的联系渠道。
+*   **目标用户**: 对AI驱动开发工具感兴趣的技术决策者、前端开发者或项目管理人员。
+*   **核心价值**: 通过简洁、专业的单页布局，高效传达产品核心卖点和技术优势，建立初步信任并引导用户进行下一步接触（如联系）。
+
+#### 2. **Visual & Style Characteristics**
+*   **色彩搭配与主色调**:
+    *   **主背景色**: `#f5f5f5` (页面外背景，浅灰色)
+    *   **容器背景色**: `#ffffff` (内容区域背景，白色)
+    *   **文字主色**:
+        *   标题、正文: `#333333` (深灰色)
+        *   页脚文字: `#666666` (中灰色)
+    *   **主色调/强调色**: `#4CAF50` (绿色)
+        *   用于：主标题下划线、二级标题、按钮背景。
+    *   **功能卡片背景色**: `#e8f5e9` (浅绿色)
+    *   **边框颜色**:
+        *   默认边框: `#dddddd` (输入框)
+        *   分割线: `#eeeeee` (页脚上边框)
+    *   **悬停/交互状态颜色**:
+        *   按钮悬停背景色: `#45a049` (`#4CAF50` 的暗化版本)
+
+*   **字体选择与字号**:
+    *   **主字体**: `"Arial", sans-serif`
+    *   **字号与行高**:
+        *   主标题 `h1`: 浏览器默认 `2rem` 级别，颜色 `#333`，加底部边框和下内边距 `10px`
+        *   二级标题 `h2`: 浏览器默认 `1.5rem` 级别，颜色 `#4CAF50`
+        *   三级标题 `h3` (功能卡片内): 浏览器默认 `1.17rem` 级别
+        *   正文 `p`, `li`: 浏览器默认 `16px`
+        *   输入框/按钮文字: 浏览器默认 `16px`
+        *   行高: 未显式定义，采用浏览器默认值。
+
+*   **组件风格**:
+    *   **容器**: 圆角 `8px`，水平居中，最大宽度 `800px`，内边距 `30px`，盒子阴影 `0 2px 10px rgba(0,0,0,0.1)`
+    *   **功能卡片 `.feature-card`**: 背景色 `#e8f5e9`，内边距 `15px`，圆角 `5px`，文本居中。
+    *   **按钮**: 背景色 `#4CAF50`，文字颜色 `#ffffff`，内边距 `10px 20px`，无边框，圆角 `4px`，鼠标指针 `cursor: pointer`。
+    *   **输入框/文本域**: 宽度 `100%` (包含盒模型)，内边距 `8px`，边框 `1px solid #ddd`，圆角 `4px`。
+    *   **分割线**: `h1` 下方采用 `border-bottom: 2px solid #4CAF50` 作为装饰性分割；页脚上方采用 `border-top: 1px solid #eee` 作为内容分割。
+
+*   **图标、插画、图片风格**: 当前页面未使用图片或图标。
+*   **动画与过渡效果**: 仅按钮有简单的CSS悬停颜色变化，无显式的过渡 (`transition`) 属性定义。
+
+#### 3. **Layout & Structure**
+*   **页面结构**: 典型的单页应用程序 (SPA) 式单列布局，遵循 **`<header>` -> `<section>` -> `<footer>`** 的逻辑顺序，所有内容包裹在一个居中容器 `.container` 内。
+*   **布局类型**: 混合使用。
+    *   全局为 `Block` 流式布局。
+    *   功能区域 `.features` 使用 **CSS Grid** 布局 (`grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))`) 实现响应式卡片排列。
+*   **间距系统**:
+    *   页面整体内边距 `20px`
+    *   内容容器内边距 `30px`
+    *   区块间距 `margin: 20px 0` (`.section`)
+    *   Grid卡片间隙 `gap: 15px`
+    *   表单组间距 `margin: 10px 0` (`.form-group`)
+*   **栅格参数**: 仅在 `.features` 中使用Grid，参数为自适应填充，最小列宽 `200px`，间隔 `15px`。
+*   **响应式适配方案**:
+    *   核心适配：容器 `.container` 的 `max-width: 800px` 和 `width: 100%` 确保在大屏上不超宽，在小屏上自适应。
+    *   Grid布局的 `auto-fill` 和 `minmax(200px, 1fr)` 使卡片在容器宽度不足时自动换行。
+    *   基础视口设置 `<meta name="viewport" content="width=device-width, initial-scale=1.0">`。
+*   **重要模块位置及占比**:
+    *   **标题与简介 (Header)**: 顶部，约占内容区15%。
+    *   **核心功能展示 (Features)**: 紧随其后，视觉占比最大，约30-40%，使用Grid卡片突出显示。
+    *   **技术特点列表**: 次要模块，约15%。
+    *   **联系表单 (CTA)**: 位于内容区中后部，作为主要转化点，约25%。
+    *   **页脚 (Footer)**: 底部，占约10%。
+
+#### 4. **Interaction Patterns**
+*   **导航交互**: 此为单页，无页面内导航。
+*   **按钮/链接交互反馈**:
+    *   按钮：唯一交互元素。悬停时背景色从 `#4CAF50` 变为 `#45a049`。
+*   **表单交互**:
+    *   输入框和文本域获得焦点时，仅显示浏览器默认轮廓（若未重置）。`required` 属性会触发浏览器原生的表单验证。
+*   **滚动与分页方式**: 单页垂直滚动。
+*   **悬停效果**: 仅按钮有背景色变化。
+*   **过渡动画**: 未定义显式的过渡时间或缓动函数，颜色切换为即时变化。
+*   **动效触发条件**: 鼠标悬停在按钮上。
+
+#### 5. **Content Strategy**
+*   **文本类型与信息层级**:
+    *   **一级信息 (h1)**: 产品/页面名称，最醒目。
+    *   **二级信息 (h2)**: 各主要章节标题，用主色调强调。
+    *   **三级信息 (h3)**: 功能卡片标题，用于快速扫描。
+    *   **正文与列表 (p, li)**: 详细描述和补充说明。
+    *   **行动号召 (Button)**: 表单提交按钮，使用高对比度的颜色。
+*   **图片与视频内容比例**: 无。
+*   **数据可视化或图表使用**: 无。
+*   **CTA布局与策略**: CTA（联系表单）被置于内容末尾，在用户了解产品价值后自然呈现。表单字段精简（姓名、邮箱、留言），降低提交门槛，按钮明确标注“提交”。
+</context>
+
+<Analysis Doc>
+#### 1. **Technical Implementation Insights**
+*   **前端框架 / UI 库**: 这是一个纯静态HTML页面，未使用任何前端框架（如React, Vue）或UI组件库。样式直接内联在 `<style>` 标签中。
+*   **CSS 组织方式**: 简单的、作用域仅限于此页面的内联样式。未使用任何方法论（如BEM）或预处理器（如SCSS）。类名具有描述性（如 `.feature-card`, `.contact-form`）。
+*   **动画实现方式**: 仅使用基础的CSS伪类 (`:hover`) 实现状态切换，无复杂动画。
+*   **组件化结构与复用思路**: 虽然代码未组件化，但结构体现了组件化思维：
+    *   `.container` 作为布局容器。
+    *   `.section` 作为内容区块模板。
+    *   `.features` + `.feature-card` 构成了一个可复用的“功能展示网格”组件。
+    *   `.contact-form` + `.form-group` 构成了一个可复用的“简易联系表单”组件。
+    *   这种结构很容易被转换为现代前端框架中的组件。
+
+#### 2. **Component Inventory**
+1.  **居中内容容器 (Layout Container)**
+    *   **功能**: 约束页面内容最大宽度，提供居中、背景和阴影，形成视觉焦点区域。
+    *   **样式特征**: `max-width: 800px; margin: 0 auto; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);`
+    *   **封装建议**: 可作为最外层布局组件（如 `Layout` 或 `PageContainer`）。
+
+2.  **章节区块 (Content Section)**
+    *   **功能**: 用于组织不同主题的内容块，提供统一的上下间距。
+    *   **样式特征**: `margin: 20px 0;`
+    *   **封装建议**: 可接受 `title` 和 `children` 作为props的节段组件。
+
+3.  **功能卡片网格 (Feature Grid)**
+    *   **功能**: 以网格形式平铺展示多个功能、服务或特性点。
+    *   **样式特征**:
+        *   容器 (`.features`): `display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;`
+        *   卡片 (`.feature-card`): `background-color: #e8f5e9; padding: 15px; border-radius: 5px; text-align: center;`
+    *   **封装建议**: 两个组件：`FeatureGrid` (容器) 和 `FeatureCard` (子项)。`FeatureGrid` 接收一个 `features`（数组）prop来渲染多个`FeatureCard`。
+
+4.  **简易联系表单 (Contact Form)**
+    *   **功能**: 收集用户基本信息（姓名、邮箱、留言）。
+    *   **样式特征**:
+        *   表单组 (`.form-group`): `margin: 10px 0;`
+        *   输入控件 (`input`, `textarea`): `width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;`
+        *   提交按钮: 复用主按钮样式。
+    *   **封装建议**: 一个 `ContactForm` 组件，内部状态管理字段值，并通过 `onSubmit` prop 提交数据。
+
+5.  **主按钮 (Primary Button)**
+    *   **功能**: 触发主要操作（提交、确认）。
+    *   **样式特征**: `background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;` 悬停: `background-color: #45a049;`
+    *   **封装建议**: 通用的 `Button` 组件，通过 `variant="primary"` 等prop应用不同样式。
+
+#### 3. **Example Page Blueprint**
+```
+页面 (Page)
+└── 布局容器 (LayoutContainer: max-width 800px, 白色背景，阴影)
+    ├── 页头 (Header)
+    │   ├── 主标题 (h1: "产品名"， 带底部装饰线)
+    │   └── 简介段落 (p)
+    ├── 功能章节 (Section: title="核心功能")
+    │   ├── 描述段落 (p)
+    │   └── 功能网格 (FeatureGrid)
+    │       ├── 功能卡片 (FeatureCard: title="功能1", desc="...")
+    │       ├── 功能卡片 (FeatureCard: title="功能2", desc="...")
+    │       └── ... (自适应排列)
+    ├── 列表章节 (Section: title="技术特点")
+    │   └── 无序列表 (ul > li)
+    ├── 联系表单章节 (Section: title="联系我们")
+    │   └── 联系表单 (ContactForm)
+    │       ├── 表单组 (FormGroup: label="姓名", input[type=text])
+    │       ├── 表单组 (FormGroup: label="邮箱", input[type=email])
+    │       ├── 表单组 (FormGroup: label="留言", textarea)
+    │       └── 主按钮 (Button: type="submit", text="提交")
+    └── 页脚 (Footer)
+        └── 版权信息段落 (p)
+```
+
+#### 4. **Risks & Considerations**
+*   **样式深度与定制**: 当前样式非常基础且内联。在复刻到大型项目时，需将其系统化地整合到项目的设计系统或CSS框架中，避免样式冲突。
+*   **响应式深度不足**: 页面仅实现了基本的响应式（宽度自适应和Grid换行）。在复刻时，需要考虑更小屏幕（如手机）下的细节，例如字体大小、间距调整、表单元素体验、导航栏（如果未来添加）的移动端菜单等。
+*   **交互体验简陋**: 缺乏加载状态、成功/错误反馈、表单验证提示（依赖浏览器原生）、平滑滚动等增强用户体验的交互。在生产环境中需要补全。
+*   **可访问性 (A11Y)**: 当前代码未考虑可访问性，例如缺少足够的ARIA属性、焦点管理、颜色对比度验证（虽然当前配色对比度尚可）。这是复刻时必须改进的关键点。
+*   **性能**: 内联样式对单个页面无影响，但不利于缓存和复用。在组件化过程中，应提取CSS到外部文件或CSS-in-JS解决方案中。
+*   **内容与版权**: 此分析基于提供的测试页面内容。在实际项目中，文本、Logo等需替换为自有内容，并确保无版权纠纷。
+</Analysis Doc>

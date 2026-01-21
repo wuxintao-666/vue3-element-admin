@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 知识点：1_1 - HTML文档基础结构 -->
+    <!-- 知识点：3_5 - 视口元标签对移动端的适配 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCOT-Web Demo with Cats & Media</title>
+    <style>
+        /* CSS Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 知识点：2_1 - CSS选择器， 2_4 - 控制文本与字体样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        /* 整体「主内容-侧边栏」布局 */
+        .container {
+            max-width: 1200px; /* 比原参考网站宽，适应侧边栏 */
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .main-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .main {
+            flex: 1 1 70%; /* 主内容区约占70% */
+            min-width: 300px;
+        }
+
+        .sidebar {
+            flex: 1 1 25%; /* 侧边栏约占30% */
+            min-width: 250px;
+        }
+
+        /* 知识点：1_2 - 使用语义化标签组织页面内容 */
+        header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eeeeee;
+            text-align: center;
+        }
+
+        /* 知识点：1_3 - 创建页面标题与段落 */
+        h1 {
+            color: #333333;
+            margin-bottom: 10px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: #4CAF50;
+            border-radius: 2px;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666666;
+            margin-bottom: 15px;
+        }
+
+        /* 知识点：2_2 - 应用CSS盒模型控制布局 */
+        .section {
+            margin: 20px 0;
+        }
+
+        /* 知识点：2_3 - 使用Flexbox或Grid进行响应式布局 (for .features) */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .feature-card {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* 关键布局与样式指令：媒体元素分组 */
+        .media-container {
+            background-color: #fff;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .media-title {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* 关键布局与样式指令：图片展示 */
+        #media_image_image {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            display: block;
+            margin-bottom: 15px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .thumbnail {
+            width: 100px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid #eeeeee;
+            transition: border-color 0.3s;
+        }
+        .thumbnail:hover, .thumbnail.active {
+            border-color: #4CAF50;
+        }
+
+        /* 关键布局与样式指令：音频与视频 */
+        .sidebar-media-group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        #media_audio_track {
+            width: 100%;
+        }
+        #media_video_video {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        /* 关键布局与样式指令：列表样式 */
+        /* 知识点：1_4 - 使用列表元素展示信息 */
+        #text_list_ol_events,
+        #text_list_ul_schedule {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #text_list_ol_events li,
+        #text_list_ul_schedule li {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eeeeee;
+            color: #666;
+        }
+        #text_list_ol_events li:last-child,
+        #text_list_ul_schedule li:last-child {
+            border-bottom: none;
+        }
+
+        /* 关键布局与样式指令：表单样式 */
+        /* 知识点：3_1 - 构建HTML表单结构， 3_3 - 使用标签元素关联表单控件 */
+        .form-group {
+            margin: 10px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        /* 知识点：3_2 - 应用表单输入类型与验证属性 */
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        /* 知识点：3_4 - 为交互元素添加基础样式（button、:hover伪类） */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* 页脚样式 */
+        footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+            text-align: center;
+            color: #666666;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            .features {
+                grid-template-columns: 1fr;
+            }
+            .gallery {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 页眉区域 -->
+        <header id="header_main">
+            <h1>Welcome to SCOT-Web Demo with Cats</h1>
+            <p>This page demonstrates the capabilities of the SCOT-Web system, now enriched with adorable cat content and interactive media elements.</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- 主内容区 -->
+            <main class="main">
+                <!-- 核心功能展示区 -->
+                <section class="section" id="section_features">
+                    <h2>System Core Features</h2>
+                    <p>Our system generates structured, styled, and interactive web pages with ease. Here are its key strengths:</p>
+                    <div class="features">
+                        <div class="feature-card">
+                            <h3>Semantic HTML</h3>
+                            <p>Uses meaningful tags for better structure and accessibility.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Flexible Layouts</h3>
+                            <p>Implements modern CSS (Flexbox & Grid) for responsive design.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Interactive Forms</h3>
+                            <p>Builds user-friendly forms with validation and styling.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Media Integration</h3>
+                            <p>Easily incorporates images, audio, and video elements.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 图片展示区 -->
+                <section class="section">
+                    <h2>Featured Cat of the Day</h2>
+                    <div class="media-container">
+                        <h3 class="media-title">Majestic Feline</h3>
+                        <!-- 主图 -->
+                        <img id="media_image_image" src="https://images.unsplash.com/photo-1514888286974-6d03bde4ba4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="A majestic cat with green eyes">
+                        <!-- 图片画廊 -->
+                        <div class="gallery">
+                            <img src="https://images.unsplash.com/photo-1514888286974-6d03bde4ba4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cat 1" class="thumbnail active" data-full="https://images.unsplash.com/photo-1514888286974-6d03bde4ba4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                            <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cat 2" class="thumbnail" data-full="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                            <img src="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cat 3" class="thumbnail" data-full="https://images.unsplash.com/photo-1595433707802-6b2626ef1c91?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 列表展示区 -->
+                <section class="section">
+                    <h2>Event Schedule & Activities</h2>
+                    <div class="main-layout" style="gap: 20px;">
+                        <div style="flex: 1;">
+                            <h3>Upcoming Cat Events</h3>
+                            <ol id="text_list_ol_events">
+                                <li>Cat Cafe Networking (Jan 15)</li>
+                                <li>Feline Photography Workshop (Jan 22)</li>
+                                <li>Annual Cat Show & Competition (Feb 5)</li>
+                                <li>Adoption Day at the Shelter (Every Saturday)</li>
+                            </ol>
+                        </div>
+                        <div style="flex: 1;">
+                            <h3>Daily Play Schedule</h3>
+                            <ul id="text_list_ul_schedule">
+                                <li>Morning: Feather toy chase</li>
+                                <li>Midday: Nap in the sun</li>
+                                <li>Afternoon: Puzzle feeder challenge</li>
+                                <li>Evening: Laser pointer session</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 技术特点列表 (知识点 1_4) -->
+                <section class="section">
+                    <h2>Technical Highlights</h2>
+                    <ul id="text_list_ul_tech">
+                        <li>Pure HTML, CSS, and JavaScript (No frameworks).</li>
+                        <li>Fully responsive design for all devices.</li>
+                        <li>Clean, semantic code structure.</li>
+                        <li>Interactive media galleries and players.</li>
+                    </ul>
+                </section>
+            </main>
+
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <!-- 侧边栏媒体区 -->
+                <section class="section">
+                    <h2>Media Corner</h2>
+                    <div class="sidebar-media-group">
+                        <!-- 音频 -->
+                        <div class="media-container">
+                            <h3 class="media-title">Relaxing Cat Purrs</h3>
+                            <audio id="media_audio_track" controls>
+                                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                            <p>Soothing sounds to accompany your browsing.</p>
+                        </div>
+
+                        <!-- 视频 -->
+                        <div class="media-container">
+                            <h3 class="media-title">Playful Kittens Video</h3>
+                            <video id="media_video_video" controls poster="https://images.unsplash.com/photo-1589883661923-6476cb0ae9f2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                                <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <p>A heartwarming video of kittens at play.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 快速联系表单 -->
+                <section class="section">
+                    <h2>Quick Contact</h2>
+                    <p>Interested in learning more? Send us a quick message!</p>
+                    <form id="contact_form" data-action="submit-contact">
+                        <div class="form-group">
+                            <label for="contact_name">Your Name</label>
+                            <input type="text" id="contact_name" name="name" required placeholder="e.g., John Smith">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_email">Your Email</label>
+                            <input type="email" id="contact_email" name="email" required placeholder="example@domain.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="contact_message">Message</label>
+                            <textarea id="contact_message" name="message" rows="4" required placeholder="Tell us about your project or ask a question..."></textarea>
+                        </div>
+                        <button type="submit" data-target="form-submit">Send Message</button>
+                    </form>
+                </section>
+
+                <!-- 侧边栏提示 -->
+                <div class="feature-card">
+                    <h3>Did You Know?</h3>
+                    <p>Cats can make over 100 different sounds, while dogs only make about 10.</p>
+                </div>
+            </aside>
+        </div>
+
+        <!-- 页脚 -->
+        <footer id="footer_info">
+            <p>SCOT-Web Demo &copy; 2023. All media used for demonstration purposes.</p>
+            <p>This page is a single, self-contained HTML file showcasing modern web fundamentals.</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for Interactive Features
+
+        // 1. 图片画廊交互
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        const mainImage = document.getElementById('media_image_image');
+
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // 更新主图源
+                const fullSizeSrc = this.getAttribute('data-full');
+                mainImage.src = fullSizeSrc;
+                mainImage.alt = this.alt;
+
+                // 更新激活状态
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // 2. 表单提交处理
+        const contactForm = document.getElementById('contact_form');
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // 阻止默认提交（演示用）
+
+            // 获取表单数据
+            const name = document.getElementById('contact_name').value;
+            const email = document.getElementById('contact_email').value;
+            const message = document.getElementById('contact_message').value;
+
+            // 简单验证
+            if (name && email && message) {
+                // 在实际应用中，这里会发送数据到服务器
+                alert(`Thank you, ${name}! Your message has been received (Demo). We'll get back to you at ${email}.`);
+                // 重置表单
+                contactForm.reset();
+            } else {
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        // 3. 音频/视频控制台日志（演示交互）
+        const audioPlayer = document.getElementById('media_audio_track');
+        const videoPlayer = document.getElementById('media_video_video');
+
+        audioPlayer.addEventListener('play', () => {
+            console.log('Relaxing cat purrs audio started playing.');
+        });
+
+        videoPlayer.addEventListener('play', () => {
+            console.log('Playful kitten video started playing.');
+        });
+
+        // 4. 简单样式交互增强：按钮点击反馈
+        const submitButton = document.querySelector('[data-target="form-submit"]');
+        submitButton.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+2026-01-20 15:00:20,932 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 15:00:20,962 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 15:00:28,285 - scot-web - INFO - 收到PRD生成请求
+2026-01-20 15:00:32,346 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-20 15:00:32,348 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 15:02:18,421 - scot-web - INFO - AI响应成功，内容长度: 6413
+2026-01-20 15:02:18,425 - scot-web - INFO - PRD文档已保存到: data\prd\57ba61e8-7166-4a0e-8bc0-dde63af7b062.txt
+2026-01-20 15:02:18,426 - scot-web - INFO - PRD文档生成成功
+2026-01-20 15:06:34,380 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 15:06:38,183 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 15:06:38,184 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 15:07:01,037 - scot-web - INFO - AI响应成功，原始内容长度: 2296
+2026-01-20 15:07:01,039 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 15:07:01,055 - scot-web - INFO - 知识点已保存到: data\knowledge\95bc74a4-f0af-4b40-8fb6-caf054dc17df.json
+2026-01-20 15:07:01,055 - scot-web - INFO - 知识点提取成功
+2026-01-20 15:10:40,811 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 15:10:40,814 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 15:11:28,296 - scot-web - INFO - 学习内容生成成功，内容长度: 2683
+2026-01-20 15:21:42,372 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 15:21:42,374 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 15:22:44,751 - scot-web - INFO - 学习内容生成成功，内容长度: 3664
+2026-01-20 15:25:03,401 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 15:25:03,403 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 15:25:54,813 - scot-web - INFO - 学习内容生成成功，内容长度: 2816
+2026-01-20 15:29:47,708 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 15:29:47,710 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 15:30:34,897 - scot-web - INFO - 学习内容生成成功，内容长度: 2863
+2026-01-20 15:32:54,760 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 15:32:54,765 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 15:33:02,234 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 15:33:06,212 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 15:33:06,226 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 15:33:35,133 - scot-web - INFO - AI响应成功，原始内容长度: 2810
+2026-01-20 15:33:35,134 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 15:33:35,145 - scot-web - INFO - 知识点已保存到: data\knowledge\b65bdbb1-fc2b-4769-b0fd-c7e602c80c32.json
+2026-01-20 15:33:35,146 - scot-web - INFO - 知识点提取成功
+2026-01-20 15:58:40,984 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 15:58:40,996 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 16:02:50,770 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:02:53,228 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:02:53,229 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:03:20,555 - scot-web - INFO - AI响应成功，原始内容长度: 2863
+2026-01-20 16:03:20,556 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:03:20,563 - scot-web - INFO - 知识点已保存到: data\knowledge\3ad2235b-29a8-4eb4-bb12-bbc7e0d6c552.json
+2026-01-20 16:03:20,563 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:15:00,157 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 16:15:00,165 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 16:15:02,457 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:15:06,191 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:15:06,192 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:18:12,015 - scot-web - INFO - AI响应成功，原始内容长度: 2349
+2026-01-20 16:18:12,017 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:18:12,025 - scot-web - INFO - 知识点已保存到: data\knowledge\08625ab5-dd8f-4c7b-b498-0a3f4338bc39.json
+2026-01-20 16:18:12,025 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:22:07,193 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:22:10,849 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:22:10,849 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:22:44,100 - scot-web - INFO - AI响应成功，原始内容长度: 3528
+2026-01-20 16:22:44,101 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:22:44,107 - scot-web - INFO - 知识点已保存到: data\knowledge\fd5d7c36-ed14-45a8-9fae-383c68de2687.json
+2026-01-20 16:22:44,108 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:31:02,562 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:31:06,370 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:31:06,371 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:31:35,849 - scot-web - INFO - AI响应成功，原始内容长度: 3636
+2026-01-20 16:31:35,850 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:31:35,859 - scot-web - INFO - 知识点已保存到: data\knowledge\17238b3e-4f69-445b-b496-f7944f1e5c1a.json
+2026-01-20 16:31:35,860 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:31:35,870 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:31:39,665 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:31:39,666 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:32:05,544 - scot-web - INFO - AI响应成功，原始内容长度: 3029
+2026-01-20 16:32:05,544 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:32:05,552 - scot-web - INFO - 知识点已保存到: data\knowledge\83fe0728-bdb1-4ad5-b9d4-dd4072773711.json
+2026-01-20 16:32:05,553 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:42:14,772 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 16:42:14,809 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 16:42:19,179 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:42:23,140 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:42:23,141 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:42:36,912 - scot-web - INFO - AI响应成功，原始内容长度: 1528
+2026-01-20 16:42:36,913 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 46, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:42:36,918 - scot-web - INFO - 知识点已保存到: data\knowledge\742ed5e4-ea46-4ba3-ad4b-708742525c6c.json
+2026-01-20 16:42:36,919 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:47:46,989 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:47:50,923 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:47:50,929 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen2.5-7B-Instruct
+2026-01-20 16:48:22,232 - scot-web - INFO - AI响应成功，原始内容长度: 3206
+2026-01-20 16:48:22,233 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\SCOT-Web\backend\agents\fast_mind.py", line 47, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-20 16:48:22,243 - scot-web - INFO - 知识点已保存到: data\knowledge\a3822494-51c6-4446-a661-5963fd2ca339.json
+2026-01-20 16:48:22,243 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:52:57,008 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 16:53:00,721 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 16:53:00,727 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 16:53:44,826 - scot-web - INFO - AI响应成功，原始内容长度: 3940
+2026-01-20 16:53:44,832 - scot-web - INFO - 知识点已保存到: data\knowledge\af164115-1240-49f1-98f6-876347a5a4f5.json
+2026-01-20 16:53:44,832 - scot-web - INFO - 知识点提取成功
+2026-01-20 16:54:43,411 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 16:54:43,412 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 16:55:39,008 - scot-web - INFO - 学习内容生成成功，内容长度: 3498
+2026-01-20 16:59:40,837 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 16:59:40,839 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:00:28,189 - scot-web - INFO - 学习内容生成成功，内容长度: 2934
+2026-01-20 17:03:30,839 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 17:03:30,840 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:04:22,049 - scot-web - INFO - 学习内容生成成功，内容长度: 2985
+2026-01-20 17:04:26,880 - scot-web - INFO - 开始生成测试任务，内容长度: 4
+2026-01-20 17:04:26,881 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:04:48,956 - scot-web - INFO - 测试任务生成成功，内容长度: 1521
+2026-01-20 17:08:13,829 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 17:08:13,830 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:09:01,039 - scot-web - INFO - 学习内容生成成功，内容长度: 2884
+2026-01-20 17:09:08,605 - scot-web - INFO - 开始生成测试任务，内容长度: 4
+2026-01-20 17:09:08,606 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:09:37,399 - scot-web - INFO - 测试任务生成成功，内容长度: 2106
+2026-01-20 17:14:07,700 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 17:14:07,703 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:15:14,021 - scot-web - INFO - 学习内容生成成功，内容长度: 4800
+2026-01-20 17:15:25,878 - scot-web - INFO - 开始生成测试任务，内容长度: 4
+2026-01-20 17:15:25,878 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:16:02,848 - scot-web - INFO - 测试任务生成成功，内容长度: 2671
+2026-01-20 17:16:33,092 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 17:16:33,093 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:17:25,378 - scot-web - INFO - 学习内容生成成功，内容长度: 3098
+2026-01-20 17:17:25,389 - scot-web - INFO - 收到HTML上传请求
+2026-01-20 17:17:25,394 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-20 17:17:27,863 - scot-web - INFO - 收到PRD生成请求
+2026-01-20 17:17:31,769 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-20 17:17:31,769 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:21:36,562 - scot-web - INFO - AI响应成功，内容长度: 6014
+2026-01-20 17:21:36,564 - scot-web - INFO - PRD文档已保存到: data\prd\2b9c93bb-ceab-4d71-862f-5f180de2eed7.txt
+2026-01-20 17:21:36,565 - scot-web - INFO - PRD文档生成成功
+2026-01-20 17:22:31,947 - scot-web - INFO - 收到知识点提取请求
+2026-01-20 17:22:35,648 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-20 17:22:35,653 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:23:22,884 - scot-web - INFO - AI响应成功，原始内容长度: 3718
+2026-01-20 17:23:22,894 - scot-web - INFO - 知识点已保存到: data\knowledge\b53db02e-dce6-49fe-8c2a-ce7dc8856ea8.json
+2026-01-20 17:23:22,895 - scot-web - INFO - 知识点提取成功
+2026-01-20 17:24:58,339 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-20 17:24:58,340 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:26:02,921 - scot-web - INFO - 学习内容生成成功，内容长度: 4214
+2026-01-20 17:26:43,634 - scot-web - INFO - 开始执行任务，依赖上下文长度: 6014, 现有代码上下文长度: 3354, 用户目标长度: 0
+2026-01-20 17:26:43,634 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-20 17:29:09,938 - scot-web - INFO - AI响应成功，原始内容长度: 17468
+2026-01-20 17:29:09,940 - scot-web - DEBUG - 解析到代码块: ['public/index.html']
+2026-01-20 17:29:09,941 - scot-web - DEBUG - 解析到接口描述块
+2026-01-20 17:29:09,944 - scot-web - INFO - 任务执行完成，生成文件数: 1
+2026-01-21 11:04:56,249 - scot-web - INFO - 收到HTML上传请求
+2026-01-21 11:04:56,345 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-21 11:05:20,451 - scot-web - INFO - 收到PRD生成请求
+2026-01-21 11:05:26,692 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-21 11:05:26,694 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:07:13,928 - scot-web - INFO - AI响应成功，内容长度: 6969
+2026-01-21 11:07:13,932 - scot-web - INFO - PRD文档已保存到: data\prd\ed0284f2-64d6-4e93-a012-a97a0aa0a0e7.txt
+2026-01-21 11:07:13,933 - scot-web - INFO - PRD文档生成成功
+2026-01-21 11:10:55,495 - scot-web - INFO - 收到HTML上传请求
+2026-01-21 11:10:55,523 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-21 11:11:02,880 - scot-web - INFO - 收到PRD生成请求
+2026-01-21 11:11:08,680 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-21 11:11:08,681 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:12:59,510 - scot-web - INFO - AI响应成功，内容长度: 7999
+2026-01-21 11:12:59,516 - scot-web - INFO - PRD文档已保存到: data\prd\2afee5f0-926e-431c-a4d7-978c152d6a15.txt
+2026-01-21 11:12:59,516 - scot-web - INFO - PRD文档生成成功
+2026-01-21 11:13:41,205 - scot-web - INFO - 收到知识点提取请求
+2026-01-21 11:13:46,429 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-21 11:13:46,440 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:14:26,398 - scot-web - INFO - AI响应成功，原始内容长度: 3323
+2026-01-21 11:14:26,410 - scot-web - INFO - 知识点已保存到: data\knowledge\b31fc449-f382-4767-b254-4f3ae492fab2.json
+2026-01-21 11:14:26,411 - scot-web - INFO - 知识点提取成功
+2026-01-21 11:14:39,481 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-21 11:14:39,485 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:15:21,545 - scot-web - INFO - 学习内容生成成功，内容长度: 2573
+2026-01-21 11:16:02,166 - scot-web - INFO - 开始生成测试任务，内容长度: 4
+2026-01-21 11:16:02,168 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:16:32,786 - scot-web - INFO - 测试任务生成成功，内容长度: 2312
+2026-01-21 11:16:56,122 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-01-21 11:16:56,123 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:17:54,398 - scot-web - INFO - 学习内容生成成功，内容长度: 3768
+2026-01-21 11:18:15,131 - scot-web - INFO - 开始执行任务，依赖上下文长度: 7999, 现有代码上下文长度: 2964, 用户目标长度: 0
+2026-01-21 11:18:15,132 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:20:28,748 - scot-web - INFO - AI响应成功，原始内容长度: 20183
+2026-01-21 11:20:28,749 - scot-web - DEBUG - 解析到代码块: []
+2026-01-21 11:20:28,750 - scot-web - DEBUG - 解析到接口描述块
+2026-01-21 11:20:28,751 - scot-web - INFO - 任务执行完成，生成文件数: 0
