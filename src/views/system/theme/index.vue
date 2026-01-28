@@ -66,11 +66,26 @@
         <el-table-column prop="maintainerId" label="维护人ID" width="120" show-overflow-tooltip />
         <el-table-column prop="createTime" label="创建时间" width="150" />
         <el-table-column prop="updateTime" label="更新时间" width="150" />
-        <el-table-column fixed="right" label="操作" width="280">
+        <el-table-column fixed="right" label="操作" width="320">
           <template #default="{ row }">
             <el-button type="primary" link @click="handleEdit(row.id)">编辑</el-button>
-            <el-button type="primary" link @click="handlePublish(row.id)">发布</el-button>
-            <el-button type="primary" link @click="handleDelete(row.id)">删除</el-button>
+            <el-button
+              v-if="row.status === 0"
+              type="success"
+              link
+              @click="handlePublish(row.id)"
+            >
+              发布
+            </el-button>
+            <el-button
+              v-if="row.status === 1"
+              type="warning"
+              link
+              @click="handleDisable(row.id)"
+            >
+              停用
+            </el-button>
+            <el-button type="danger" link @click="handleDelete(row.id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -351,6 +366,25 @@ const handlePublish = (id: string) => {
     if (error !== "cancel") {
       ElMessage.error("发布失败");
       console.error("发布主题失败", error);
+    }
+  });
+};
+
+// 停用主题
+const handleDisable = (id: string) => {
+  ElMessageBox.confirm("确定要停用这个主题吗？", "警告", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    return ThemeAPI.disable(id);
+  }).then(() => {
+    getList();
+    ElMessage.success("停用成功");
+  }).catch(error => {
+    if (error !== "cancel") {
+      ElMessage.error("停用失败");
+      console.error("停用主题失败", error);
     }
   });
 };

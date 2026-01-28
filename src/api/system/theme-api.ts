@@ -32,6 +32,11 @@ const ThemeAPI = {
   publish(id: string) {
     return request({ url: `${THEME_BASE_URL}/${id}/publish`, method: "post" });
   },
+
+  /** 停用主题 */
+  disable(id: string) {
+    return request({ url: `${THEME_BASE_URL}/${id}/disable`, method: "post" });
+  },
 };
 
 export default ThemeAPI;

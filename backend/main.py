@@ -17,6 +17,7 @@ from api.test_router import test_router  # 添加这一行
 from api.admin_router import admin_router  # 添加管理系统API路由
 from api.user_router import user_router  # 用户管理单独路由
 from api.auth_router import auth_router  # 添加认证API路由
+from api.theme_router import theme_router  # 主题管理路由
 from db.database import Base, engine
 import os
 
@@ -52,6 +53,9 @@ app.include_router(admin_router)
 
 # 添加认证API路由
 app.include_router(auth_router)
+
+# 添加主题管理路由
+app.include_router(theme_router)
 
 # 添加静态文件服务
 # 设置静态文件目录路径

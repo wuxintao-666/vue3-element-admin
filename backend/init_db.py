@@ -3,7 +3,7 @@
 """
 from sqlalchemy import create_engine, text
 from db.database import engine, Base
-from db.models import User
+from db.models import User, Theme
 import os
 from dotenv import load_dotenv
 
