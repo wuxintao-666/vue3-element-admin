@@ -1,0 +1,593 @@
+{
+  "id": "3fffa0aa-481d-4bf7-be63-363b8146be00",
+  "name": "知识点: test_sample.html",
+  "graph": {
+    "nodes": [
+      {
+        "data": {
+          "id": "1_end",
+          "label": "模块一：文本与页面结构基础",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "1_1",
+          "label": "使用标题与段落元素构建页面大纲",
+          "type": "knowledge",
+          "select_element": [
+            "h1",
+            "h2",
+            "h3",
+            "p"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_2",
+          "label": "运用语义化容器元素组织内容区域",
+          "type": "knowledge",
+          "select_element": [
+            "header",
+            "section",
+            "footer"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_3",
+          "label": "应用列表元素展示信息条目",
+          "type": "knowledge",
+          "select_element": [
+            "ul",
+            "li"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "1_4",
+          "label": "构建表单元素实现用户输入",
+          "type": "knowledge",
+          "select_element": [
+            "form",
+            "label",
+            "input",
+            "textarea",
+            "button"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_end",
+          "label": "模块二：CSS样式与基础布局",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "2_1",
+          "label": "应用CSS盒模型控制间距与边框",
+          "type": "knowledge",
+          "select_element": [
+            "margin",
+            "padding",
+            "border",
+            "border-radius"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_2",
+          "label": "使用Flexbox或Grid创建响应式布局",
+          "type": "knowledge",
+          "select_element": [
+            "display",
+            "grid-template-columns",
+            "gap",
+            "repeat",
+            "minmax"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_3",
+          "label": "应用字体与文本样式",
+          "type": "knowledge",
+          "select_element": [
+            "font-family",
+            "color",
+            "text-align"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_4",
+          "label": "实现视觉增强效果（盒阴影、伪类）",
+          "type": "knowledge",
+          "select_element": [
+            "box-shadow",
+            "hover"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "2_5",
+          "label": "设置表单元素的样式",
+          "type": "knowledge",
+          "select_element": [
+            "width",
+            "box-sizing",
+            "cursor"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "3_end",
+          "label": "模块三：CSS Grid与高级响应式设计",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "3_1",
+          "label": "理解并应用CSS Grid布局系统",
+          "type": "knowledge",
+          "select_element": [
+            "grid-template-columns",
+            "gap"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "3_2",
+          "label": "使用auto-fill/minmax实现响应式列",
+          "type": "knowledge",
+          "select_element": [
+            "repeat",
+            "auto-fill",
+            "minmax",
+            "1fr"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "3_3",
+          "label": "实现容器居中与最大宽度限制",
+          "type": "knowledge",
+          "select_element": [
+            "max-width",
+            "margin",
+            "auto"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "3_4",
+          "label": "应用媒体查询基础概念（视口设置）",
+          "type": "knowledge",
+          "select_element": [
+            "viewport",
+            "meta"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "4_end",
+          "label": "模块四：HTML表单与基础交互",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "4_1",
+          "label": "构建包含多种输入类型的HTML表单",
+          "type": "knowledge",
+          "select_element": [
+            "form",
+            "input[type='text']",
+            "input[type='email']",
+            "textarea"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "4_2",
+          "label": "使用标签(label)与表单控件关联",
+          "type": "knowledge",
+          "select_element": [
+            "label",
+            "for",
+            "id"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "4_3",
+          "label": "应用输入验证属性",
+          "type": "knowledge",
+          "select_element": [
+            "required"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "4_4",
+          "label": "创建并样式化提交按钮",
+          "type": "knowledge",
+          "select_element": [
+            "button[type='submit']"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "5_end",
+          "label": "模块五：页面元信息与基础配置",
+          "type": "chapter"
+        }
+      },
+      {
+        "data": {
+          "id": "5_1",
+          "label": "设置网页语言与字符编码",
+          "type": "knowledge",
+          "select_element": [
+            "lang",
+            "meta[charset]"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "5_2",
+          "label": "配置视口(viewport)实现移动端适配",
+          "type": "knowledge",
+          "select_element": [
+            "meta[name='viewport']"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "5_3",
+          "label": "编写页面标题(title)",
+          "type": "knowledge",
+          "select_element": [
+            "title"
+          ]
+        }
+      },
+      {
+        "data": {
+          "id": "5_4",
+          "label": "使用<style>标签嵌入内部样式",
+          "type": "knowledge",
+          "select_element": [
+            "style"
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "data": {
+          "source": "1_end",
+          "target": "2_end"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "3_end"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "4_end"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "5_end"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_1"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_2"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_3"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_1"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_2"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_3"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_5"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_1"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_2"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_3"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_4"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "4_1"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "4_2"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "4_3"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "4_4"
+        }
+      },
+      {
+        "data": {
+          "source": "5_end",
+          "target": "5_1"
+        }
+      },
+      {
+        "data": {
+          "source": "5_end",
+          "target": "5_2"
+        }
+      },
+      {
+        "data": {
+          "source": "5_end",
+          "target": "5_3"
+        }
+      },
+      {
+        "data": {
+          "source": "5_end",
+          "target": "5_4"
+        }
+      }
+    ],
+    "dependent_edges": [
+      {
+        "data": {
+          "source": "1_end",
+          "target": "2_end"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "3_end"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "4_end"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "5_end"
+        }
+      },
+      {
+        "data": {
+          "source": "1_end",
+          "target": "1_1"
+        }
+      },
+      {
+        "data": {
+          "source": "1_1",
+          "target": "1_2"
+        }
+      },
+      {
+        "data": {
+          "source": "1_2",
+          "target": "1_3"
+        }
+      },
+      {
+        "data": {
+          "source": "1_3",
+          "target": "1_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_end",
+          "target": "2_1"
+        }
+      },
+      {
+        "data": {
+          "source": "2_1",
+          "target": "2_2"
+        }
+      },
+      {
+        "data": {
+          "source": "2_2",
+          "target": "2_3"
+        }
+      },
+      {
+        "data": {
+          "source": "2_3",
+          "target": "2_4"
+        }
+      },
+      {
+        "data": {
+          "source": "2_4",
+          "target": "2_5"
+        }
+      },
+      {
+        "data": {
+          "source": "3_end",
+          "target": "3_1"
+        }
+      },
+      {
+        "data": {
+          "source": "3_1",
+          "target": "3_2"
+        }
+      },
+      {
+        "data": {
+          "source": "3_2",
+          "target": "3_3"
+        }
+      },
+      {
+        "data": {
+          "source": "3_3",
+          "target": "3_4"
+        }
+      },
+      {
+        "data": {
+          "source": "4_end",
+          "target": "4_1"
+        }
+      },
+      {
+        "data": {
+          "source": "4_1",
+          "target": "4_2"
+        }
+      },
+      {
+        "data": {
+          "source": "4_2",
+          "target": "4_3"
+        }
+      },
+      {
+        "data": {
+          "source": "4_3",
+          "target": "4_4"
+        }
+      },
+      {
+        "data": {
+          "source": "5_end",
+          "target": "5_1"
+        }
+      },
+      {
+        "data": {
+          "source": "5_1",
+          "target": "5_2"
+        }
+      },
+      {
+        "data": {
+          "source": "5_2",
+          "target": "5_3"
+        }
+      },
+      {
+        "data": {
+          "source": "5_3",
+          "target": "5_4"
+        }
+      }
+    ]
+  },
+  "created_at": "2026-01-21T11:48:59.033426"
+}

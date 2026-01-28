@@ -299,3 +299,23 @@ json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
 2026-01-21 11:20:28,749 - scot-web - DEBUG - 解析到代码块: []
 2026-01-21 11:20:28,750 - scot-web - DEBUG - 解析到接口描述块
 2026-01-21 11:20:28,751 - scot-web - INFO - 任务执行完成，生成文件数: 0
+2026-01-21 11:41:19,045 - scot-web - INFO - 收到HTML上传请求
+2026-01-21 11:41:19,082 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-21 11:41:24,216 - scot-web - INFO - 收到PRD生成请求
+2026-01-21 11:41:29,417 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-21 11:41:29,419 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:43:03,023 - scot-web - INFO - AI响应成功，内容长度: 6168
+2026-01-21 11:43:03,026 - scot-web - INFO - PRD文档已保存到: data\prd\79a74acb-dfbc-4458-91a8-07a349742eb0.txt
+2026-01-21 11:43:03,026 - scot-web - INFO - PRD文档生成成功
+2026-01-21 11:46:39,141 - scot-web - INFO - 收到知识点提取请求
+2026-01-21 11:46:44,594 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-21 11:46:44,602 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:47:56,366 - scot-web - INFO - AI响应成功，原始内容长度: 6032
+2026-01-21 11:47:56,378 - scot-web - INFO - 知识点已保存到: data\knowledge\8b774e19-a19c-4f7f-9979-d56cb50e9e4a.json
+2026-01-21 11:47:56,378 - scot-web - INFO - 知识点提取成功
+2026-01-21 11:49:17,445 - scot-web - INFO - 开始执行任务，依赖上下文长度: 6168, 现有代码上下文长度: 5400, 用户目标长度: 0
+2026-01-21 11:49:17,446 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-21 11:51:25,831 - scot-web - INFO - AI响应成功，原始内容长度: 17739
+2026-01-21 11:51:25,835 - scot-web - DEBUG - 解析到代码块: ['public/index.html']
+2026-01-21 11:51:25,836 - scot-web - DEBUG - 解析到接口描述块
+2026-01-21 11:51:25,838 - scot-web - INFO - 任务执行完成，生成文件数: 1

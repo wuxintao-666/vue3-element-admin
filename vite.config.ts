@@ -50,6 +50,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           target: env.VITE_APP_API_URL,
           rewrite: (path: string) => path.replace(new RegExp("^" + env.VITE_APP_BASE_API), ""),
         },
+        // 代理所有 /api/* 请求到后端服务
+        '/api': {
+          changeOrigin: true,
+          target: env.VITE_APP_API_URL,  // 后端服务地址
+        },
       },
     },
     plugins: [
