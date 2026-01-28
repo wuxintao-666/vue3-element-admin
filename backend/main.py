@@ -10,7 +10,11 @@ from api.learning_router import learning_router
 from api.test_router import test_router  # 添加这一行
 from api.admin_router import admin_router  # 添加管理系统API路由
 from api.auth_router import auth_router  # 添加认证API路由
+from db.database import Base, engine
 import os
+
+# 初始化数据库表
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 

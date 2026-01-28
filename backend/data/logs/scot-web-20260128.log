@@ -1,0 +1,40 @@
+2026-01-28 11:09:32,864 - scot-web - INFO - 收到HTML上传请求
+2026-01-28 11:09:32,886 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-01-28 11:09:45,620 - scot-web - INFO - 收到知识点提取请求
+2026-01-28 11:09:50,038 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-28 11:09:50,046 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-28 11:10:44,418 - scot-web - INFO - AI响应成功，原始内容长度: 5162
+2026-01-28 11:10:44,420 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 47, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-01-28 11:10:44,440 - scot-web - INFO - 知识点已保存到: data\knowledge\cc9fb2fd-80ee-458e-b0f0-93a3b570730c.json
+2026-01-28 11:10:44,441 - scot-web - INFO - 知识点提取成功
+2026-01-28 11:11:02,415 - scot-web - INFO - 收到PRD生成请求
+2026-01-28 11:11:05,170 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-28 11:11:05,171 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-28 11:12:25,243 - scot-web - INFO - AI响应成功，内容长度: 6018
+2026-01-28 11:12:25,246 - scot-web - INFO - PRD文档已保存到: data\prd\d7dfd601-3405-4332-8826-7edbe862e128.txt
+2026-01-28 11:12:25,247 - scot-web - INFO - PRD文档生成成功
+2026-01-28 11:12:43,525 - scot-web - INFO - 收到知识点提取请求
+2026-01-28 11:12:46,244 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-01-28 11:12:46,248 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-28 11:13:19,768 - scot-web - INFO - AI响应成功，原始内容长度: 3274
+2026-01-28 11:13:19,777 - scot-web - INFO - 知识点已保存到: data\knowledge\e06f0e56-baca-4ef2-b453-65237add7701.json
+2026-01-28 11:13:19,778 - scot-web - INFO - 知识点提取成功
+2026-01-28 11:13:44,559 - scot-web - INFO - 收到PRD生成请求
+2026-01-28 11:13:47,329 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-01-28 11:13:47,330 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-01-28 11:14:51,388 - scot-web - INFO - AI响应成功，内容长度: 5236
+2026-01-28 11:14:51,392 - scot-web - INFO - PRD文档已保存到: data\prd\8de8fd73-ca1f-4cad-9bcd-f342ca92f213.txt
+2026-01-28 11:14:51,393 - scot-web - INFO - PRD文档生成成功

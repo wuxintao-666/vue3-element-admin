@@ -1,6 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from typing import List, Optional
+from sqlalchemy.orm import Session
+from datetime import datetime
+
+from db.database import get_db
+from db.models import User
+from schemas.user_schema import UserPageQuery, UserResponse, PageResponse, ApiResponse
 
 admin_router = APIRouter(prefix="/api/v1")
 
@@ -398,3 +404,212 @@ async def logout():
     用户登出接口
     """
     return {"code": "00000", "msg": "登出成功"}
+
+@admin_router.get("/users/page")
+async def get_users_page(
+    pageNum: int = 1,
+    pageSize: int = 10,
+    keywords: Optional[str] = None,
+    status: Optional[int] = None,
+    db: Session = Depends(get_db)
+):
+    """
+    获取用户分页列表
+    
+    参数:
+        pageNum: 页码（从1开始）
+        pageSize: 每页数量
+        keywords: 关键字搜索（用户名/昵称/手机号）
+        status: 用户状态（1:正常 0:禁用）
+    """
+    try:
+        # 构建查询条件
+        query = db.query(User)
+        
+        # 关键字搜索
+        if keywords:
+            query = query.filter(
+                (User.username.ilike(f"%{keywords}%")) |
+                (User.nickname.ilike(f"%{keywords}%")) |
+                (User.mobile.ilike(f"%{keywords}%"))
+            )
+        
+        # 状态过滤
+        if status is not None:
+            query = query.filter(User.status == status)
+        
+        # 获取总数
+        total = query.count()
+        
+        # 分页
+        offset = (pageNum - 1) * pageSize
+        users = query.offset(offset).limit(pageSize).all()
+        
+        # 转换为响应对象
+        user_list = [UserResponse.from_orm(user) for user in users]
+        
+        return {
+            "code": "00000",
+            "data": {
+                "list": user_list,
+                "total": total
+            },
+            "message": "获取成功"
+        }
+    except Exception as e:
+        return {
+            "code": "A0001",
+            "message": f"获取用户列表失败: {str(e)}"
+        }
+
+@admin_router.get("/users/{user_id}/form")
+async def get_user_form(user_id: int, db: Session = Depends(get_db)):
+    """
+    获取用户详情
+    """
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        
+        if not user:
+            return {
+                "code": "A0001",
+                "message": "用户不存在"
+            }
+        
+        return {
+            "code": "00000",
+            "data": UserResponse.from_orm(user),
+            "message": "获取成功"
+        }
+    except Exception as e:
+        return {
+            "code": "A0001",
+            "message": f"获取用户详情失败: {str(e)}"
+        }
+
+@admin_router.post("/users")
+async def create_user(user_data: dict, db: Session = Depends(get_db)):
+    """
+    创建用户
+    """
+    try:
+        # 检查用户名是否已存在
+        existing_user = db.query(User).filter(User.username == user_data.get("username")).first()
+        if existing_user:
+            return {
+                "code": "A0001",
+                "message": "用户名已存在"
+            }
+        
+        # 创建新用户
+        new_user = User(
+            username=user_data.get("username"),
+            password=user_data.get("password"),  # 实际应该进行加密处理
+            nickname=user_data.get("nickname"),
+            gender=user_data.get("gender", "0"),
+            mobile=user_data.get("mobile"),
+            email=user_data.get("email"),
+            avatar=user_data.get("avatar"),
+            status=user_data.get("status", 1)
+        )
+        
+        db.add(new_user)
+        db.commit()
+        
+        return {
+            "code": "00000",
+            "message": "创建成功"
+        }
+    except Exception as e:
+        db.rollback()
+        return {
+            "code": "A0001",
+            "message": f"创建用户失败: {str(e)}"
+        }
+
+@admin_router.put("/users/{user_id}")
+async def update_user(user_id: int, user_data: dict, db: Session = Depends(get_db)):
+    """
+    更新用户
+    """
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        
+        if not user:
+            return {
+                "code": "A0001",
+                "message": "用户不存在"
+            }
+        
+        # 更新用户信息
+        for key, value in user_data.items():
+            if value is not None and key != "id":
+                setattr(user, key, value)
+        
+        user.updatetime = datetime.now()
+        db.commit()
+        
+        return {
+            "code": "00000",
+            "message": "更新成功"
+        }
+    except Exception as e:
+        db.rollback()
+        return {
+            "code": "A0001",
+            "message": f"更新用户失败: {str(e)}"
+        }
+
+@admin_router.delete("/users/{user_ids}")
+async def delete_users(user_ids: str, db: Session = Depends(get_db)):
+    """
+    删除用户（支持批量删除，用逗号分隔）
+    """
+    try:
+        # 解析用户ID列表
+        ids = [int(id.strip()) for id in user_ids.split(",")]
+        
+        # 删除用户
+        db.query(User).filter(User.id.in_(ids)).delete()
+        db.commit()
+        
+        return {
+            "code": "00000",
+            "message": "删除成功"
+        }
+    except Exception as e:
+        db.rollback()
+        return {
+            "code": "A0001",
+            "message": f"删除用户失败: {str(e)}"
+        }
+
+@admin_router.post("/users/{user_id}/reset-password")
+async def reset_password(user_id: int, password_data: dict, db: Session = Depends(get_db)):
+    """
+    重置用户密码
+    """
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        
+        if not user:
+            return {
+                "code": "A0001",
+                "message": "用户不存在"
+            }
+        
+        # 更新密码（实际应该进行加密处理）
+        user.password = password_data.get("password")
+        user.updatetime = datetime.now()
+        db.commit()
+        
+        return {
+            "code": "00000",
+            "message": "重置成功"
+        }
+    except Exception as e:
+        db.rollback()
+        return {
+            "code": "A0001",
+            "message": f"重置密码失败: {str(e)}"
+        }
