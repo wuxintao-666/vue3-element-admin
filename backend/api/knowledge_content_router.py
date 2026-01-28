@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 @knowledge_content_router.get("/", response_model=ApiResponse)
 async def get_knowledge_contents(
     level: Optional[int] = None,
-    graph_id: Optional[str] = None,
+    graphId: Optional[str] = None,
     pageNum: int = 1,
     pageSize: int = 10,
     db: Session = Depends(get_db)
@@ -34,8 +34,8 @@ async def get_knowledge_contents(
         if level is not None:
             query = query.filter(KnowledgeContentModel.level == level)
 
-        if graph_id:
-            query = query.filter(KnowledgeContentModel.graph_id == graph_id)
+        if graphId:
+            query = query.filter(KnowledgeContentModel.graph_id == graphId)
 
         total = query.count()
         offset = (pageNum - 1) * pageSize
@@ -60,7 +60,7 @@ async def get_knowledge_contents(
 
 
 @knowledge_content_router.get("/{content_id}", response_model=ApiResponse)
-async def get_knowledge_content(content_id: int, db: Session = Depends(get_db)):
+async def get_knowledge_content(content_id: str, db: Session = Depends(get_db)):
     """
     获取知识内容详情
     """
@@ -119,7 +119,7 @@ async def create_knowledge_content(content_data: KnowledgeContentCreate, db: Ses
 
 
 @knowledge_content_router.put("/{content_id}", response_model=ApiResponse)
-async def update_knowledge_content(content_id: int, content_data: KnowledgeContentUpdate, db: Session = Depends(get_db)):
+async def update_knowledge_content(content_id: str, content_data: KnowledgeContentUpdate, db: Session = Depends(get_db)):
     """
     更新知识内容
     """
@@ -135,8 +135,10 @@ async def update_knowledge_content(content_id: int, content_data: KnowledgeConte
         update_fields = content_data.dict(exclude_unset=True)
         for key, value in update_fields.items():
             # 处理字段名映射
-            if key == "graph_id":
+            if key == "graphId":
                 setattr(content, "graph_id", value)
+            elif key == "maintainerId":
+                setattr(content, "maintainer_id", value)
             else:
                 setattr(content, key, value)
 

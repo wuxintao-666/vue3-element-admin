@@ -19,6 +19,7 @@ from api.user_router import user_router  # 用户管理单独路由
 from api.auth_router import auth_router  # 添加认证API路由
 from api.theme_router import theme_router  # 主题管理路由
 from api.knowledge_content_router import knowledge_content_router  # 知识内容管理路由
+from api.knowledge_graph_router import knowledge_graph_router  # 知识图谱管理路由
 from db.database import Base, engine
 import os
 
@@ -60,6 +61,9 @@ app.include_router(theme_router)
 
 # 添加知识内容管理路由
 app.include_router(knowledge_content_router)
+
+# 添加知识图谱管理路由
+app.include_router(knowledge_graph_router)
 
 # 添加静态文件服务
 # 设置静态文件目录路径

@@ -28,7 +28,7 @@ class KnowledgeContentUpdate(BaseModel):
 
 
 class KnowledgeContentResponse(BaseModel):
-    id: int
+    id: str
     graph_id: str = Field(..., alias="graphId")
     topic_id: str
     description: str

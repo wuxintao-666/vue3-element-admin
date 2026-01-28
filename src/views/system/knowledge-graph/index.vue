@@ -42,7 +42,11 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55" fixed="left" />
-        <el-table-column prop="id" label="ID" width="100" show-overflow-tooltip />
+        <el-table-column label="主题" width="120">
+          <template #default="{ row }">
+            {{ getThemeName(row.id) }}
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="名称" width="150" show-overflow-tooltip />
         <el-table-column prop="description" label="简介" min-width="200" show-overflow-tooltip />
         <el-table-column prop="tags" label="标签" width="150">
@@ -94,6 +98,21 @@
         :rules="formRules"
         label-width="120px"
       >
+        <el-form-item label="主题ID" prop="id">
+          <el-select
+            v-model="formData.id"
+            placeholder="请选择主题"
+            style="width: 100%"
+            filterable
+          >
+            <el-option
+              v-for="theme in themeOptions"
+              :key="theme.value"
+              :label="theme.label"
+              :value="theme.value"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="formData.name" placeholder="请输入知识图谱名称" />
         </el-form-item>
@@ -122,8 +141,8 @@
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :value="1">启用</el-radio>
+            <el-radio :value="0">禁用</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="维护人ID" prop="maintainerId">
@@ -231,10 +250,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from "vue";
+import { ref, reactive, onMounted, nextTick, computed } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { Plus, Delete, Search } from "@element-plus/icons-vue";
 import KnowledgeGraphAPI, { type KnowledgeGraphVO } from "@/api/system/knowledge-graph-api";
+import ThemeAPI from "@/api/system/theme-api";
+import type { ThemeVO } from "@/api/system/theme-api";
 import Pagination from "@/components/Pagination/index.vue";
 import cytoscape, { type Core, type ElementDefinition } from "cytoscape";
 
@@ -243,6 +264,21 @@ const loading = ref(true);
 const total = ref(0);
 const graphList = ref<KnowledgeGraphVO[]>([]);
 const multipleSelection = ref<KnowledgeGraphVO[]>([]);
+const themeList = ref<ThemeVO[]>([]);
+
+// 主题选项列表（用于选择器）
+const themeOptions = computed(() =>
+  themeList.value.map(theme => ({
+    label: theme.name,
+    value: theme.id
+  }))
+);
+
+// 根据主题ID获取主题名称
+const getThemeName = (themeId: string) => {
+  const theme = themeList.value.find(t => t.id === themeId);
+  return theme ? theme.name : themeId;
+};
 
 // 查询参数
 const queryParams = reactive({
@@ -298,6 +334,7 @@ const graphFormRef = ref();
 
 // 表单验证规则
 const formRules = {
+  id: [{ required: true, message: "请选择主题", trigger: "change" }],
   name: [{ required: true, message: "请输入知识图谱名称", trigger: "blur" }],
   description: [{ required: true, message: "请输入知识图谱简介", trigger: "blur" }],
   tags: [{ required: true, message: "请选择标签", trigger: "change" }],
@@ -316,6 +353,20 @@ const tagOptions = [
   { label: "云原生", value: "cloud" },
   { label: "微服务", value: "microservice" }
 ];
+
+// 获取主题列表
+const getThemeList = async () => {
+  try {
+    const response = await ThemeAPI.getPageList({
+      pageNum: 1,
+      pageSize: 1000, // 获取所有主题
+      status: 1 // 只获取启用的主题
+    });
+    themeList.value = response.list || [];
+  } catch (error) {
+    console.error("获取主题列表失败", error);
+  }
+};
 
 // 获取知识图谱列表
 const getList = async () => {
@@ -676,9 +727,43 @@ const initGraph = () => {
       animationDuration: 500,
       fit: true,
       padding: 30
-    }, 
+    },
+    // 解决被动事件监听器问题
     userPanningEnabled: true,
-    wheelSensitivity: 1, // 调整滚轮缩放灵敏度
+    userZoomingEnabled: true,
+    wheelSensitivity: 0.1, // 降低滚轮灵敏度
+    minZoom: 0.1,
+    maxZoom: 3,
+    // 禁用一些可能导致问题的交互
+    boxSelectionEnabled: false,
+    autounselectify: false,
+    autoungrabify: false,
+    // 禁用视口优化功能，这些可能导致事件处理问题
+    textureOnViewport: false,
+    motionBlur: false,
+    hideEdgesOnViewport: false,
+    hideLabelsOnViewport: false,
+    // 禁用触摸相关功能
+    touchTapThreshold: 8,
+    desktopTapThreshold: 4
+  });
+
+  // 在Cytoscape准备就绪后处理事件监听器
+  cy.ready(() => {
+    // 尝试移除可能导致问题的被动事件监听器
+    try {
+      const container = graphRef.value;
+      if (container) {
+        // 移除Cytoscape可能添加的冲突事件监听器
+        const cyElement = container.querySelector('.cy');
+        if (cyElement) {
+          // 强制设置样式来避免事件问题
+          cyElement.style.touchAction = 'none';
+        }
+      }
+    } catch (error) {
+      console.warn('处理Cytoscape事件监听器时出错:', error);
+    }
   });
 };
 
@@ -708,6 +793,7 @@ const resetGraph = () => {
 };
 
 onMounted(() => {
+  getThemeList();
   getList();
 });
 </script>
@@ -731,6 +817,16 @@ onMounted(() => {
     .graph {
       width: 100%;
       height: 100%;
+
+      // 尝试禁用pointer-events来避免被动事件监听器问题
+      :deep(.cy) {
+        touch-action: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
     }
 
     .graph-controls {

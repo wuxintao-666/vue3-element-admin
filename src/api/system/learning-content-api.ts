@@ -78,7 +78,7 @@ export interface KnowledgeContentQuery {
 
 // 知识内容视图对象
 export interface KnowledgeContentVO {
-  id?: number
+  id?: string
   graphId?: string
   topic_id?: string
   description?: string
@@ -89,7 +89,7 @@ export interface KnowledgeContentVO {
 
 // 知识内容表单对象
 export interface KnowledgeContentForm {
-  id?: number
+  id?: string
   graphId: string
   topic_id: string
   description: string

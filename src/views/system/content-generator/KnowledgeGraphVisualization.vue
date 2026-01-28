@@ -156,9 +156,24 @@ export default {
           fit: true,
           padding: 50
         },
+        // 解决被动事件监听器问题
+        userPanningEnabled: true,
+        userZoomingEnabled: true,
         minZoom: 0.1,
         maxZoom: 2.0,
-        wheelSensitivity: 0.2
+        wheelSensitivity: 0.1, // 降低滚轮灵敏度
+        // 禁用一些可能导致问题的交互
+        boxSelectionEnabled: false,
+        autounselectify: false,
+        autoungrabify: false,
+        // 禁用视口优化功能，这些可能导致事件处理问题
+        textureOnViewport: false,
+        motionBlur: false,
+        hideEdgesOnViewport: false,
+        hideLabelsOnViewport: false,
+        // 禁用触摸相关功能
+        touchTapThreshold: 8,
+        desktopTapThreshold: 4
       });
       
       this.addEventListeners();

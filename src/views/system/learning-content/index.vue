@@ -12,18 +12,33 @@
                 批量删除
               </el-button>
             </div>
-            <el-input
-              v-model="queryParams.graphId"
-              placeholder="请输入主题ID"
-              clearable
-              @keyup.enter="handleQuery"
-              @clear="handleQuery"
-              style="width: 300px;"
-            >
-              <template #prefix>
-                <el-icon><Search /></el-icon>
-              </template>
-            </el-input>
+            <div class="flex">
+              <el-select
+                v-model="queryParams.level"
+                placeholder="请选择难度等级"
+                clearable
+                style="width: 150px; margin-right: 10px"
+                @change="handleQuery"
+              >
+                <el-option label="全部" :value="undefined" />
+                <el-option label="1级（入门）" :value="1" />
+                <el-option label="2级（基础）" :value="2" />
+                <el-option label="3级（进阶）" :value="3" />
+                <el-option label="4级（高级）" :value="4" />
+              </el-select>
+              <el-input
+                v-model="queryParams.graphId"
+                placeholder="请输入主题ID"
+                clearable
+                @keyup.enter="handleQuery"
+                @clear="handleQuery"
+                style="width: 250px;"
+              >
+                <template #prefix>
+                  <el-icon><Search /></el-icon>
+                </template>
+              </el-input>
+            </div>
           </div>
         </template>
 
@@ -175,10 +190,10 @@
             <el-option label="4级（高级）" :value="4" />
           </el-select>
         </el-form-item>
-        <!-- <el-form-item label="状态" prop="status">
+        <!--         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio :label="1">启用</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :value="1">启用</el-radio>
+            <el-radio :value="0">禁用</el-radio>
           </el-radio-group>
         </el-form-item> -->
       </el-form>
@@ -263,11 +278,11 @@ const dialog = reactive({
   visible: false,
   title: "",
   isEdit: false,
-  currentId: 0,
+  currentId: "",
 });
 
 const formData = ref<KnowledgeContentForm>({
-  id: 0,
+  id: undefined,
   graphId: "",
   topic_id: "",
   description: "",
@@ -345,7 +360,7 @@ const handleAdd = () => {
   dialog.isEdit = false;
   // 重置表单
   Object.assign(formData.value, {
-    id: 0,
+    id: undefined,
     graphId: "",
     topic_id: "",
     description: "",
@@ -354,7 +369,7 @@ const handleAdd = () => {
 };
 
 // 编辑知识点
-const handleEdit = async (id: number) => {
+const handleEdit = async (id: string) => {
   dialog.visible = true;
   dialog.title = "编辑知识点";
   dialog.isEdit = true;
@@ -370,7 +385,7 @@ const handleEdit = async (id: number) => {
 };
 
 // 查看知识点
-const handleView = async (id: number) => {
+const handleView = async (id: string) => {
   try {
     const response = await getKnowledgeContent(id);
     viewData.value = response;
@@ -382,7 +397,7 @@ const handleView = async (id: number) => {
 };
 
 // 删除知识点
-const handleDelete = (id: number) => {
+const handleDelete = (id: string) => {
   ElMessageBox.confirm("确定要删除这个知识点吗？", "警告", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",

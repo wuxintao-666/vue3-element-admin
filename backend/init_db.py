@@ -3,7 +3,7 @@
 """
 from sqlalchemy import create_engine, text
 from db.database import engine, Base
-from db.models import User, Theme, KnowledgeContent
+from db.models import User, Theme, KnowledgeContent, KnowledgeGraph
 import os
 from dotenv import load_dotenv
 
