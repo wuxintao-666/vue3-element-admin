@@ -67,5 +67,7 @@
     "src/lang/package"
   ],
   "scss.lint.unknownAtRules": "ignore",
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 10
 }

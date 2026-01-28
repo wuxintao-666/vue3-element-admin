@@ -29,9 +29,8 @@ class UserResponse(UserBase):
     id: int
     recentsignin: Optional[datetime] = None
     createtime: Optional[datetime] = None
-
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 class UserPageQuery(BaseModel):
     """用户分页查询参数"""

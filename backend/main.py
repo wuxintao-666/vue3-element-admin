@@ -1,3 +1,9 @@
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
+)
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.upload_router import upload_router
@@ -9,6 +15,7 @@ from api.logs_router import logs_router
 from api.learning_router import learning_router
 from api.test_router import test_router  # 添加这一行
 from api.admin_router import admin_router  # 添加管理系统API路由
+from api.user_router import user_router  # 用户管理单独路由
 from api.auth_router import auth_router  # 添加认证API路由
 from db.database import Base, engine
 import os
@@ -37,6 +44,8 @@ app.include_router(preview_router, prefix="/api/preview", tags=["Preview"])
 app.include_router(logs_router, prefix="/api/logs", tags=["Logs"])
 app.include_router(learning_router, prefix="/api/learning", tags=["Learning"])
 app.include_router(test_router, prefix="/api/test", tags=["Test"])  # 添加这一行
+# 添加用户管理路由（前端用户管理页面使用）
+app.include_router(user_router)
 
 # 添加管理系统API路由
 app.include_router(admin_router)

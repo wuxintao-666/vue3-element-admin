@@ -15,7 +15,8 @@ const httpRequest = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
   timeout: 50000,
   headers: { "Content-Type": "application/json;charset=utf-8" },
-  paramsSerializer: (params) => qs.stringify(params),
+  // 序列化数组参数为重复键（e.g. createTime=2026-01-01&createTime=2026-01-02）
+  paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
 });
 
 /**

@@ -75,10 +75,11 @@ const UserAPI = {
    * @param password 新密码
    */
   resetPassword(id: string, password: string) {
+    // 后端使用 POST /{id}/reset-password 接收 body { password }
     return request({
-      url: `${USER_BASE_URL}/${id}/password/reset`,
-      method: "put",
-      params: { password },
+      url: `${USER_BASE_URL}/${id}/reset-password`,
+      method: "post",
+      data: { password },
     });
   },
 
@@ -242,10 +243,6 @@ export interface UserPageQuery extends PageQuery {
 
   /** 用户状态 */
   status?: number;
-
-  /** 部门ID */
-  deptId?: string;
-
   /** 开始时间 */
   createTime?: [string, string];
 }
@@ -263,7 +260,7 @@ export interface UserPageVO {
   /** 用户邮箱 */
   email?: string;
   /** 性别 */
-  gender?: number;
+  gender?: string;
   /** 手机号 */
   mobile?: string;
   /** 用户昵称 */
@@ -287,17 +284,17 @@ export interface UserForm {
   /** 邮箱 */
   email?: string;
   /** 性别 */
-  gender?: number;
+  gender?: string;
   /** 手机号 */
   mobile?: string;
   /** 昵称 */
   nickname?: string;
-  /** 角色ID集合 */
-  roleIds?: number[];
   /** 用户状态(1:正常;0:禁用) */
   status?: number;
   /** 用户名 */
   username?: string;
+  /** 密码（仅在新增用户时提供） */
+  password?: string;
 }
 
 /** 个人中心用户信息 */
@@ -315,7 +312,7 @@ export interface UserProfileVO {
   avatar?: string;
 
   /** 性别 */
-  gender?: number;
+  gender?: string;
 
   /** 手机号 */
   mobile?: string;
@@ -348,7 +345,7 @@ export interface UserProfileForm {
   avatar?: string;
 
   /** 性别 */
-  gender?: number;
+  gender?: string;
 
   /** 手机号 */
   mobile?: string;

@@ -15,7 +15,7 @@
             <el-form-item label="关键字" prop="keywords">
               <el-input
                 v-model="queryParams.keywords"
-                placeholder="用户名/昵称/手机号"
+                placeholder="用户名/手机号"
                 clearable
                 @keyup.enter="handleQuery"
               />
@@ -33,7 +33,7 @@
               </el-select>
             </el-form-item>
 
-            <el-form-item label="创建时间">
+            <el-form-item label="创建时间" prop="createTime">
               <el-date-picker
                 v-model="queryParams.createTime"
                 :editable="false"
@@ -100,10 +100,12 @@
             <el-table-column type="selection" width="50" align="center" />
             <el-table-column label="用户ID" prop="id" />
             <el-table-column label="用户名" prop="username" />
-            <el-table-column label="密码哈希" width="150" align="center" prop="password" />
+            <el-table-column label="昵称" prop="nickname" />
+            <!-- 密码哈希已移除，前端不展示密码或哈希 -->
             <el-table-column label="性别" width="100" align="center">
               <template #default="scope">
-                <DictLabel v-model="scope.row.gender" code="gender" />
+                <span v-if="scope.row.gender === '0'">男</span>
+                <span v-else-if="scope.row.gender === '1'">女</span>
               </template>
             </el-table-column>
             <!-- <el-table-column label="部门" width="120" align="center" prop="deptName" /> -->
@@ -183,35 +185,29 @@
           />
         </el-form-item>
 
+        <el-form-item v-if="!formData.id" label="密码" prop="password">
+          <el-input
+            v-model="formData.password"
+            placeholder="请输入密码（新增时必填，至少6位）"
+            type="password"
+            autocomplete="new-password"
+          />
+        </el-form-item>
+
         <el-form-item label="用户昵称" prop="nickname">
           <el-input v-model="formData.nickname" placeholder="请输入用户昵称" />
         </el-form-item>
 
-        <el-form-item label="所属部门" prop="deptId">
-          <el-tree-select
-            v-model="formData.deptId"
-            placeholder="请选择所属部门"
-            :data="deptOptions"
-            filterable
-            check-strictly
-            :render-after-expand="false"
-          />
-        </el-form-item>
+        <!-- 所属部门字段已移除（后端无 dept 字段） -->
 
         <el-form-item label="性别" prop="gender">
-          <Dict v-model="formData.gender" code="gender" />
-        </el-form-item>
-
-        <el-form-item label="角色" prop="roleIds">
-          <el-select v-model="formData.roleIds" multiple placeholder="请选择">
-            <el-option
-              v-for="item in roleOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
+          <el-select v-model="formData.gender" placeholder="请选择性别">
+            <el-option label="男" value="0" />
+            <el-option label="女" value="1" />
           </el-select>
         </el-form-item>
+
+        <!-- 角色字段已移除（后端未提供 roleIds） -->
 
         <el-form-item label="手机号码" prop="mobile">
           <el-input v-model="formData.mobile" placeholder="请输入手机号码" maxlength="11" />
@@ -251,8 +247,6 @@ import { useAppStore } from "@/store/modules/app-store";
 import { DeviceEnum } from "@/enums/settings/device-enum";
 
 import UserAPI, { UserForm, UserPageQuery, UserPageVO } from "@/api/system/user-api";
-import DeptAPI from "@/api/system/dept-api";
-import RoleAPI from "@/api/system/role-api";
 
 import DeptTree from "./components/DeptTree.vue";
 import UserImport from "./components/UserImport.vue";
@@ -290,8 +284,50 @@ const formData = reactive<UserForm>({
 const rules = reactive({
   username: [{ required: true, message: "用户名不能为空", trigger: "blur" }],
   nickname: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
-  deptId: [{ required: true, message: "所属部门不能为空", trigger: "blur" }],
-  roleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
+  // roleIds 验证已移除（后端无 roleIds）
+  password: [
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        // 仅在新增用户时校验密码
+        if (!formData.id) {
+          if (!value || value.length < 6) {
+            callback(new Error("密码至少需要6位字符"));
+            return;
+          }
+        }
+        callback();
+      },
+      trigger: "blur",
+    },
+  ],
+  createTime: [
+    {
+      validator: (rule: any, value: any, callback: any) => {
+        // allow empty
+        if (!value) {
+          callback();
+          return;
+        }
+        if (!Array.isArray(value) || value.length !== 2) {
+          callback(new Error("请选择有效的日期范围"));
+          return;
+        }
+        const s = formatDateString(value[0]);
+        const e = formatDateString(value[1]);
+        const re = /^\d{4}-\d{2}-\d{2}$/;
+        if (!s || !e || !re.test(s) || !re.test(e)) {
+          callback(new Error("请选择有效的日期范围，格式为 YYYY-MM-DD"));
+          return;
+        }
+        if (new Date(s).getTime() > new Date(e).getTime()) {
+          callback(new Error("开始日期不能晚于结束日期"));
+          return;
+        }
+        callback();
+      },
+      trigger: "change",
+    },
+  ],
   email: [
     {
       pattern: /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/,
@@ -310,10 +346,7 @@ const rules = reactive({
 
 // 选中的用户ID
 const selectIds = ref<number[]>([]);
-// 部门下拉数据源
-const deptOptions = ref<OptionType[]>();
-// 角色下拉数据源
-const roleOptions = ref<OptionType[]>();
+// 角色相关已移除（后端无 roleIds）
 // 导入弹窗显示状态
 const importDialogVisible = ref(false);
 
@@ -321,27 +354,110 @@ const importDialogVisible = ref(false);
 async function fetchData() {
   loading.value = true;
   try {
-    const data = await UserAPI.getPage(queryParams);
-    pageData.value = data.list;
-    total.value = data.total;
+    const params: any = {
+      pageNum: queryParams.pageNum,
+      pageSize: queryParams.pageSize,
+      keywords: queryParams.keywords?.trim() || undefined,
+      status: queryParams.status,
+      // deptId 已移除
+      createTime:
+        queryParams.createTime && queryParams.createTime.length === 2
+          ? [
+              formatDateString(queryParams.createTime[0]),
+              formatDateString(queryParams.createTime[1]),
+            ]
+          : undefined,
+    };
+    // 验证日期范围格式
+    if (params.createTime && !validateCreateTimeRange(params.createTime)) {
+      loading.value = false;
+      return;
+    }
+
+    const res = await UserAPI.getPage(params);
+    // 支持多种后端响应结构：{ data: { list, total } } 或 { list, total }
+    let list: any[] = [];
+    let tot = 0;
+    if (res && res.data && res.data.list !== undefined) {
+      list = res.data.list;
+      tot = res.data.total || 0;
+    } else if (res && res.list !== undefined) {
+      list = res.list;
+      tot = res.total || 0;
+    } else if (Array.isArray(res)) {
+      list = res;
+      tot = res.length;
+    } else {
+      // fallback: try to read nested data
+      list = (res && res.data && res.data.items) || [];
+      tot = (res && res.data && res.data.count) || 0;
+    }
+
+    pageData.value = list || [];
+    total.value = tot || 0;
+  } catch (err: any) {
+    ElMessage.error(err?.message || "获取数据失败");
   } finally {
     loading.value = false;
   }
 }
 
+// 防抖请求，避免频繁触发
+const debouncedFetch = useDebounceFn(fetchData, 300);
+
 // 查询（重置页码后获取数据）
 function handleQuery() {
   queryParams.pageNum = 1;
-  fetchData();
+  debouncedFetch();
 }
 
 // 重置查询
 function handleResetQuery() {
   queryFormRef.value.resetFields();
   queryParams.pageNum = 1;
-  queryParams.deptId = undefined;
+  queryParams.pageSize = 10;
   queryParams.createTime = undefined;
+  queryParams.keywords = undefined;
+  queryParams.status = undefined;
   fetchData();
+}
+
+// 将日期对象或字符串统一格式化为 YYYY-MM-DD
+function formatDateString(value: any): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") {
+    // 假设已是 YYYY-MM-DD
+    return value;
+  }
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return undefined;
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+// 验证 createTime 格式为 ["YYYY-MM-DD","YYYY-MM-DD"] 且 start <= end
+function validateCreateTimeRange(value: any): boolean {
+  if (!value) return true;
+  if (!Array.isArray(value) || value.length !== 2) return false;
+  const [s, e] = value;
+  const re = /^\d{4}-\d{2}-\d{2}$/;
+  if (!re.test(s) || !re.test(e)) {
+    ElMessage.error("请选择有效的日期范围，格式为 YYYY-MM-DD");
+    return false;
+  }
+  const sd = new Date(s);
+  const ed = new Date(e);
+  if (Number.isNaN(sd.getTime()) || Number.isNaN(ed.getTime())) {
+    ElMessage.error("请选择有效的日期范围");
+    return false;
+  }
+  if (sd.getTime() > ed.getTime()) {
+    ElMessage.error("开始日期不能晚于结束日期");
+    return false;
+  }
+  return true;
 }
 
 // 选中项发生变化
@@ -377,10 +493,7 @@ function hancleResetPassword(row: UserPageVO) {
  */
 async function handleOpenDialog(id?: string) {
   dialog.visible = true;
-  // 加载角色下拉数据源
-  roleOptions.value = await RoleAPI.getOptions();
-  // 加载部门下拉数据源
-  deptOptions.value = await DeptAPI.getOptions();
+  // 角色/部门数据已移除（后端不提供 roleIds/deptId）
 
   if (id) {
     dialog.title = "修改用户";
@@ -402,31 +515,47 @@ function handleCloseDialog() {
   formData.status = 1;
 }
 
-// 提交用户表单（防抖）
-const handleSubmit = useDebounceFn(() => {
-  userFormRef.value.validate((valid: boolean) => {
-    if (valid) {
-      const userId = formData.id;
-      loading.value = true;
-      if (userId) {
-        UserAPI.update(userId, formData)
-          .then(() => {
-            ElMessage.success("修改用户成功");
-            handleCloseDialog();
-            handleResetQuery();
-          })
-          .finally(() => (loading.value = false));
-      } else {
-        UserAPI.create(formData)
-          .then(() => {
-            ElMessage.success("新增用户成功");
-            handleCloseDialog();
-            handleResetQuery();
-          })
-          .finally(() => (loading.value = false));
-      }
-    }
+// 提交用户表单（重写为 async/await + 防抖）
+function validateForm(): Promise<boolean> {
+  return new Promise((resolve, reject) => {
+    userFormRef.value.validate((valid: boolean) => {
+      if (valid) resolve(true);
+      else reject(false);
+    });
   });
+}
+
+async function submitUser() {
+  try {
+    await validateForm();
+  } catch {
+    // 表单校验失败
+    return;
+  }
+
+  loading.value = true;
+  try {
+    if (formData.id) {
+      const payload: any = { ...formData };
+      delete payload.password; // 编辑不允许修改密码
+      await UserAPI.update(formData.id, payload);
+      ElMessage.success("修改用户成功");
+    } else {
+      await UserAPI.create(formData);
+      ElMessage.success("新增用户成功");
+    }
+
+    handleCloseDialog();
+    handleResetQuery();
+  } catch (err: any) {
+    ElMessage.error(err?.message || "保存用户失败");
+  } finally {
+    loading.value = false;
+  }
+}
+
+const handleSubmit = useDebounceFn(() => {
+  submitUser();
 }, 1000);
 
 /**
@@ -502,7 +631,18 @@ function handleOpenImportDialog() {
 
 // 导出用户
 function handleExport() {
-  UserAPI.export(queryParams).then((response: any) => {
+  const exportParams: any = {
+    ...queryParams,
+    createTime:
+      queryParams.createTime && queryParams.createTime.length === 2
+        ? [formatDateString(queryParams.createTime[0]), formatDateString(queryParams.createTime[1])]
+        : undefined,
+  };
+  // 验证导出时的日期范围
+  if (exportParams.createTime && !validateCreateTimeRange(exportParams.createTime)) {
+    return;
+  }
+  UserAPI.export(exportParams).then((response: any) => {
     const fileData = response.data;
     const fileName = decodeURI(response.headers["content-disposition"].split(";")[1].split("=")[1]);
     const fileType =

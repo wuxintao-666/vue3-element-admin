@@ -4,13 +4,18 @@
 from sqlalchemy import create_engine, text
 from db.database import engine, Base
 from db.models import User
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def init_db():
     """
     创建数据库和所有表
     """
     # 先连接到MySQL服务器，创建数据库
-    mysql_engine = create_engine("mysql+pymysql://root:123456@localhost:3306")
+    mysql_admin_url = os.getenv("MYSQL_ADMIN_URL", "mysql+pymysql://root:123456@localhost:3306")
+    mysql_engine = create_engine(mysql_admin_url)
     with mysql_engine.connect() as conn:
         conn.execute(text("CREATE DATABASE IF NOT EXISTS vue3_admin CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"))
         conn.commit()
