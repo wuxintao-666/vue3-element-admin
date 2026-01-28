@@ -46,7 +46,7 @@ async def get_themes_page(
         offset = (pageNum - 1) * pageSize
         themes = query.order_by(ThemeModel.create_time.desc()).offset(offset).limit(pageSize).all()
 
-        theme_list = [ThemeResponse.from_orm(theme) for theme in themes]
+        theme_list = [ThemeResponse.from_orm(theme).dict(by_alias=True) for theme in themes]
 
         return ApiResponse(
             code="00000",
@@ -78,9 +78,10 @@ async def get_theme_form(theme_id: str, db: Session = Depends(get_db)):
                 message="主题不存在"
             )
 
+        theme_data = ThemeResponse.from_orm(theme)
         return ApiResponse(
             code="00000",
-            data=ThemeResponse.from_orm(theme),
+            data=theme_data.dict(by_alias=True),
             message="获取成功"
         )
     except Exception as e:

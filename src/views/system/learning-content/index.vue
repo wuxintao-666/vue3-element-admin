@@ -13,8 +13,8 @@
               </el-button>
             </div>
             <el-input
-              v-model="queryParams.title"
-              placeholder="请输入标题"
+              v-model="queryParams.graphId"
+              placeholder="请输入主题ID"
               clearable
               @keyup.enter="handleQuery"
               @clear="handleQuery"
@@ -70,7 +70,11 @@
   <el-table-column type="selection" width="55" align="center" />
 
   <!-- 知识图谱 -->
-  <el-table-column label="主题" prop="graphId" width="120" />
+  <el-table-column label="主题" width="120">
+    <template #default="{ row }">
+      {{ getThemeName(row.graphId) }}
+    </template>
+  </el-table-column>
 
   <!-- 节点ID -->
   <el-table-column label="结点ID" prop="topic_id" show-overflow-tooltip />
@@ -96,14 +100,14 @@
   <!-- 操作 -->
   <el-table-column label="操作" width="220" fixed="right">
     <template #default="{ row }">
-      <el-button type="primary" @click="handleEdit(row.topic_id)" link>
+      <el-button type="primary" @click="handleEdit(row.id)" link>
         编辑
       </el-button>
-      <el-button type="primary" @click="handleView(row.topic_id)" link>
+      <el-button type="primary" @click="handleView(row.id)" link>
         查看
       </el-button>
       <el-divider direction="vertical" />
-      <el-button type="danger" @click="handleDelete(row.topic_id)" link>
+      <el-button type="danger" @click="handleDelete(row.id)" link>
         删除
       </el-button>
     </template>
@@ -133,18 +137,30 @@
         :rules="formRules"
         label-width="100px"
       >
-        <el-form-item label="主题" prop="title">
-          <el-input v-model="formData.title" placeholder="请输入知识点主题" />
+        <el-form-item label="主题" prop="graphId">
+          <el-select
+            v-model="formData.graphId"
+            placeholder="请选择主题"
+            style="width: 100%"
+            filterable
+          >
+            <el-option
+              v-for="theme in themeOptions"
+              :key="theme.value"
+              :label="theme.label"
+              :value="theme.value"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="ID" prop="title">
-          <el-input v-model="formData.title" placeholder="请输入知识点ID" />
+        <el-form-item label="结点ID" prop="topic_id">
+          <el-input v-model="formData.topic_id" placeholder="请输入结点ID" />
         </el-form-item>
-        <el-form-item label="内容" prop="content">
+        <el-form-item label="内容" prop="description">
           <el-input
-            v-model="formData.content"
+            v-model="formData.description"
             type="textarea"
             :rows="4"
-            placeholder="请输入知识点内容"
+            placeholder="请输入内容"
           />
         </el-form-item>
         <el-form-item label="难度等级" prop="level">
@@ -181,15 +197,13 @@
       width="600px"
     >
       <div v-if="viewData">
-        <h3>{{ viewData.title }}</h3>
+        <p><strong>主题：</strong>{{ getThemeName(viewData.graphId) }}</p>
+        <p><strong>结点ID：</strong>{{ viewData.topic_id }}</p>
         <p><strong>难度等级：</strong>
           <el-tag :type="getLevelType(viewData.level)">{{ viewData.level }}级</el-tag>
         </p>
-        <p><strong>状态：</strong>
-          <el-tag :type="getStatusType(viewData.status)">{{ getStatusText(viewData.status) }}</el-tag>
-        </p>
         <p><strong>内容：</strong></p>
-        <div class="content-view">{{ viewData.content }}</div>
+        <div class="content-view">{{ viewData.description }}</div>
         <p><strong>创建时间：</strong>{{ viewData.createTime }}</p>
         <p><strong>更新时间：</strong>{{ viewData.updateTime }}</p>
       </div>
@@ -210,31 +224,36 @@ import {
   deleteKnowledgeContent,
 } from "@/api/system/learning-content-api";
 import type { KnowledgeContentVO, KnowledgeContentForm, KnowledgeContentQuery } from "@/api/system/learning-content-api";
+import ThemeAPI from "@/api/system/theme-api";
+import type { ThemeVO } from "@/api/system/theme-api";
 import { computed } from "vue";
 // 定义响应式数据
 const loading = ref(true);
 const total = ref(0);
 const contentList = ref<KnowledgeContentVO[]>([]);
 const multipleSelection = ref<KnowledgeContentVO[]>([]);
+const themeList = ref<ThemeVO[]>([]);
 
-const flatContentList = computed(() =>
-  contentList.value.flatMap(topic =>
-    topic.levels.map(level => ({
-      topic_id: topic.topic_id,
-      title: topic.title,
-      graphId: topic.graphId,
-      level: level.level,
-      description: level.description,
-      createTime: topic.createTime,
-      updateTime: topic.updateTime
-    }))
-  )
+const flatContentList = computed(() => contentList.value);
+
+// 主题选项列表（用于选择器）
+const themeOptions = computed(() =>
+  themeList.value.map(theme => ({
+    label: theme.name,
+    value: theme.id
+  }))
 );
+
+// 根据主题ID获取主题名称
+const getThemeName = (themeId: string) => {
+  const theme = themeList.value.find(t => t.id === themeId);
+  return theme ? theme.name : themeId;
+};
 
 // 查询参数
 const queryParams = reactive<KnowledgeContentQuery>({
-  title: undefined,
   level: undefined,
+  graphId: undefined,
   pageNum: 1,
   pageSize: 10,
 });
@@ -249,10 +268,10 @@ const dialog = reactive({
 
 const formData = ref<KnowledgeContentForm>({
   id: 0,
-  title: "",
-  content: "",
+  graphId: "",
+  topic_id: "",
+  description: "",
   level: 1,
-  status: 1,
 });
 
 const viewDialog = reactive({
@@ -265,10 +284,24 @@ const contentFormRef = ref();
 
 // 表单验证规则
 const formRules = {
-  title: [{ required: true, message: "请输入知识点标题", trigger: "blur" }],
-  content: [{ required: true, message: "请输入知识点内容", trigger: "blur" }],
+  graphId: [{ required: true, message: "请选择主题", trigger: "change" }],
+  topic_id: [{ required: true, message: "请输入结点ID", trigger: "blur" }],
+  description: [{ required: true, message: "请输入内容", trigger: "blur" }],
   level: [{ required: true, message: "请选择难度等级", trigger: "change" }],
-  status: [{ required: true, message: "请选择状态", trigger: "change" }],
+};
+
+// 获取主题列表
+const getThemeList = async () => {
+  try {
+    const response = await ThemeAPI.getPageList({
+      pageNum: 1,
+      pageSize: 1000, // 获取所有主题
+      status: 1 // 只获取启用的主题
+    });
+    themeList.value = response.list || [];
+  } catch (error) {
+    console.error("获取主题列表失败", error);
+  }
 };
 
 // 获取知识点列表
@@ -294,7 +327,7 @@ const handleQuery = () => {
 
 // 重置搜索
 const resetQuery = () => {
-  queryParams.title = undefined;
+  queryParams.graphId = undefined;
   queryParams.level = undefined;
   queryParams.pageNum = 1;
   getList();
@@ -313,10 +346,10 @@ const handleAdd = () => {
   // 重置表单
   Object.assign(formData.value, {
     id: 0,
-    title: "",
-    content: "",
+    graphId: "",
+    topic_id: "",
+    description: "",
     level: 1,
-    status: 1,
   });
 };
 
@@ -329,8 +362,7 @@ const handleEdit = async (id: number) => {
 
   try {
     const response = await getKnowledgeContent(id);
-    console.log("获取知识点详情成功", response);
-    Object.assign(formData.value, response.data);
+    Object.assign(formData.value, response);
   } catch (error) {
     console.error("获取知识点详情失败", error);
     ElMessage.error("获取知识点详情失败");
@@ -341,7 +373,7 @@ const handleEdit = async (id: number) => {
 const handleView = async (id: number) => {
   try {
     const response = await getKnowledgeContent(id);
-    viewData.value = response.data;
+    viewData.value = response;
     viewDialog.visible = true;
   } catch (error) {
     console.error("获取知识点详情失败", error);
@@ -458,6 +490,7 @@ const getStatusText = (status: number) => {
 };
 
 onMounted(() => {
+  getThemeList();
   getList();
 });
 </script>

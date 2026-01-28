@@ -72,8 +72,7 @@ export function batchDeleteKnowledgeContent(ids: number[]) {
 export interface KnowledgeContentQuery {
   pageNum?: number
   pageSize?: number
-  title?: string
-  status?: number
+  level?: number
   graphId?: string
 }
 
@@ -81,28 +80,18 @@ export interface KnowledgeContentQuery {
 export interface KnowledgeContentVO {
   id?: number
   graphId?: string
-  title?: string
+  topic_id?: string
   description?: string
-  status?: number
-  maintainerId?: number
+  level?: number
   createTime?: string
   updateTime?: string
-  topics?: Array<{
-    topicId: string
-    title: string
-    levels: Array<{
-      level: number
-      description: string
-    }>
-  }>
 }
 
 // 知识内容表单对象
 export interface KnowledgeContentForm {
   id?: number
-  graphId?: string
-  title: string
+  graphId: string
+  topic_id: string
   description: string
-  status: number
-  maintainerId?: number
+  level: number
 }

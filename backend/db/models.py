@@ -25,6 +25,21 @@ class User(Base):
         from_attributes = True
 
 
+class KnowledgeContent(Base):
+    __tablename__ = "knowledge_contents"
+
+    id = Column(Integer, primary_key=True, index=True, comment="知识点ID")
+    graph_id = Column(String(50), nullable=False, comment="主题ID")
+    topic_id = Column(String(100), nullable=False, comment="结点ID")
+    description = Column(Text, nullable=False, comment="内容")
+    level = Column(Integer, nullable=False, comment="难度等级 1:入门 2:基础 3:进阶 4:高级")
+    create_time = Column(DateTime, default=datetime.now, comment="创建时间")
+    update_time = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
+
+    class Config:
+        from_attributes = True
+
+
 class Theme(Base):
     __tablename__ = "themes"
 

@@ -154,7 +154,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="学习入口节点ID" prop="entranceId">
-          <el-input v-model="formData.entranceId" placeholder="请输入学习入口节点ID" />
+          <el-input v-model="formData.entrance_id" placeholder="请输入学习入口节点ID" />
         </el-form-item>
         <el-form-item label="维护人ID" prop="maintainerId">
           <el-input v-model="formData.maintainerId" placeholder="请输入维护人ID" />
@@ -298,7 +298,10 @@ const handleEdit = (id: string) => {
   
   // 获取主题详情并填充表单
   ThemeAPI.getFormData(id).then(response => {
-    Object.assign(formData.value, response.data);
+    console.log("编辑主题 - API响应:", response);
+    console.log("编辑主题 - 响应数据:", response.data);
+    Object.assign(formData.value, response);
+    console.log("编辑主题 - 表单数据已更新:", formData.value);
   }).catch(error => {
     console.error("获取主题详情失败", error);
     ElMessage.error("获取主题详情失败");
