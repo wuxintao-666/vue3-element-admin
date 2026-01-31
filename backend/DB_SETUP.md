@@ -2,53 +2,57 @@
 
 ## 数据库配置
 
-### MySQL数据库设置
+### PostgreSQL数据库设置
 
-1. **安装MySQL**（如果还未安装）
-   - Windows: 下载安装MySQL Community Server
-   - Mac: `brew install mysql`
-   - Linux: `apt-get install mysql-server` 或 `yum install mysql-server`
+1. **安装PostgreSQL**（如果还未安装）
+   - Windows: 下载安装PostgreSQL
+   - Mac: `brew install postgresql`
+   - Linux: `apt-get install postgresql postgresql-contrib` 或 `yum install postgresql postgresql-contrib`
 
-2. **启动MySQL服务**
+2. **启动PostgreSQL服务**
    ```bash
    # Windows (如果设置为服务)
-   net start MySQL80
-   
+   net start postgresql-x64-15
+
    # Mac/Linux
-   sudo service mysql start
+   sudo service postgresql start
    # 或
-   brew services start mysql
+   brew services start postgresql
    ```
 
 3. **创建数据库和表**
-   
-   方式一：使用SQL文件
+
+   方式一：使用Python脚本
    ```bash
-   mysql -u root -p < init_db.sql
+   cd backend
+   python init_db.py
    ```
-   
+
    方式二：手动创建
    ```bash
-   mysql -u root -p
+   # 连接到PostgreSQL
+   psql -U postgres
+
+   # 在PostgreSQL命令行中创建数据库
+   CREATE DATABASE vue3_admin WITH ENCODING 'UTF8';
    ```
-   然后在MySQL命令行中执行 `init_db.sql` 文件中的SQL语句
 
 4. **数据库连接配置**
-   
+
    在 `backend/db/database.py` 中修改 `DATABASE_URL`：
    ```python
-   DATABASE_URL = "mysql+pymysql://用户名:密码@主机:端口/数据库名"
+   DATABASE_URL = "postgresql://用户名:密码@主机:端口/数据库名"
    ```
-   
+
    例如：
-   - 本地默认用户 root，密码 root：
+   - 本地默认用户 postgres，密码 123456：
      ```python
-     DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/vue3_admin"
+     DATABASE_URL = "postgresql://postgres:123456@localhost:5432/vue3_admin"
      ```
-   
+
    - 自定义用户和密码：
      ```python
-     DATABASE_URL = "mysql+pymysql://myuser:mypassword@192.168.1.100:3306/vue3_admin"
+     DATABASE_URL = "postgresql://myuser:mypassword@192.168.1.100:5432/vue3_admin"
      ```
 
 ### 验证数据库连接
@@ -74,10 +78,7 @@ python main.py
 
 2. **初始化数据库**
    ```bash
-   # 创建数据库和表
-   mysql -u root -p < init_db.sql
-   
-   # 或使用Python脚本
+   # 使用Python脚本创建数据库和表
    python init_db.py
    ```
 
@@ -99,32 +100,46 @@ python main.py
 
 ### 连接数据库失败
 
-**错误信息：** `Can't connect to MySQL server`
+**错误信息：** `Can't connect to PostgreSQL server` 或连接超时
 
 **解决方案：**
-1. 检查MySQL服务是否启动
+1. 检查PostgreSQL服务是否启动
 2. 检查数据库用户名和密码是否正确
 3. 检查数据库是否存在
-4. 检查防火墙是否阻止了连接
+4. 检查防火墙是否阻止了连接（PostgreSQL默认端口5432）
+5. 确认PostgreSQL配置允许远程连接（pg_hba.conf文件）
 
 ### 找不到数据库驱动
 
-**错误信息：** `No module named 'pymysql'`
+**错误信息：** `No module named 'psycopg2'`
 
 **解决方案：**
 ```bash
-pip install pymysql
+pip install psycopg2-binary
 ```
 
 ### 表不存在
 
-**错误信息：** `Table 'vue3_admin.users' doesn't exist`
+**错误信息：** `relation "vue3_admin.users" does not exist`
 
 **解决方案：**
 运行初始化脚本：
 ```bash
 python init_db.py
 ```
+
+### 权限问题
+
+**错误信息：** `permission denied for database` 或 `role does not exist`
+
+**解决方案：**
+1. 使用PostgreSQL管理员账号创建数据库：
+   ```sql
+   CREATE USER myuser WITH PASSWORD 'mypassword';
+   CREATE DATABASE vue3_admin OWNER myuser;
+   GRANT ALL PRIVILEGES ON DATABASE vue3_admin TO myuser;
+   ```
+2. 或修改连接字符串使用有足够权限的用户（如postgres）
 
 ## 数据库初始数据
 

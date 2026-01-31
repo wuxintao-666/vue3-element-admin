@@ -10,8 +10,8 @@ from sqlalchemy.pool import QueuePool
 # 读取环境变量
 load_dotenv()
 
-# MySQL数据库配置（从环境变量读取，生产环境请通过部署配置传入）
-DATABASE_URL = os.getenv("DATABASE_URL", "mysql+pymysql://root:123456@localhost:3306/vue3_admin")
+# PostgreSQL数据库配置（从环境变量读取，生产环境请通过部署配置传入）
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:123456@localhost:5432/vue3_admin")
 
 # 创建引擎
 engine = create_engine(
