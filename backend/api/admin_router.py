@@ -78,6 +78,19 @@ async def get_routes():
                 },
             },
             {
+                "path": "course",
+                "component": "system/course/index",
+                "name": "Course",
+                "meta": {
+                    "title": "课程管理",
+                    "icon": "el-icon-Reading",
+                    "hidden": False,
+                    "keepAlive": True,
+                    "alwaysShow": False,
+                    "params": None,
+                },
+            },
+            {
                 "path": "source",
                 "component": "Layout",
                 "redirect": "/system/source/frontend-learning",
