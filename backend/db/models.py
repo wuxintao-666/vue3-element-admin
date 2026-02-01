@@ -2,7 +2,7 @@
 用户模型定义
 """
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, DateTime, Text, JSON
+from sqlalchemy import Column, Integer, String, DateTime, Text, JSON, BigInteger, ForeignKey, ForeignKeyConstraint
 from db.database import Base
 
 class User(Base):
@@ -26,49 +26,82 @@ class User(Base):
 
 
 class KnowledgeContent(Base):
-    __tablename__ = "knowledge_contents"
+    __tablename__ = "knowledge_content"
 
-    id = Column(String(50), primary_key=True, index=True, comment="知识点ID")
-    graph_id = Column(String(50), nullable=False, comment="主题ID")
-    topic_id = Column(String(100), nullable=False, comment="结点ID")
-    description = Column(Text, nullable=False, comment="内容")
-    level = Column(Integer, nullable=False, comment="难度等级 1:入门 2:基础 3:进阶 4:高级")
-    create_time = Column(DateTime, default=datetime.now, comment="创建时间")
-    update_time = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
+    id = Column(BigInteger, primary_key=True, autoincrement=True)
+
+    course_id = Column(BigInteger, nullable=False, comment="课程ID")
+    node_id = Column(String(50), nullable=False, comment="知识图谱结点ID")
+
+    content_type = Column(
+        String(50),
+        nullable=False,
+        comment="内容类型: concept/example/exercise/summary"
+    )
+
+    title = Column(String(255), comment="内容标题")
+    description = Column(Text, nullable=False, comment="内容正文")
+
+    level = Column(
+        Integer,
+        nullable=False,
+        comment="难度等级 1入门 2基础 3进阶 4高级"
+    )
+
+    sort_order = Column(Integer, default=0, comment="内容顺序")
+
+    create_time = Column(DateTime, default=datetime.now)
+    update_time = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["course_id", "node_id"],
+            ["kg_node.course_id", "kg_node.id"]
+        ),
+    )
+
+    class Config:
+        from_attributes = True
+
+
+class Course(Base):
+    __tablename__ = "course"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True, comment="课程ID")
+    course_code = Column(String(50), unique=True, comment="课程唯一编码")
+    course_name = Column(String(255), nullable=False, comment="课程名称")
+    description = Column(Text, comment="课程说明")
+    created_at = Column(DateTime, default=datetime.now, comment="创建时间")
 
     class Config:
         from_attributes = True
 
 
-class KnowledgeGraph(Base):
-    __tablename__ = "knowledge_graphs"
+class KGNode(Base):
+    __tablename__ = "kg_node"
 
-    id = Column(String(50), primary_key=True, index=True, comment="知识图谱ID")
-    name = Column(String(200), nullable=False, comment="知识图谱名称")
-    description = Column(Text, nullable=False, comment="知识图谱简介")
-    tags = Column(JSON, nullable=False, comment="标签数组")
-    status = Column(Integer, default=1, nullable=False, comment="状态 1:启用 0:禁用")
-    maintainer_id = Column(String(50), nullable=False, comment="维护人ID")
-    create_time = Column(DateTime, default=datetime.now, comment="创建时间")
-    update_time = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
+    id = Column(String(50), primary_key=True, comment="节点ID")
+    course_id = Column(BigInteger, ForeignKey("course.id"), primary_key=True, comment="所属课程")
+    label = Column(String(255), nullable=False, comment="节点名称")
+    type = Column(String(50), nullable=False, comment="节点类型 chapter/knowledge")
+    select_element = Column(JSON, comment="关联的HTML元素")
+    sort_order = Column(Integer, comment="节点顺序")
+    created_at = Column(DateTime, default=datetime.now, comment="创建时间")
+
+    class Config:
+        from_attributes = True
+
+
+class KGEdge(Base):
+    __tablename__ = "kg_edge"
+
+    id = Column(BigInteger, primary_key=True, autoincrement=True, comment="边ID")
+    course_id = Column(BigInteger, ForeignKey("course.id"), nullable=False, comment="所属课程")
+    source_id = Column(String(50), nullable=False, comment="起点节点")
+    target_id = Column(String(50), nullable=False, comment="终点节点")
+    edge_type = Column(String(50), nullable=False, comment="边类型 structural/dependency")
+    created_at = Column(DateTime, default=datetime.now, comment="创建时间")
 
     class Config:
         from_attributes = True
 
-
-class Theme(Base):
-    __tablename__ = "themes"
-
-    id = Column(String(50), primary_key=True, index=True, comment="主题ID")
-    name = Column(String(100), nullable=False, comment="主题名称")
-    description = Column(Text, nullable=False, comment="主题简介")
-    tags = Column(JSON, nullable=False, comment="标签数组")
-    difficulty = Column(Integer, nullable=False, comment="难度 1:初级 2:中级 3:高级")
-    status = Column(Integer, default=1, nullable=False, comment="状态 1:启用 0:禁用")
-    entrance_id = Column(String(50), nullable=False, comment="学习入口节点ID")
-    maintainer_id = Column(String(50), nullable=False, comment="维护人ID")
-    create_time = Column(DateTime, default=datetime.now, comment="创建时间")
-    update_time = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
-
-    class Config:
-        from_attributes = True
