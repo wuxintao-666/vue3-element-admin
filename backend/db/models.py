@@ -67,8 +67,6 @@ class KnowledgeContent(Base):
         comment="难度等级"
     )
 
-    sort_order = Column(Integer, default=0, comment="内容顺序")
-
     created_at = Column(DateTime, default=datetime.now, comment="创建时间")
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
 
@@ -105,7 +103,7 @@ class KGNode(Base):
     label = Column(String(255), nullable=False, comment="节点名称")
     type = Column(SQLEnum(NodeTypeEnum), nullable=False, comment="节点类型")
     select_element = Column(JSON, comment="关联的HTML元素")
-    sort_order = Column(Integer, comment="节点顺序")
+    
     created_at = Column(DateTime, default=datetime.now, comment="创建时间")
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
 

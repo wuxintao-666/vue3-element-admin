@@ -1,0 +1,376 @@
+2026-02-01 21:25:15,053 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:25:15,065 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:25:20,420 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 21:25:21,957 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 21:25:21,958 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:26:58,546 - scot-web - INFO - AI响应成功，内容长度: 7794
+2026-02-01 21:26:58,546 - scot-web - INFO - PRD文档已保存到: data\prd\23f2c66d-e475-42ab-8bdc-d468c5274224.txt
+2026-02-01 21:26:58,546 - scot-web - INFO - PRD文档生成成功
+2026-02-01 21:27:23,085 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:27:23,089 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:27:34,532 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 21:27:35,936 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 21:27:35,936 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:28:53,057 - scot-web - INFO - AI响应成功，内容长度: 6516
+2026-02-01 21:28:53,061 - scot-web - INFO - PRD文档已保存到: data\prd\5e25b926-f3ca-476f-ac1a-e3b62f53b848.txt
+2026-02-01 21:28:53,062 - scot-web - INFO - PRD文档生成成功
+2026-02-01 21:29:14,144 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 21:29:14,884 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 21:29:14,888 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:29:51,759 - scot-web - INFO - AI响应成功，原始内容长度: 3972
+2026-02-01 21:29:51,771 - scot-web - INFO - 知识点已保存到: data\knowledge\6cf60e2e-1199-434f-bf20-478d20154143.json
+2026-02-01 21:29:51,772 - scot-web - INFO - 知识点提取成功
+2026-02-01 21:30:46,395 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 21:30:46,396 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:31:39,158 - scot-web - INFO - 学习内容生成成功，内容长度: 3070
+2026-02-01 21:39:12,651 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:39:12,653 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:39:24,565 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:39:24,571 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:45:04,074 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:45:04,084 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:45:07,182 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 21:45:08,851 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 21:45:08,856 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:46:00,220 - scot-web - INFO - AI响应成功，原始内容长度: 5096
+2026-02-01 21:46:00,256 - scot-web - INFO - 知识点已保存到: data\knowledge\36d26810-e12f-4706-a713-84ac8cb729c0.json
+2026-02-01 21:46:00,274 - scot-web - INFO - 知识点提取成功
+2026-02-01 21:46:26,374 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 21:46:26,376 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:47:03,667 - scot-web - INFO - 学习内容生成成功，内容长度: 3073
+2026-02-01 21:47:13,082 - scot-web - INFO - 开始生成测试任务，内容长度: 4
+2026-02-01 21:47:13,082 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:47:37,842 - scot-web - INFO - 测试任务生成成功，内容长度: 2308
+2026-02-01 21:47:47,064 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 21:47:47,065 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:48:42,984 - scot-web - INFO - 学习内容生成成功，内容长度: 3766
+2026-02-01 21:48:44,310 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 21:48:44,311 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:50:41,361 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 21:50:41,361 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:55:04,486 - scot-web - INFO - 收到HTML上传请求
+2026-02-01 21:55:04,496 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-01 21:56:16,018 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 21:56:17,359 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 21:56:17,360 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 21:56:21,649 - scot-web - ERROR - PRD生成失败: Error code: 429 - {'errors': {'message': "You have exceeded today's quota for model deepseek-ai/DeepSeek-V3.2,  please try again tomorrow, or consider using other models", 'request_id': '43697f76-4adb-4936-9a4e-8f3e53fdf765'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': "You have exceeded today's quota for model deepseek-ai/DeepSeek-V3.2,  please try again tomorrow, or consider using other models", 'request_id': '43697f76-4adb-4936-9a4e-8f3e53fdf765'}}
+2026-02-01 22:00:04,187 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:00:05,533 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:00:05,533 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 22:00:08,354 - scot-web - ERROR - PRD生成失败: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': '4be824eb-4005-4588-a820-9f4f3756be0a'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': '4be824eb-4005-4588-a820-9f4f3756be0a'}}
+2026-02-01 22:02:45,800 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:02:50,507 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:02:50,507 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-01 22:02:53,718 - scot-web - ERROR - PRD生成失败: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': '9b4ea20c-23aa-4069-8e0a-131f21835d87'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': '9b4ea20c-23aa-4069-8e0a-131f21835d87'}}
+2026-02-01 22:03:14,650 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:03:17,555 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:03:17,556 - scot-web - DEBUG - 发送请求到模型: ZhipuAI/GLM-4.7-Flash
+2026-02-01 22:03:20,916 - scot-web - ERROR - PRD生成失败: Error code: 429 - {'error': {'code': '1302', 'message': '您当前使用该API的并发数过高，请降低并发，或联系客服增加限额。'}, 'request_id': 'bce76718-9856-4cbf-a5c4-c15902fa3247'}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'error': {'code': '1302', 'message': '您当前使用该API的并发数过高，请降低并发，或联系客服增加限额。'}, 'request_id': 'bce76718-9856-4cbf-a5c4-c15902fa3247'}
+2026-02-01 22:03:35,669 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:03:39,929 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:03:39,929 - scot-web - DEBUG - 发送请求到模型: ZhipuAI/GLM-4.7-Flash
+2026-02-01 22:03:43,379 - scot-web - ERROR - PRD生成失败: Error code: 429 - {'error': {'code': '1302', 'message': '您当前使用该API的并发数过高，请降低并发，或联系客服增加限额。'}, 'request_id': 'dfbc66bf-85e5-4ee3-9f1e-4b5a9a6a3c7c'}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'error': {'code': '1302', 'message': '您当前使用该API的并发数过高，请降低并发，或联系客服增加限额。'}, 'request_id': 'dfbc66bf-85e5-4ee3-9f1e-4b5a9a6a3c7c'}
+2026-02-01 22:04:53,773 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:04:56,426 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:04:56,427 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2-Speciale
+2026-02-01 22:04:56,721 - scot-web - ERROR - PRD生成失败: Error code: 400 - {'errors': {'message': 'Model id : deepseek-ai/DeepSeek-V3.2-Speciale , has no provider supported', 'request_id': '114b334a-2071-4dee-aa6e-02b90b4646e5'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 206, in generate_prd_from_file
+    prd_text = slow_mind.generate_prd_from_html(html_content)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\slow_mind.py", line 46, in generate_prd_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'errors': {'message': 'Model id : deepseek-ai/DeepSeek-V3.2-Speciale , has no provider supported', 'request_id': '114b334a-2071-4dee-aa6e-02b90b4646e5'}}
+2026-02-01 22:07:24,423 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:07:27,203 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:07:27,203 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 22:08:21,105 - scot-web - INFO - AI响应成功，内容长度: 5355
+2026-02-01 22:08:21,113 - scot-web - INFO - PRD文档已保存到: data\prd\c1162d2e-0687-4f24-ad5a-1f4a5e6c0cd5.txt
+2026-02-01 22:08:21,113 - scot-web - INFO - PRD文档生成成功
+2026-02-01 22:11:02,444 - scot-web - INFO - 收到PRD生成请求
+2026-02-01 22:11:06,741 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-01 22:11:06,747 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 22:11:35,399 - scot-web - INFO - AI响应成功，内容长度: 4625
+2026-02-01 22:11:35,407 - scot-web - INFO - PRD文档已保存到: data\prd\85737c17-8b9a-4379-b121-0470439f100c.txt
+2026-02-01 22:11:35,412 - scot-web - INFO - PRD文档生成成功
+2026-02-01 22:21:01,674 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 22:21:06,711 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 22:21:06,716 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 22:21:19,591 - scot-web - INFO - AI响应成功，原始内容长度: 3617
+2026-02-01 22:21:19,615 - scot-web - INFO - 知识点已保存到: data\knowledge\5cda93f9-be48-4617-a52e-0e2929e27fc6.json
+2026-02-01 22:21:19,621 - scot-web - INFO - 知识点提取成功
+2026-02-01 22:28:07,114 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 22:28:13,143 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 22:28:13,153 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 22:28:26,340 - scot-web - INFO - AI响应成功，原始内容长度: 3457
+2026-02-01 22:28:26,370 - scot-web - INFO - 知识点已保存到: data\knowledge\9f034f97-c5e2-49a9-aa77-b49991557f1c.json
+2026-02-01 22:28:26,377 - scot-web - INFO - 知识点提取成功
+2026-02-01 22:44:12,671 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 22:44:17,358 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 22:44:17,362 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 22:44:31,361 - scot-web - INFO - AI响应成功，原始内容长度: 3370
+2026-02-01 22:44:31,381 - scot-web - INFO - 知识点已保存到: data\knowledge\5192da1d-206b-448a-9d1c-fdcee6850d0b.json
+2026-02-01 22:44:31,388 - scot-web - INFO - 知识点提取成功
+2026-02-01 23:02:45,899 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 23:02:50,542 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 23:02:50,547 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:03:06,417 - scot-web - INFO - AI响应成功，原始内容长度: 4420
+2026-02-01 23:03:06,441 - scot-web - INFO - 知识点已保存到: data\knowledge\0c3e152b-949a-47a3-b1a6-6d67ff411b78.json
+2026-02-01 23:03:06,442 - scot-web - INFO - 知识点提取成功
+2026-02-01 23:05:21,769 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:05:21,773 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:05:40,960 - scot-web - INFO - 学习内容生成成功，内容长度: 3083
+2026-02-01 23:12:04,794 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 23:12:09,147 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 23:12:09,151 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:12:18,864 - scot-web - INFO - AI响应成功，原始内容长度: 3464
+2026-02-01 23:12:18,877 - scot-web - INFO - 知识点已保存到: data\knowledge\f281f050-b376-48a2-8376-0d1a49cc79a8.json
+2026-02-01 23:12:18,878 - scot-web - INFO - 知识点提取成功
+2026-02-01 23:36:59,347 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:36:59,349 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:37:12,131 - scot-web - INFO - 学习内容生成成功，内容长度: 2802
+2026-02-01 23:37:16,748 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:37:16,748 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:37:28,726 - scot-web - INFO - 学习内容生成成功，内容长度: 2485
+2026-02-01 23:37:34,186 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:37:34,188 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:37:46,543 - scot-web - INFO - 学习内容生成成功，内容长度: 2448
+2026-02-01 23:39:20,127 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:39:20,127 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:39:31,625 - scot-web - INFO - 学习内容生成成功，内容长度: 2711
+2026-02-01 23:43:09,347 - scot-web - INFO - 收到知识点提取请求
+2026-02-01 23:43:13,978 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-01 23:43:13,982 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:43:24,558 - scot-web - INFO - AI响应成功，原始内容长度: 3547
+2026-02-01 23:43:24,572 - scot-web - INFO - 知识点已保存到: data\knowledge\fa513bdc-0541-4b1c-b49e-262ddcb80c67.json
+2026-02-01 23:43:24,573 - scot-web - INFO - 知识点提取成功
+2026-02-01 23:50:17,886 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:50:17,888 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:50:31,852 - scot-web - INFO - 学习内容生成成功，内容长度: 2789
+2026-02-01 23:56:07,541 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:56:07,543 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:56:21,917 - scot-web - INFO - 学习内容生成成功，内容长度: 2595
+2026-02-01 23:56:26,223 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:56:26,224 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:56:39,112 - scot-web - INFO - 学习内容生成成功，内容长度: 1942
+2026-02-01 23:56:43,683 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:56:43,683 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:56:58,626 - scot-web - INFO - 学习内容生成成功，内容长度: 2796
+2026-02-01 23:59:35,621 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-01 23:59:35,622 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-01 23:59:48,569 - scot-web - INFO - 学习内容生成成功，内容长度: 2596
+2026-02-02 00:00:15,344 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 00:00:15,351 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 00:00:27,178 - scot-web - INFO - 学习内容生成成功，内容长度: 2130
+2026-02-02 00:00:32,613 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 00:00:32,614 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 00:01:00,036 - scot-web - INFO - 学习内容生成成功，内容长度: 3017
+2026-02-02 00:01:04,774 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 00:01:04,776 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 00:01:23,460 - scot-web - INFO - 学习内容生成成功，内容长度: 2534
+2026-02-02 00:02:41,409 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 00:02:41,409 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 00:03:00,445 - scot-web - INFO - 学习内容生成成功，内容长度: 2738
+2026-02-02 12:58:42,823 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 12:58:47,928 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 12:58:47,939 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 12:59:00,333 - scot-web - INFO - AI响应成功，原始内容长度: 4206
+2026-02-02 12:59:00,357 - scot-web - INFO - 知识点已保存到: data\knowledge\e4b7ae0c-fcb1-4da6-bbbe-f49b2834c1ee.json
+2026-02-02 12:59:00,358 - scot-web - INFO - 知识点提取成功
+2026-02-02 13:05:05,430 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 13:05:11,046 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 13:05:11,055 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 13:05:21,249 - scot-web - INFO - AI响应成功，原始内容长度: 3265
+2026-02-02 13:05:21,273 - scot-web - INFO - 知识点已保存到: data\knowledge\7df2d05f-a047-4848-b9bb-a46cb07f5155.json
+2026-02-02 13:05:21,274 - scot-web - INFO - 知识点提取成功
+2026-02-02 13:07:21,024 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 13:07:29,012 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 13:07:29,026 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 13:07:43,001 - scot-web - INFO - AI响应成功，原始内容长度: 3853
+2026-02-02 13:07:43,013 - scot-web - INFO - 知识点已保存到: data\knowledge\04ecf610-7c57-4752-ad89-746103c1ce48.json
+2026-02-02 13:07:43,016 - scot-web - INFO - 知识点提取成功

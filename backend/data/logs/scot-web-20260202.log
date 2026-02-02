@@ -1,0 +1,24 @@
+2026-02-02 13:21:49,609 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 13:21:54,474 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 13:21:54,480 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 13:22:05,259 - scot-web - INFO - AI响应成功，原始内容长度: 3961
+2026-02-02 13:22:05,284 - scot-web - INFO - 知识点已保存到: data\knowledge\b7ba1301-354e-461f-9fc1-48e45fda7968.json
+2026-02-02 13:22:05,285 - scot-web - INFO - 知识点提取成功
+2026-02-02 13:34:26,878 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 13:34:30,940 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 13:34:30,945 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-Coder-480B-A35B-Instruct
+2026-02-02 13:34:48,934 - scot-web - INFO - AI响应成功，原始内容长度: 3641
+2026-02-02 13:34:48,954 - scot-web - INFO - 知识点已保存到: data\knowledge\df002f9d-1c0f-4cac-9bd3-cd9e58a9078f.json
+2026-02-02 13:34:48,955 - scot-web - INFO - 知识点提取成功
+2026-02-02 13:47:44,173 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 13:47:48,804 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 13:47:48,807 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 13:48:23,706 - scot-web - INFO - AI响应成功，原始内容长度: 3212
+2026-02-02 13:48:23,719 - scot-web - INFO - 知识点已保存到: data\knowledge\6185b79c-c03e-400e-9654-6f0a5a80b155.json
+2026-02-02 13:48:23,721 - scot-web - INFO - 知识点提取成功
+2026-02-02 14:30:20,701 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 14:30:25,040 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 14:30:25,043 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 14:31:04,192 - scot-web - INFO - AI响应成功，原始内容长度: 4015
+2026-02-02 14:31:04,200 - scot-web - INFO - 知识点已保存到: data\knowledge\f96c8a8d-ae04-4ae1-a443-2ece1628c048.json
+2026-02-02 14:31:04,200 - scot-web - INFO - 知识点提取成功

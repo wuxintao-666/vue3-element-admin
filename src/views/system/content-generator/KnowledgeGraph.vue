@@ -154,7 +154,10 @@
             下载图谱
           </button>
         </div>
-        <button @click="saveKnowledgeGraph" class="btn btn-success" :disabled="!graphName">保存图谱</button>
+        <div class="save-buttons">
+          <button @click="saveKnowledgeGraph" class="btn btn-success" :disabled="!graphName">保存到文件</button>
+          <button @click="saveKnowledgeGraphToDatabase" class="btn btn-primary ml-2" :disabled="!graphName">保存到数据库</button>
+        </div>
       </div>
 
       <!-- 详情弹窗 -->
@@ -471,6 +474,36 @@ export default {
       } catch (error) {
         console.error('知识点图谱保存失败:', error);
         alert('知识点图谱保存失败: ' + (error.message || '未知错误'));
+      }
+    },
+
+    async saveKnowledgeGraphToDatabase() {
+      if (!this.graphName || !this.knowledgeGraph) {
+        alert('请填写图谱名称并确保已提取知识点');
+        return;
+      }
+
+      // 获取course_code（这里假设从某个地方获取，暂时使用默认值）
+      const courseCode = "TEST001"; // TODO: 从实际的课程选择中获取course_code
+
+      try {
+        const requestData = {
+          course_code: courseCode,
+          name: this.graphName,
+          graph: this.knowledgeGraph
+        };
+        
+        const response = await knowledgeAPI.saveKnowledgeGraphToDatabase(requestData);
+        this.isKnowledgeSaved = true; // 标记为已保存
+        alert(`知识点图谱保存到数据库成功！\n课程代码: ${response.course_code}\n保存了 ${response.nodes_count} 个节点和 ${response.edges_count} 条边`);
+        try {
+          this.$emit && this.$emit('knowledge-saved');
+        } catch (err) {
+          console.warn('emit knowledge-saved failed:', err);
+        }
+      } catch (error) {
+        console.error('知识点图谱保存到数据库失败:', error);
+        alert('知识点图谱保存到数据库失败: ' + (error.response?.data?.detail || error.message || '未知错误'));
       }
     },
     
@@ -872,5 +905,10 @@ export default {
   color: #666;
   font-size: 14px;
   line-height: 1.5;
+}
+
+.save-buttons {
+  display: flex;
+  gap: 10px;
 }
 </style>

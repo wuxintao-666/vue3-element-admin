@@ -63,9 +63,14 @@ export const knowledgeAPI = {
         return apiService.post('/api/knowledge/extract', data);
     },
 
-    // 保存知识图谱
+    // 保存知识图谱到文件
     saveKnowledgeGraph: (data) => {
         return apiService.post('/api/knowledge/save', data);
+    },
+
+    // 保存知识图谱到数据库
+    saveKnowledgeGraphToDatabase: (data) => {
+        return apiService.post('/api/knowledge/save_to_database', data);
     },
 
     // 获取知识图谱列表

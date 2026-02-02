@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
@@ -6,8 +6,11 @@ import os
 import json
 import uuid
 from datetime import datetime
+from sqlalchemy.orm import Session
 from agents.fast_mind import FastMind
 from executor.execution_context import ExecutionContext
+from db.database import get_db
+from db.models import KGNode, KGEdge, NodeTypeEnum, EdgeTypeEnum, Course
 import urllib.parse
 
 knowledge_router = APIRouter()
@@ -32,6 +35,18 @@ class KnowledgeSaveRequest(BaseModel):
 class KnowledgeSaveResponse(BaseModel):
     id: str
     name: str
+    created_at: str
+
+class KnowledgeSaveToDatabaseRequest(BaseModel):
+    course_code: str  # 使用course_code而不是course_id
+    name: str
+    graph: dict
+
+class KnowledgeSaveToDatabaseResponse(BaseModel):
+    course_code: str  # 返回course_code而不是course_id
+    name: str
+    nodes_count: int
+    edges_count: int
     created_at: str
 
 class KnowledgeListItem(BaseModel):
@@ -101,6 +116,147 @@ async def save_knowledge_graph(knowledge_data: KnowledgeSaveRequest):
         name=knowledge_data.name,
         created_at=knowledge_record["created_at"]
     )
+
+@knowledge_router.post("/save_to_database", response_model=KnowledgeSaveToDatabaseResponse)
+async def save_knowledge_graph_to_database(
+    knowledge_data: KnowledgeSaveToDatabaseRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    将知识图谱保存到数据库（kg_node 和 kg_edge 表）
+    """
+    try:
+        course_code = knowledge_data.course_code
+        graph_data = knowledge_data.graph
+
+        # 根据course_code查找课程
+        course = db.query(Course).filter(Course.course_code == course_code).first()
+        if not course:
+            raise HTTPException(status_code=404, detail=f"课程代码 {course_code} 不存在")
+
+        course_id = course.id
+
+        # 删除该课程原有的节点和边数据
+        db.query(KGEdge).filter(KGEdge.course_id == course_id).delete()
+        db.query(KGNode).filter(KGNode.course_id == course_id).delete()
+
+        nodes_count = 0
+        edges_count = 0
+
+        # 保存节点数据
+        if "nodes" in graph_data and graph_data["nodes"]:
+            for idx, node_data in enumerate(graph_data["nodes"]):
+                # 验证节点类型
+                node_type_str = node_data["data"]["type"]
+                if node_type_str not in ["chapter", "knowledge"]:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"无效的节点类型: {node_type_str}，只允许 'chapter' 或 'knowledge'"
+                    )
+
+                node = KGNode(
+                    id=node_data["data"]["id"],
+                    course_id=course_id,
+                    label=node_data["data"]["label"],
+                    type=NodeTypeEnum(node_type_str),
+                    select_element=node_data["data"].get("select_element", [])
+                )
+                db.add(node)
+                nodes_count += 1
+                print(f"准备插入节点: course_id={course_id}, id={node_data['data']['id']}, label={node_data['data']['label']}")
+
+        # 在插入边之前，先提交节点数据，确保节点存在于数据库中
+        db.flush()
+        print(f"节点数据已刷新到数据库，共 {nodes_count} 个节点")
+
+        # 保存普通边数据
+        if "edges" in graph_data and graph_data["edges"]:
+            for edge_data in graph_data["edges"]:
+                source_id = edge_data["data"]["source"]
+                target_id = edge_data["data"]["target"]
+
+                # 验证源节点和目标节点是否存在
+                source_node = db.query(KGNode).filter(
+                    KGNode.course_id == course_id,
+                    KGNode.id == source_id
+                ).first()
+                target_node = db.query(KGNode).filter(
+                    KGNode.course_id == course_id,
+                    KGNode.id == target_id
+                ).first()
+
+                if not source_node:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"源节点不存在: course_id={course_id}, node_id={source_id}"
+                    )
+                if not target_node:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"目标节点不存在: course_id={course_id}, node_id={target_id}"
+                    )
+
+                print(f"准备插入普通边: course_id={course_id}, source={source_id}, target={target_id}")
+                edge = KGEdge(
+                    course_id=course_id,
+                    source_id=source_id,
+                    target_id=target_id,
+                    edge_type=EdgeTypeEnum.STRUCTURAL  # 普通边
+                )
+                db.add(edge)
+                edges_count += 1
+
+        # 保存依赖边数据
+        if "dependent_edges" in graph_data and graph_data["dependent_edges"]:
+            for edge_data in graph_data["dependent_edges"]:
+                source_id = edge_data["data"]["source"]
+                target_id = edge_data["data"]["target"]
+
+                # 验证源节点和目标节点是否存在
+                source_node = db.query(KGNode).filter(
+                    KGNode.course_id == course_id,
+                    KGNode.id == source_id
+                ).first()
+                target_node = db.query(KGNode).filter(
+                    KGNode.course_id == course_id,
+                    KGNode.id == target_id
+                ).first()
+
+                if not source_node:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"源节点不存在: course_id={course_id}, node_id={source_id}"
+                    )
+                if not target_node:
+                    raise HTTPException(
+                        status_code=400,
+                        detail=f"目标节点不存在: course_id={course_id}, node_id={target_id}"
+                    )
+
+                print(f"准备插入依赖边: course_id={course_id}, source={source_id}, target={target_id}")
+                edge = KGEdge(
+                    course_id=course_id,
+                    source_id=source_id,
+                    target_id=target_id,
+                    edge_type=EdgeTypeEnum.DEPENDENCY  # 依赖边
+                )
+                db.add(edge)
+                edges_count += 1
+
+        # 提交事务
+        db.commit()
+
+        return KnowledgeSaveToDatabaseResponse(
+            course_code=course_code,
+            name=knowledge_data.name,
+            nodes_count=nodes_count,
+            edges_count=edges_count,
+            created_at=datetime.now().isoformat()
+        )
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"保存知识图谱到数据库失败: {str(e)}")
 
 @knowledge_router.get("/", response_model=KnowledgeListResponse)
 async def list_knowledge_graphs():
