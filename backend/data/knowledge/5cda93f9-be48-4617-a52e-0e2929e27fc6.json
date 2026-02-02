@@ -1,0 +1,340 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: 文本与页面结构基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "使用 h 元素和 p 元素体验标题与段落",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "h3",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "列表元素的使用（ul、li）",
+        "type": "knowledge",
+        "select_element": [
+          "ul",
+          "li"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "语义化标签 header、section、footer 的应用",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "section",
+          "footer"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: 表单设计与用户输入",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "创建表单容器 form 和控件 input、textarea",
+        "type": "knowledge",
+        "select_element": [
+          "form",
+          "input",
+          "textarea"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "设置表单字段 label 并绑定控件",
+        "type": "knowledge",
+        "select_element": [
+          "label"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "按钮元素 button 及其交互样式",
+        "type": "knowledge",
+        "select_element": [
+          "button"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: CSS 样式与布局控制",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "CSS 基础选择器及字体样式设置",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "盒模型属性 padding、margin、border 控制间距",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "Flexbox 或 Grid 实现响应式网格布局",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_4",
+        "label": "伪类 hover 效果增强用户体验",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_end",
+        "label": "模块四: 页面美化与视觉呈现",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "4_1",
+        "label": "背景颜色与文字颜色搭配技巧",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_2",
+        "label": "圆角 border-radius 与阴影 box-shadow 应用",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_3",
+        "label": "最大宽度 max-width 实现居中容器布局",
+        "type": "knowledge",
+        "select_element": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_3"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_1",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_2",
+        "target": "4_3"
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard card">
-    <h1 class="text-center mb-4">SCOT-Web 控制面板</h1>
+    <!-- <h1 class="text-center mb-4">SCOT-Web 控制面板</h1> -->
     
     <div class="steps-container">
       <div class="step" :class="{ 'active': currentStep === 1 }" @click="goToStep(1)">
@@ -59,14 +59,15 @@
         @prd-generated="onPRDGenerated"
       />
       
-      <KnowledgeGraph 
-        v-if="currentStep === 3" 
+      <KnowledgeGraph
+        v-if="currentStep === 3"
         ref="knowledgeGraph"
         :reference-data="referenceData"
         :upload-type="uploadType"
         :knowledge-data="knowledgeData"
         @knowledge-saved="onKnowledgeSaved"
         @knowledge-extracted="onKnowledgeExtracted"
+        @knowledge-updated="onKnowledgeUpdated"
         @learn-knowledge="onLearnKnowledge"
       />
       
@@ -208,6 +209,15 @@ export default {
     onKnowledgeSaved() {
       this.canProceed = true;
       console.log('知识点已保存，可以进行下一步');
+    },
+
+    onKnowledgeUpdated(data) {
+      // 更新knowledgeData，保持与子组件数据同步
+      this.knowledgeData = {
+        graph: data.graph,
+        name: data.name
+      };
+      console.log('index.vue的knowledgeData已更新');
     },
     
     onLearnKnowledge(nodeData) {

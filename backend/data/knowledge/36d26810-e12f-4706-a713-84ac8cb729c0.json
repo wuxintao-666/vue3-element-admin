@@ -1,0 +1,497 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: HTML与页面基础结构",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "使用 HTML 文档结构与元数据",
+        "type": "knowledge",
+        "select_element": [
+          "DOCTYPE",
+          "html",
+          "head",
+          "meta",
+          "title",
+          "body"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "使用标题与段落元素构建内容",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "h3",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "使用语义化标签组织内容",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "section",
+          "footer"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "使用列表元素展示条目",
+        "type": "knowledge",
+        "select_element": [
+          "ul",
+          "li"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: 表单与用户输入",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "构建基础表单",
+        "type": "knowledge",
+        "select_element": [
+          "form",
+          "label"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "使用文本输入与邮箱输入框",
+        "type": "knowledge",
+        "select_element": [
+          "input[type=text]",
+          "input[type=email]"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "使用文本域输入",
+        "type": "knowledge",
+        "select_element": [
+          "textarea"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "使用提交按钮",
+        "type": "knowledge",
+        "select_element": [
+          "button[type=submit]"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: CSS基础样式与布局",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "应用CSS重置与基础样式",
+        "type": "knowledge",
+        "select_element": [
+          "body",
+          "*"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "使用类选择器设置样式",
+        "type": "knowledge",
+        "select_element": [
+          ".container",
+          ".section",
+          ".feature-card"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "设置盒模型属性（边距、填充、边框）",
+        "type": "knowledge",
+        "select_element": [
+          "padding",
+          "margin",
+          "border"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_4",
+        "label": "设置文本样式与颜色",
+        "type": "knowledge",
+        "select_element": [
+          "color",
+          "text-align",
+          "font-family"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_5",
+        "label": "使用盒子阴影和边框圆角",
+        "type": "knowledge",
+        "select_element": [
+          "box-shadow",
+          "border-radius"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_end",
+        "label": "模块四: CSS Grid布局",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "4_1",
+        "label": "使用 display: grid 创建网格容器",
+        "type": "knowledge",
+        "select_element": [
+          ".features"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_2",
+        "label": "定义网格模板列",
+        "type": "knowledge",
+        "select_element": [
+          "grid-template-columns",
+          "minmax",
+          "repeat",
+          "auto-fill",
+          "fr"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_3",
+        "label": "设置网格项间隙",
+        "type": "knowledge",
+        "select_element": [
+          "gap"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "5_end",
+        "label": "模块五: 交互样式与响应式设计",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "5_1",
+        "label": "使用 :hover 伪类添加交互反馈",
+        "type": "knowledge",
+        "select_element": [
+          "button:hover"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "5_2",
+        "label": "应用响应式视口设置",
+        "type": "knowledge",
+        "select_element": [
+          "viewport",
+          "meta[name=viewport]"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "5_3",
+        "label": "使用最大宽度限制容器",
+        "type": "knowledge",
+        "select_element": [
+          "max-width"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "5_4",
+        "label": "使用盒模型属性 box-sizing: border-box",
+        "type": "knowledge",
+        "select_element": [
+          "box-sizing"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_5"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "5_end",
+        "target": "5_1"
+      }
+    },
+    {
+      "data": {
+        "source": "5_end",
+        "target": "5_2"
+      }
+    },
+    {
+      "data": {
+        "source": "5_end",
+        "target": "5_3"
+      }
+    },
+    {
+      "data": {
+        "source": "5_end",
+        "target": "5_4"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_5"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "5_end"
+      }
+    },
+    {
+      "data": {
+        "source": "4_1",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_2",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "5_2",
+        "target": "5_3"
+      }
+    },
+    {
+      "data": {
+        "source": "5_3",
+        "target": "5_4"
+      }
+    }
+  ]
+}

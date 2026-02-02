@@ -1,0 +1,162 @@
+---
+
+### <context>
+#### 1. Website Overview  
+该网站为“SCOT-Web”测试页面，主题围绕一个基于结构化思维链的自动化网页生成系统。目标用户群体是开发者、产品经理以及对网页自动化工具感兴趣的用户。主要用于展示系统功能、技术特性，并提供联系表单以收集反馈。其核心价值在于验证网页生成功能并展示系统的可用性。
+
+#### 2. **Visual & Style Characteristics**  
+- **色彩搭配与主色调**：
+  - 主背景色: `#f5f5f5`
+  - 内容区背景色: `#ffffff`
+  - 文字颜色: `#333333`
+  - 强调色/按钮色: `#4CAF50`
+  - 卡片区背景色: `#e8f5e9`
+  - 边框颜色: `#ddd` 和 `#eee`
+  - 悬停/交互状态颜色变化:
+    - 按钮悬停变暗：`#45a049`
+
+- **字体选择与字号**：
+  - 主字体: `"Arial", sans-serif`
+  - 标题字号:
+    - `h1`: `24px` (约 `1.5rem`)
+    - `h2`: `20px` (约 `1.25rem`)
+    - `h3`: `18px` (约 `1.125rem`)
+  - 正文字号/行高: `16px / 1.6`
+
+- **组件风格（按钮、输入框、导航栏等）**：
+  - 按钮:
+    - 背景色: `#4CAF50`
+    - 圆角大小: `4px`
+    - 内边距: `10px 20px`
+    - 字体颜色: `white`
+    - 悬停效果: 背景变为 `#45a049`
+  - 输入框:
+    - 宽度: `100%`
+    - 内边距: `8px`
+    - 边框粗细: `1px solid #ddd`
+    - 圆角: `4px`
+    - 盒模型: `border-box`
+  - 导航栏:
+    - 无独立导航栏，仅使用 header 区域标题
+  - 功能卡片 (.feature-card):
+    - 背景色: `#e8f5e9`
+    - 内边距: `15px`
+    - 圆角: `5px`
+    - 对齐方式: 居中
+
+- **图标、插画、图片风格**:  
+  本页面暂未包含任何图标或图像资源，但预留了 `.features` 网格容器，未来可加入相关视觉元素；建议采用简洁扁平风格。
+
+- **动画与过渡效果**:
+  - 按钮 hover 效果: `background-color transition`，默认 CSS transition 时间约为 `0.2s ~ 0.3s`
+
+#### 3. **Layout & Structure**  
+- 页面结构:
+  - 外层容器 `.container` 包裹整个主体内容
+  - Header 区域包含标题与副标题段落
+  - Section 区块划分不同模块：功能介绍、技术特点、联系方式
+  - Footer 显示版权信息
+- 布局类型:
+  - 使用 Flexbox + Grid 实现响应式布局
+- 间距系统:
+  - 全局 padding: `20px`
+  - container padding: `30px`
+  - section margin: `20px 0`
+  - feature-card gap: `15px`
+- 栅格参数:
+  - Grid 布局用于 features 区域：
+    - 列数：auto-fill，最小宽度 `200px`
+    - gap: `15px`
+- 响应式适配方案:
+  - 默认响应式设计通过 Grid 的 `minmax()` 自适应屏幕尺寸
+  - 移动端最大宽度未显式设置，但在小屏下自动换行为多列
+- 重要模块位置及占比:
+  - header 区占据首部，约占总高度的 15%
+  - features 区块为核心内容之一，占居中部上方
+  - contact form 占据底部较大空间
+
+#### 4. **Interaction Patterns**  
+- 导航交互:
+  - 当前无跳转链接，仅作静态展示
+- 按钮/链接的交互反馈:
+  - 提交按钮有 hover 颜色变化，点击后可添加 loading 状态
+- 表单或搜索框交互:
+  - 含基础表单项（姓名、邮箱、留言），支持 HTML5 表单验证
+- 滚动与分页方式:
+  - 单页滚动加载，无需分页
+- 悬停效果:
+  - 按钮背景从 `#4CAF50` 变为 `#45a049`
+- 过渡动画:
+  - 所有交互元素默认使用浏览器原生 `transition`，如 `all 0.2s ease-in-out`
+- 动效触发条件:
+  - hover 触发按钮背景色切换
+
+#### 5. **Content Strategy**  
+- 文本类型与信息层级:
+  - 标题 (`h1`, `h2`, `h3`) 构建清晰的信息层级
+  - 正文使用 `<p>` 和 `<ul>` 结构组织内容
+- 图片与视频内容比例:
+  - 当前无媒体内容，适合后续扩展图文混排
+- 数据可视化或图表使用:
+  - 尚未引入，若需增强说服力可考虑添加流程图或架构图
+- CTA（Call to Action）的布局与策略:
+  - “提交”按钮位于联系表单末尾，鼓励访客留下联系方式
+</context>
+
+<Analysis Doc>
+#### 1. **Technical Implementation Insights**  
+- **前端框架 / UI 库**:
+  - 未使用主流框架（Vue / React / Angular），纯原生 HTML/CSS 开发
+- **CSS 组织方式**：
+  - 内联样式写法，适合快速原型构建
+  - 若进一步优化，推荐采用 SCSS 或 Tailwind CSS 进行样式管理
+- **动画实现方式**：
+  - CSS 原生 transition，轻量级实现
+- **组件化结构与复用思路**：
+  - 已具备良好的语义化标签结构和类名命名规范（BEM-like），易于拆分为通用组件
+
+#### 2. **Component Inventory**  
+| 组件名称       | 功能与作用                     | 样式特征                                                                 | 推荐封装方式         |
+|----------------|----------------------------------|--------------------------------------------------------------------------|----------------------|
+| Container      | 页面内容包裹器                   | 最大宽 `800px`，白底，带阴影                                             | 可作为全局 Wrapper   |
+| FeatureCard    | 展示系统功能模块                 | 白绿配色卡片，内含标题+描述                                              | 单独组件             |
+| ContactForm    | 收集用户信息                     | 含 label/input/textarea/button，垂直排列                                 | 表单组件             |
+| Button         | 触发表单提交                     | 绿色按钮，hover 变深                                                     | 原子组件             |
+| Section        | 分割页面不同区块                 | 带 margin 上下间距                                                       | Block 容器           |
+| Header         | 显示页面标题                     | 中心对齐标题 + 描述                                                      | Layout 组件          |
+
+#### 3. **Example Page Blueprint**  
+```plaintext
+[Header]
+  └── H1 Title ("欢迎使用SCOT-Web测试页面")
+  └── P Description ("这是一个用于测试网页生成系统的...")
+
+[Section - System Features]
+  └── H2 Heading ("系统功能")
+  └── Grid of Feature Cards (HTML解析, PRD生成, 知识图谱, 网页生成)
+
+[Section - Technical Highlights]
+  └── H2 Heading ("技术特点")
+  └── Unordered List with Bullet Points
+
+[Contact Form Section]
+  └── H2 Heading ("联系我们")
+  └── Form Group x3 (Name, Email, Message)
+  └── Submit Button
+
+[Footer]
+  └── Copyright Info & Disclaimer Text
+```
+
+#### 4. **Risks & Considerations**  
+- **响应式适配复杂度**:
+  - 当前仅依赖 Grid 的 auto-fit 特性，对于更复杂的响应断点可能需要手动补充媒体查询
+- **性能瓶颈**:
+  - 在大规模数据渲染时可能出现重绘卡顿，建议结合虚拟滚动或懒加载优化
+- **版权问题**:
+  - 若直接复用此模板，注意保留原有版权声明或进行二次创作声明
+- **扩展性限制**:
+  - 缺乏 JavaScript 逻辑控制，难以实现动态交互行为（如表单提交、路由跳转等）
+- **SEO 与无障碍访问**:
+  - 当前未添加 meta description、alt 属性等 SEO 关键要素，建议后期完善
+</Analysis Doc>

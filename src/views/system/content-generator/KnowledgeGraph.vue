@@ -59,7 +59,7 @@
     
     <div v-else>
       <div class="alert alert-success">
-        知识点提取成功！共 {{ knowledgeGraph.nodes.length }} 个知识点。
+        提取成功！共 {{ knowledgeGraph.nodes.length }} 个学习结点。
       </div>
       
       <div class="form-group">
@@ -91,31 +91,54 @@
       
       <!-- 列表视图 -->
       <div v-if="currentView === 'list'" class="form-group">
-        <label>知识点列表:</label>
+        <label>AI生成的学习路径 (共 {{ knowledgeGraph.nodes.length }} 个节点):</label>
         <div class="knowledge-list">
-          <div 
-            v-for="(node, index) in knowledgeGraph.nodes" 
+          <div
+            v-for="(node, index) in knowledgeGraph.nodes"
             :key="node.data.id"
             class="knowledge-item"
           >
-            <span class="knowledge-id">{{ index + 1 }}.</span>
-            <span class="knowledge-label">{{ node.data.label }}</span>
-            <button 
-              v-if="node.data.type !== 'chapter'"
-              @click="learnKnowledge(node.data)"
-              class="btn btn-small btn-primary ml-auto"
-            >
-              学习
-            </button>
+            <!-- 节点标题栏 -->
+            <div class="knowledge-header">
+              <span class="knowledge-id">{{ index + 1 }}.</span>
+              <span class="knowledge-label">{{ node.data.label }}</span>
+              <span class="knowledge-type" :class="node.data.type">
+                {{ node.data.type === 'chapter' ? '章节' : '知识点' }}
+              </span>
+              <div class="knowledge-actions">
+                <button
+                  @click="showNodeDetail(node.data)"
+                  class="btn btn-small btn-info"
+                >
+                  详情
+                </button>
+                <button
+                  @click="editNode(node.data)"
+                  class="btn btn-small btn-warning ml-1"
+                >
+                  编辑
+                </button>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!-- 保存提示 -->
+        <div v-if="!isKnowledgeSaved" class="save-prompt">
+          <div class="alert alert-warning">
+            <strong>提示：</strong>请检查并编辑以上AI生成的学习路径内容，确认无误后点击"保存图谱"按钮保存修改。
           </div>
         </div>
       </div>
       
       <!-- 图谱视图 -->
       <div v-else-if="currentView === 'graph'">
-        <KnowledgeGraphVisualization 
+        <KnowledgeGraphVisualization
           :graph-data="knowledgeGraph"
           @save-graph="handleSaveGraph"
+          @update-graph-data="handleUpdateGraphData"
           @learn-knowledge="learnKnowledge"
         />
       </div>
@@ -132,6 +155,110 @@
           </button>
         </div>
         <button @click="saveKnowledgeGraph" class="btn btn-success" :disabled="!graphName">保存图谱</button>
+      </div>
+
+      <!-- 详情弹窗 -->
+      <div v-if="showDetailModal" class="modal-overlay" @click="closeDetailModal">
+        <div class="modal-content detail-modal" @click.stop>
+          <div class="modal-header">
+            <h3>知识点详情</h3>
+            <button @click="closeDetailModal" class="close-btn">&times;</button>
+          </div>
+
+          <div class="modal-body" v-if="detailNode">
+            <div class="detail-section">
+              <h4>基本信息</h4>
+              <div class="info-grid">
+                <div class="info-item">
+                  <strong>ID:</strong> {{ detailNode.id }}
+                </div>
+                <div class="info-item">
+                  <strong>类型:</strong>
+                  <span :class="'type-badge ' + detailNode.type">
+                    {{ detailNode.type === 'chapter' ? '章节' : '知识点' }}
+                  </span>
+                </div>
+                <div class="info-item">
+                  <strong>标题:</strong> {{ detailNode.label }}
+                </div>
+              </div>
+            </div>
+
+            <!-- AI提取的相关内容 -->
+            <div class="detail-section" v-if="detailNode.select_element && detailNode.select_element.length > 0">
+              <h4>AI提取的元素抓取元素 ({{ detailNode.select_element.length }} 个)</h4>
+              <div class="select-elements">
+                <div
+                  v-for="(element, idx) in detailNode.select_element"
+                  :key="idx"
+                  class="element-tag"
+                >
+                  <code>{{ element }}</code>
+                </div>
+              </div>
+            </div>
+
+            <!-- 如果没有相关内容 -->
+            <div class="detail-section" v-else>
+              <h4>AI提取的元素抓取元素</h4>
+              <div class="no-content">
+                <p>暂无相关提取元素</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button @click="editNode(detailNode)" class="btn btn-warning">编辑</button>
+            <button @click="closeDetailModal" class="btn btn-secondary ml-2">关闭</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 编辑弹窗 -->
+      <div v-if="showEditModal" class="modal-overlay" @click="closeEditModal">
+        <div class="modal-content" @click.stop>
+          <div class="modal-header">
+            <h3>编辑知识点</h3>
+            <button @click="closeEditModal" class="close-btn">&times;</button>
+          </div>
+
+          <div class="modal-body" v-if="editingNode">
+            <div class="form-row">
+              <label>知识点ID:</label>
+              <input
+                v-model="editingNode.id"
+                class="form-control"
+                readonly
+                disabled
+              />
+            </div>
+
+            <div class="form-row">
+              <label>知识点标题:</label>
+              <input
+                v-model="editingNode.label"
+                class="form-control"
+                placeholder="请输入知识点标题"
+              />
+            </div>
+
+            <div class="form-row">
+              <label>相关技术元素 (每行一个):</label>
+              <textarea
+                v-model="editingNode.select_element_text"
+                class="form-control"
+                rows="6"
+                placeholder="请输入相关的HTML标签、CSS属性等，每行一个&#10;例如:&#10;h1&#10;p&#10;div"
+              ></textarea>
+              
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button @click="saveNodeEdit" class="btn btn-success">保存修改</button>
+            <button @click="closeEditModal" class="btn btn-secondary ml-2">取消</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -164,7 +291,13 @@ export default {
       graphName: '',
       loading: false,
       savedKnowledgeId: null,
-      currentView: 'list' // 'list' 或 'graph'
+      currentView: 'list', // 'list' 或 'graph'
+      detailNode: null, // 当前查看详情的节点
+      editingNode: null, // 当前正在编辑的节点
+      editNodeBackup: null, // 编辑前的备份数据
+      isKnowledgeSaved: false, // 是否已保存知识图谱
+      showDetailModal: false, // 是否显示详情弹窗
+      showEditModal: false // 是否显示编辑弹窗
     };
   },
   watch: {
@@ -244,12 +377,24 @@ export default {
         }
         
         this.knowledgeGraph = knowledgeData;
-        
+
+        // 调试：打印后端返回的数据结构
+        console.log('后端返回的知识图谱数据:', knowledgeData);
+        console.log('知识图谱节点数量:', knowledgeData.nodes ? knowledgeData.nodes.length : 0);
+        if (knowledgeData.nodes && knowledgeData.nodes.length > 0) {
+          console.log('第一个节点的数据结构:', knowledgeData.nodes[0]);
+          console.log('第一个节点的所有属性:', Object.keys(knowledgeData.nodes[0].data));
+        }
+
         // 通知父组件知识点已提取
-        this.$emit('knowledge-extracted', {
-          graph: knowledgeData,
-          name: this.graphName
-        });
+        try {
+          this.$emit && this.$emit('knowledge-extracted', {
+            graph: knowledgeData,
+            name: this.graphName
+          });
+        } catch (err) {
+          console.warn('emit knowledge-extracted failed:', err);
+        }
       } catch (error) {
         console.error('知识点提取失败:', error);
         if (error.response && error.response.status) {
@@ -267,7 +412,39 @@ export default {
     handleSaveGraph(graph) {
       // 更新当前知识图谱数据
       this.knowledgeGraph = graph;
+
+      // 通知父组件更新knowledgeData
+      if (this.$parent && this.$emit) {
+        try {
+          this.$emit('knowledge-updated', {
+            graph: graph,
+            name: this.graphName
+          });
+        } catch (error) {
+          console.warn('emit knowledge-updated failed:', error);
+        }
+      }
+
       alert('图谱修改已保存到本地');
+    },
+
+    handleUpdateGraphData(updatedGraphData) {
+      // 更新知识图谱数据
+      this.knowledgeGraph = updatedGraphData;
+      console.log('知识图谱数据已更新');
+
+      // 确保组件仍然有效且可以emit
+      if (this.$parent && this.$emit) {
+        try {
+          // 通知父组件更新knowledgeData
+          this.$emit('knowledge-updated', {
+            graph: updatedGraphData,
+            name: this.graphName
+          });
+        } catch (error) {
+          console.warn('emit knowledge-updated failed:', error);
+        }
+      }
     },
     
     async saveKnowledgeGraph() {
@@ -275,17 +452,22 @@ export default {
         alert('请填写图谱名称并确保已提取知识点');
         return;
       }
-      
+
       try {
         const requestData = {
           name: this.graphName,
           graph: this.knowledgeGraph
         };
-        
+
         const response = await knowledgeAPI.saveKnowledgeGraph(requestData);
         this.savedKnowledgeId = response.id;
-        alert('知识点图谱保存成功！');
-        this.$emit('knowledge-saved');
+        this.isKnowledgeSaved = true; // 标记为已保存
+        alert('知识点图谱保存成功！现在可以继续下一步了。');
+        try {
+          this.$emit && this.$emit('knowledge-saved');
+        } catch (err) {
+          console.warn('emit knowledge-saved failed:', err);
+        }
       } catch (error) {
         console.error('知识点图谱保存失败:', error);
         alert('知识点图谱保存失败: ' + (error.message || '未知错误'));
@@ -316,9 +498,80 @@ export default {
       }
     },
     
+    showNodeDetail(nodeData) {
+      this.detailNode = nodeData;
+      this.showDetailModal = true;
+    },
+
+    editNode(nodeData) {
+      // 备份原始数据
+      this.editNodeBackup = JSON.parse(JSON.stringify(nodeData));
+
+      // 创建编辑副本
+      this.editingNode = {
+        id: nodeData.id,
+        label: nodeData.label,
+        select_element_text: (nodeData.select_element || []).join('\n')
+      };
+
+      // 显示编辑弹窗
+      this.showEditModal = true;
+    },
+
+    saveNodeEdit() {
+      if (!this.editingNode) return;
+
+      // 更新原始节点数据
+      const nodeIndex = this.knowledgeGraph.nodes.findIndex(node => node.data.id === this.editingNode.id);
+      if (nodeIndex > -1) {
+        const node = this.knowledgeGraph.nodes[nodeIndex];
+
+        // 更新基本信息
+        node.data.label = this.editingNode.label;
+
+        // 更新技术元素数组
+        node.data.select_element = this.editingNode.select_element_text
+          ? this.editingNode.select_element_text.split('\n').filter(item => item.trim())
+          : [];
+
+        alert('知识点修改已保存到本地！请记得点击"保存图谱"按钮保存到服务器。');
+      }
+
+      // 关闭弹窗
+      this.closeEditModal();
+    },
+
+    cancelNodeEdit() {
+      // 恢复原始数据
+      if (this.editNodeBackup) {
+        const nodeIndex = this.knowledgeGraph.nodes.findIndex(node => node.data.id === this.editingNode.id);
+        if (nodeIndex > -1) {
+          this.knowledgeGraph.nodes[nodeIndex].data = JSON.parse(JSON.stringify(this.editNodeBackup));
+        }
+      }
+
+      // 关闭弹窗
+      this.closeEditModal();
+    },
+
+    closeDetailModal() {
+      this.showDetailModal = false;
+      this.detailNode = null;
+    },
+
+    closeEditModal() {
+      this.showEditModal = false;
+      this.editingNode = null;
+      this.editNodeBackup = null;
+    },
+
     learnKnowledge(nodeData) {
       // 通知父组件跳转到学习知识点模块
-      this.$emit('learn-knowledge', nodeData);
+      try {
+        this.$emit && this.$emit('learn-knowledge', nodeData);
+      } catch (err) {
+        console.warn('emit learn-knowledge failed:', err);
+      }
     }
   }
 };
@@ -378,5 +631,246 @@ export default {
   background-color: var(--primary-color);
   color: white;
   border-color: var(--primary-color);
+}
+
+/* 新增样式 */
+.knowledge-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.knowledge-type {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.knowledge-type.chapter {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.knowledge-type.knowledge {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.knowledge-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.info-item {
+  padding: 8px 12px;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  font-size: 13px;
+}
+
+.select-elements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.element-tag {
+  background: #e8f5e8;
+  border: 1px solid #4caf50;
+  border-radius: 16px;
+  padding: 4px 12px;
+}
+
+.element-tag code {
+  color: #2e7d32;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+.no-content {
+  color: #999;
+  font-style: italic;
+  margin: 0;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}
+
+.no-content p {
+  margin: 0;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 15px;
+}
+
+.form-row label {
+  font-weight: bold;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-hint {
+  color: #666;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.save-prompt {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+}
+
+.save-prompt .alert {
+  margin: 0;
+  padding: 12px 16px;
+}
+
+/* 弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.detail-modal .modal-content {
+  max-width: 700px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  background-color: #f8f9fa;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 详情弹窗专用样式 */
+.detail-section {
+  margin-bottom: 20px;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
+}
+
+.detail-section h4 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.type-badge.chapter {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.type-badge.knowledge {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.element-description {
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 4px solid #007bff;
+}
+
+.element-description p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
 }
 </style>
