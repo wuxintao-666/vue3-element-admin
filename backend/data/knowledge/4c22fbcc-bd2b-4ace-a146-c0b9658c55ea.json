@@ -1,0 +1,302 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: HTML 语义化与文档结构",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "文档类型与基础结构定义",
+        "type": "knowledge",
+        "select_element": [
+          "html",
+          "head",
+          "body",
+          "!DOCTYPE"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "元信息设置 (字符集、视口)",
+        "type": "knowledge",
+        "select_element": [
+          "meta"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "标题与段落内容组织",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "内容分节与列表元素",
+        "type": "knowledge",
+        "select_element": [
+          "section",
+          "header",
+          "footer",
+          "ul",
+          "li"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_5",
+        "label": "表单基础控件",
+        "type": "knowledge",
+        "select_element": [
+          "form",
+          "input",
+          "textarea",
+          "label",
+          "button"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: CSS 样式布局基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "基础选择器与样式重置",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "盒模型与尺寸控制",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "Flexbox 与 Grid 基础布局",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "边框、阴影与圆角装饰",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_5",
+        "label": "响应式布局与媒体查询概念",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: 交互与用户反馈",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "伪类与鼠标悬停效果",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "表单元素状态与验证",
+        "type": "knowledge",
+        "select_element": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_5"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_5"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_3",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "1_4",
+        "target": "1_5"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_4",
+        "target": "2_5"
+      }
+    },
+    {
+      "data": {
+        "source": "2_5",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    }
+  ]
+}

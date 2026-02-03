@@ -82,4 +82,19 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # 使用多线程模式提高并发处理能力
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+        workers=1,  # 使用1个worker进程
+        loop="asyncio",  # 使用asyncio事件循环
+        access_log=True,
+        log_level="info",
+        # 优化并发性能
+        server_header=False,
+        date_header=False,
+        # 限制请求体大小，避免大文件上传问题
+        limit_concurrency=100,  # 限制并发连接数
+        backlog=2048  # 监听队列长度
+    )

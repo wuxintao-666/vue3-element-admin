@@ -6,6 +6,9 @@ import re
 import json
 import os
 import uuid
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from functools import partial
 from openai import OpenAI
 from typing import Dict, Any, Optional
 from utils.prompts import (
@@ -25,11 +28,20 @@ class SlowMind:
     """
     慢思考智能体：负责复杂任务的深度分析与生成
     """
-    
+
     def __init__(self, context: ExecutionContext):
         self.context = context
         self.client = context.get_client("slow")
         self.model = context.get_model("slow")
+        # 创建线程池用于并发处理AI请求
+        self.executor = ThreadPoolExecutor(max_workers=20, thread_name_prefix="ai_worker")
+
+    async def _run_in_thread(self, func, *args, **kwargs):
+        """
+        在线程池中运行同步函数，避免阻塞异步事件循环
+        """
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(self.executor, func, *args, **kwargs)
     
     def generate_prd_from_html(self, html_content: str, user_goal: str = "") -> str:
         """
@@ -160,7 +172,7 @@ class SlowMind:
         logger.info("演示网站生成成功，代码长度: %d", len(html_code))
         return html_code
 
-    def generate_learning_content(self, html_content: str) -> str:
+    async def generate_learning_content(self, html_content: str) -> str:
         """
         生成学习内容
         :param html_content: HTML内容
@@ -171,13 +183,17 @@ class SlowMind:
 
         print("正在生成学习内容...\n")
         logger.debug("发送请求到模型: %s", self.model)
-        response = self.client.chat.completions.create(
+
+        # 在线程池中执行同步的AI调用，避免阻塞异步事件循环
+        create_completion = partial(
+            self.client.chat.completions.create,
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
             extra_body={
                 "enable_thinking": False
             }
         )
+        response = await self._run_in_thread(create_completion)
         learning_content = response.choices[0].message.content.strip()
         logger.info("学习内容生成成功，内容长度: %d", len(learning_content))
         return learning_content

@@ -10,11 +10,18 @@
           <p>文本块数量: {{ referenceData.text_blocks?.length || 0 }}</p>
         </div>
         
-        <button 
-          @click="generatePRD" 
+        <button
+          @click="generatePRD"
           class="btn"
         >
           基于参考信息生成设计文档
+        </button>
+
+        <button
+          @click="generateMockPRD"
+          class="btn btn-success ml-2"
+        >
+          模拟生成PRD
         </button>
       </div>
       
@@ -42,12 +49,20 @@
           />
         </div>
         
-        <button 
-          @click="generatePRD" 
-          :disabled="!referenceUrlInput && !uploadedFileInput" 
+        <button
+          @click="generatePRD"
+          :disabled="!referenceUrlInput && !uploadedFileInput"
           class="btn"
         >
           生成设计文档
+        </button>
+
+        <button
+          @click="generateMockPRD"
+          :disabled="!referenceUrlInput && !uploadedFileInput"
+          class="btn btn-success ml-2"
+        >
+          模拟生成PRD
         </button>
       </div>
       
@@ -222,6 +237,179 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    async generateMockPRD() {
+      this.loading = true;
+
+      try {
+        // 模拟API调用延迟
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // 生成模拟的PRD内容
+        const mockPRD = this.generateMockPRDContent();
+        this.prdContent = mockPRD;
+
+        // 设置标题
+        if (this.referenceData) {
+          this.prdTitle = `PRD: ${this.referenceData.title}`;
+        } else if (this.referenceUrlInput) {
+          this.prdTitle = `PRD: ${new URL(this.referenceUrlInput).hostname}`;
+        } else if (this.uploadedFileInput) {
+          this.prdTitle = `PRD: ${this.uploadedFileInput.name}`;
+        } else {
+          this.prdTitle = 'PRD: 模拟产品文档';
+        }
+
+        // 通知父组件PRD已生成
+        this.$emit('prd-generated', {
+          content: mockPRD,
+          title: this.prdTitle
+        });
+
+        console.log('模拟PRD生成成功');
+      } catch (error) {
+        console.error('模拟PRD生成失败:', error);
+        alert('模拟PRD生成失败: ' + error.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    generateMockPRDContent() {
+      // 生成统一的模拟PRD内容
+      let mockContent = `# 产品需求文档 (PRD)
+
+## 1. 产品概述
+
+### 1.1 产品背景
+这是一个现代化的Web应用程序，旨在为用户提供高效、直观的学习体验。通过人工智能技术，我们可以自动分析网页内容，生成结构化的学习路径和详细的知识点内容。
+
+### 1.2 产品目标
+- 为用户提供个性化的学习体验
+- 通过AI技术简化知识获取过程
+- 支持多种输入方式（URL、文件上传）
+- 生成完整的学习路径和详细内容
+
+### 1.3 目标用户
+- 学生和学习者
+- 教育工作者
+- 专业人士需要快速掌握新知识的用户
+
+## 2. 功能需求
+
+### 2.1 核心功能
+#### 2.1.1 内容上传与分析
+- 支持URL输入和文件上传
+- 自动分析网页内容结构
+- 提取关键信息和知识点
+
+#### 2.1.2 学习路径生成
+- 基于内容自动生成知识图谱
+- 创建逻辑清晰的学习路径
+- 支持章节和知识点的层级结构
+
+#### 2.1.3 内容生成
+- 自动生成各知识点的详细内容
+- 支持分层学习（Level 1-3）
+- 提供编辑和修改功能
+
+### 2.2 非功能需求
+- 响应式设计，支持多种设备
+- 直观的用户界面
+- 快速的内容处理能力
+
+## 3. 用户界面设计
+
+### 3.1 整体布局
+- 步骤导航界面
+- 卡片式布局
+- 进度指示器
+
+### 3.2 主要页面
+#### 3.2.1 上传页面
+- URL输入框
+- 文件上传区域
+- 格式验证
+
+#### 3.2.2 学习路径页面
+- 可视化知识图谱
+- 节点交互功能
+- 编辑和保存功能
+
+#### 3.2.3 内容生成页面
+- 进度显示
+- 内容预览
+- 编辑功能
+
+## 4. 技术实现
+
+### 4.1 前端技术栈
+- Vue.js 3
+- Element Plus UI框架
+- Markdown编辑器
+- 图表可视化
+
+### 4.2 后端技术栈
+- Python FastAPI
+- AI模型集成
+- 文档处理库
+
+## 5. 验收标准
+
+### 5.1 功能验收
+- [ ] URL输入功能正常
+- [ ] 文件上传功能正常
+- [ ] 学习路径生成准确
+- [ ] 内容生成质量良好
+- [ ] 编辑保存功能正常
+
+### 5.2 性能验收
+- [ ] 页面加载时间 < 3秒
+- [ ] 内容生成时间 < 30秒
+- [ ] 支持并发用户访问
+
+## 6. 风险评估
+
+### 6.1 技术风险
+- AI模型准确性
+- 内容解析复杂度
+- 浏览器兼容性
+
+### 6.2 业务风险
+- 内容版权问题
+- 用户隐私保护
+- 服务稳定性
+
+## 7. 项目计划
+
+### 7.1 里程碑
+1. 需求分析完成
+2. UI设计完成
+3. 前端开发完成
+4. 后端开发完成
+5. 测试完成
+6. 上线部署
+
+### 7.2 时间安排
+- 总开发周期：8周
+- 前端开发：4周
+- 后端开发：4周
+- 测试：2周
+
+## 8. 附录
+
+### 8.1 名词解释
+- PRD：Product Requirements Document，产品需求文档
+- AI：Artificial Intelligence，人工智能
+- API：Application Programming Interface，应用程序接口
+
+### 8.2 参考资料
+- Vue.js官方文档
+- FastAPI官方文档
+- Element Plus组件库文档`;
+
+      return mockContent;
     },
     
     async savePRD() {

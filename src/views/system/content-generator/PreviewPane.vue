@@ -16,7 +16,7 @@
         请先生成网页以进行预览
       </div>
       
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="taskIdInput">任务ID:</label>
         <input 
           type="text" 
@@ -25,15 +25,15 @@
           class="form-control" 
           placeholder="请输入任务ID"
         />
-      </div>
+      </div> -->
       
-      <button 
+      <!-- <button 
         @click="loadPreview" 
         :disabled="!taskIdInput" 
         class="btn"
       >
         加载预览
-      </button>
+      </button> -->
     </div>
     
     <div v-else>

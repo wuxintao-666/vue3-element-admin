@@ -99,6 +99,11 @@ export const learningAPI = {
     // 生成知识点学习内容
     generateKnowledgeContent: (data) => {
         return apiService.post('/api/learning/generate-knowledge-point', data);
+    },
+
+    // 保存知识点内容到数据库
+    saveKnowledgeContent: (data) => {
+        return apiService.post('/api/learning/save-knowledge-content', data);
     }
 };
 

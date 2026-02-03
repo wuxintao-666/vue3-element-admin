@@ -46,8 +46,10 @@
       </div>
     </div>
     
-    <div v-else class="no-content">
-      <p>暂无测试题内容</p>
+    <div v-else >
+        <div class="alert alert-warning">
+          请先完成知识点的生成与保存
+        </div>
     </div>
   </div>
 </template>

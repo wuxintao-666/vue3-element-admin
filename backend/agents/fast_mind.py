@@ -42,8 +42,24 @@ class FastMind:
                 raw = response.choices[0].message.content.strip()
                 print("模型原始返回：", raw)  # 打印前500字符以供调试
                 logger.info("AI响应成功，原始内容长度: %d", len(raw))
-                
+
+                # 处理markdown代码块格式
                 raw_cleaned = re.sub(r"[\x00-\x1f\x7f]", "", raw)  # 移除非法字符
+
+                # 如果包含markdown代码块，提取JSON内容
+                if "```json" in raw_cleaned:
+                    # 提取```json和```之间的内容
+                    json_match = re.search(r'```json\s*(.*?)\s*```', raw_cleaned, re.DOTALL)
+                    if json_match:
+                        raw_cleaned = json_match.group(1).strip()
+                elif "```" in raw_cleaned:
+                    # 处理不带语言标识的代码块
+                    json_match = re.search(r'```\s*(.*?)\s*```', raw_cleaned, re.DOTALL)
+                    if json_match:
+                        raw_cleaned = json_match.group(1).strip()
+
+                # 再次清理可能的非法字符
+                raw_cleaned = re.sub(r"[\x00-\x1f\x7f]", "", raw_cleaned)
                 knowledge_tree = json.loads(raw_cleaned)
 
                 print("\n生成知识点：\n")

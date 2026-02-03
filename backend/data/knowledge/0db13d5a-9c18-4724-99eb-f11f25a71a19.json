@@ -1,0 +1,363 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: 文本与页面结构基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "使用 h 元素和 p 元素体验标题与段落",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "h3",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "应用文本格式 (加粗、斜体)",
+        "type": "knowledge",
+        "select_element": [
+          "b",
+          "i",
+          "strong",
+          "em"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "创建网页基本结构（header, section, footer）",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "section",
+          "footer",
+          "div"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: 布局与响应式设计",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "使用 CSS Grid 实现多列布局",
+        "type": "knowledge",
+        "select_element": [
+          "CSS grid",
+          "div.features",
+          "div.feature-card"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "设置容器样式与响应式断点",
+        "type": "knowledge",
+        "select_element": [
+          "max-width",
+          "margin",
+          "padding",
+          "box-sizing"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "使用 flexbox 或 gap 进行间距控制",
+        "type": "knowledge",
+        "select_element": [
+          "gap",
+          "display",
+          "flex"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: 表单与交互元素",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "构建表单结构并添加输入控件",
+        "type": "knowledge",
+        "select_element": [
+          "form",
+          "input",
+          "textarea",
+          "label"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "实现按钮样式及悬停效果",
+        "type": "knowledge",
+        "select_element": [
+          "button",
+          "hover"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "使用 required 属性进行表单验证",
+        "type": "knowledge",
+        "select_element": [
+          "required",
+          "input[type=text]",
+          "input[type=email]"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_end",
+        "label": "模块四: 样式与视觉设计",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "4_1",
+        "label": "设置字体、颜色和背景样式",
+        "type": "knowledge",
+        "select_element": [
+          "font-family",
+          "color",
+          "background-color"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_2",
+        "label": "使用 border 和 box-shadow 装饰元素",
+        "type": "knowledge",
+        "select_element": [
+          "border",
+          "box-shadow",
+          "border-radius"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_3",
+        "label": "设置 padding 与 margin 控制间距",
+        "type": "knowledge",
+        "select_element": [
+          "padding",
+          "margin"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_3"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_1",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_2",
+        "target": "4_3"
+      }
+    }
+  ]
+}

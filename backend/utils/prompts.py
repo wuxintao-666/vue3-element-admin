@@ -406,6 +406,7 @@ def generate_learning_content_prompt(topic_info: dict) -> str:
 5. 所有内容必须与前端开发及本知识点相关。
 6. Level 4 必须包含完整且可运行的代码示例（HTML/CSS/JS 均可）。
 7. 全部内容必须使用中文。
+8. 最外层不要有```json```包裹。
 """
 
     return prompt

@@ -18,23 +18,23 @@
         <div class="step-title">生成学习路径</div>
       </div>
       
-      <div class="step" :class="{ 'active': currentStep === 3.5 }" @click="goToStep(3.5)" v-if="showLearningStep">
-        <div class="step-number">-</div>
-        <div class="step-title">渐进式知识展示</div>
-      </div>
-      
-      <div class="step" :class="{ 'active': currentStep === 3.7 }" @click="goToStep(3.7)" v-if="showTestTaskStep">
-        <div class="step-number">-</div>
-        <div class="step-title">生成实践案例</div>
-      </div>
-      
       <div class="step" :class="{ 'active': currentStep === 4 }" @click="goToStep(4)">
         <div class="step-number">4</div>
-        <div class="step-title">生成网页</div>
+        <div class="step-title">生成知识点内容</div>
       </div>
       
       <div class="step" :class="{ 'active': currentStep === 5 }" @click="goToStep(5)">
         <div class="step-number">5</div>
+        <div class="step-title">生成实践案例</div>
+      </div>
+      
+      <div class="step" :class="{ 'active': currentStep === 6 }" @click="goToStep(6)">
+        <div class="step-number">6</div>
+        <div class="step-title">生成网页</div>
+      </div>
+
+      <div class="step" :class="{ 'active': currentStep === 7 }" @click="goToStep(7)">
+        <div class="step-number">7</div>
         <div class="step-title">预览结果</div>
       </div>
     </div>
@@ -71,48 +71,59 @@
         @learn-knowledge="onLearnKnowledge"
       />
       
-      <LearningContent
-        v-else-if="currentStep === 3.5"
-        :knowledge-node="learningNode"
-        @back-to-graph="backToKnowledgeGraph"
-        @view-test-task="onViewTestTask"
+      <KnowledgeGenerationList
+        v-else-if="currentStep === 4"
+        :knowledge-data="knowledgeData"
+        :generated-contents="generatedContents"
+        :generation-progress="generationProgress"
+        @generation-completed="onGenerationCompleted"
+        @generated-contents-updated="onGeneratedContentsUpdated"
+        @generation-progress-updated="onGenerationProgressUpdated"
+        @go-to-step="goToStep"
       />
       
       <TestTaskDisplay
-        v-else-if="currentStep === 3.7"
+        v-else-if="currentStep === 5"
         :test-task="testTask"
         :loading="testTaskLoading"
         @back-to-learning="backToLearningContent"
       />
       
-      <GeneratePanel 
-        v-else-if="currentStep === 4" 
+      <!-- <KnowledgeGenerationList
+        v-else-if="currentStep === 4"
+        :knowledge-data="knowledgeData"
+        @generation-completed="onGenerationCompleted"
+        @go-to-step="goToStep"
+      /> -->
+
+      <GeneratePanel
+        v-else-if="currentStep === 6"
         ref="generatePanel"
         :prd-data="prdData"
         :knowledge-data="knowledgeData"
         @website-generated="onWebsiteGenerated"
       />
-      
-      <PreviewPane 
-        v-if="currentStep === 5" 
+
+      <PreviewPane
+        v-if="currentStep === 7"
         :initial-task-id="generatedTaskId"
       />
     </div>
     
-    <div class="navigation mt-4" v-if="currentStep > 1 && currentStep !== 3.5 && currentStep !== 3.7">
+    <div class="navigation mt-4" v-if="currentStep > 1 && currentStep !== 3.7">
       <button @click="prevStep" class="btn btn-secondary">上一步</button>
-      <button 
-        v-if="currentStep < 5" 
-        @click="nextStep" 
+      <button
+        v-if="currentStep < 7"
+        @click="nextStep"
         class="btn btn-primary ml-2"
         :disabled="!canProceed"
       >
         下一步
       </button>
     </div>
-    
-    <div class="navigation mt-4" v-else-if="currentStep === 3.5">
-      <button @click="backToKnowledgeGraph" class="btn btn-secondary">返回知识点图谱</button>
+
+    <div class="navigation mt-4" v-else-if="currentStep === 3.7">
+      <button @click="backToLearningContent" class="btn btn-secondary">返回学习内容</button>
     </div>
     
     <div class="navigation mt-4" v-else-if="currentStep === 3.7">
@@ -125,7 +136,7 @@
 import UploadPanel from './UploadPanel.vue';
 import PRDPanel from './PRDPanel.vue';
 import KnowledgeGraph from './KnowledgeGraph.vue';
-import LearningContent from './LearningContent.vue';
+import KnowledgeGenerationList from './KnowledgeGenerationList.vue';
 import TestTaskDisplay from './TestTaskDisplay.vue';
 import GeneratePanel from './GeneratePanel.vue';
 import PreviewPane from './PreviewPane.vue';
@@ -137,7 +148,7 @@ export default {
     UploadPanel,
     PRDPanel,
     KnowledgeGraph,
-    LearningContent,
+    KnowledgeGenerationList,
     TestTaskDisplay,
     GeneratePanel,
     PreviewPane
@@ -155,15 +166,50 @@ export default {
       showTestTaskStep: false, // 是否显示测试题步骤
       learningNode: null,     // 当前学习的知识点节点
       testTask: null,         // 当前测试题
-      testTaskLoading: false  // 测试题加载状态
+      testTaskLoading: false, // 测试题加载状态
+      prdSaved: false,        // PRD是否已保存
+      knowledgeSaved: false,   // 知识图谱是否已保存
+      knowledgeContentSaved: false, // 知识点内容是否已保存
+      generatedContents: {},     // 生成的知识点内容
+      generationProgress: {      // 生成进度
+        total: 0,
+        completed: 0,
+        failed: 0
+      }
     };
   },
   methods: {
     goToStep(step) {
       // 允许用户点击步骤标题导航到对应步骤
-      if ((step <= 5 && step >= 1) || step === 3.5 || step === 3.7) {
+      if (step >= 1 && step <= 7) {
         this.currentStep = step;
-        this.canProceed = false;
+        // 根据步骤检查相应数据来设置canProceed
+        this.updateCanProceed();
+      }
+    },
+
+    updateCanProceed() {
+      // 根据当前步骤检查相应数据和保存状态
+      switch (this.currentStep) {
+        case 1:
+          // 步骤1：有上传数据就可以前进
+          this.canProceed = !!this.uploadData;
+          break;
+        case 2:
+          // 步骤2：PRD已保存才能前进
+          this.canProceed = this.prdSaved;
+          break;
+        case 3:
+          // 步骤3：知识图谱已保存才能前进
+          this.canProceed = this.knowledgeSaved;
+          break;
+        case 4:
+          // 步骤4：知识点内容生成完成后可以前进
+          this.canProceed = this.knowledgeContentSaved;
+          break;
+        default:
+          // 其他步骤暂时保持false，需要手动设置
+          this.canProceed = false;
       }
     },
     
@@ -171,7 +217,7 @@ export default {
       this.uploadData = data.data;
       this.referenceData = data.data;
       this.uploadType = data.type;
-      this.canProceed = true;
+      this.updateCanProceed();
       console.log('上传完成，可以进行下一步');
     },
     
@@ -193,22 +239,27 @@ export default {
     
     onPRDGenerated(data) {
       this.prdData = data;
-      console.log('PRD已生成');
+      // 生成PRD后不自动允许前进，需要保存后才能前进
+      console.log('PRD已生成，需保存后才能进行下一步');
     },
     
     onPRDSaved() {
-      this.canProceed = true;
+      this.prdSaved = true;
+      this.updateCanProceed();
       console.log('PRD已保存，可以进行下一步');
     },
     
     onKnowledgeExtracted(data) {
       this.knowledgeData = data;
-      console.log('知识点已提取');
+      // 提取知识点后不自动允许前进，需要保存后才能前进
+      console.log('知识点已提取，需保存后才能进行下一步');
     },
-    
+
     onKnowledgeSaved() {
-      this.canProceed = true;
-      console.log('知识点已保存，可以进行下一步');
+      // 知识点图谱保存成功后，设置保存状态并跳转到生成知识点内容步骤
+      this.knowledgeSaved = true;
+      this.updateCanProceed();
+      console.log('知识点图谱已保存，跳转到生成知识点内容步骤');
     },
 
     onKnowledgeUpdated(data) {
@@ -217,6 +268,7 @@ export default {
         graph: data.graph,
         name: data.name
       };
+      // 更新数据后不自动允许前进，需要保存后才能前进
       console.log('index.vue的knowledgeData已更新');
     },
     
@@ -270,24 +322,43 @@ export default {
       console.log('返回学习内容');
     },
     
+    onGenerationCompleted(data) {
+      // 知识点内容生成完成，可以进行下一步（生成网页）
+      this.knowledgeContentSaved = true;
+      this.updateCanProceed();
+      console.log('知识点内容生成完成，可以进行下一步');
+    },
+
+    onGeneratedContentsUpdated(contents) {
+      // 更新生成的知识点内容
+      this.generatedContents = { ...contents };
+      console.log('generatedContents 已更新:', this.generatedContents);
+    },
+
+    onGenerationProgressUpdated(progress) {
+      // 更新生成进度
+      this.generationProgress = { ...progress };
+      console.log('generationProgress 已更新:', this.generationProgress);
+    },
+
     onWebsiteGenerated(data) {
       this.generatedTaskId = data.taskId;
-      this.canProceed = true;
+      this.updateCanProceed();
       console.log('网页生成完成，可以进行下一步');
     },
     
     nextStep() {
-      if (this.currentStep < 5) {
+      if (this.currentStep < 7) {
         this.currentStep++;
-        this.canProceed = false;
+        this.updateCanProceed();
         console.log('进入步骤:', this.currentStep);
       }
     },
-    
+
     prevStep() {
       if (this.currentStep > 1) {
         this.currentStep--;
-        this.canProceed = false;
+        this.updateCanProceed();
         console.log('返回步骤:', this.currentStep);
       }
     }

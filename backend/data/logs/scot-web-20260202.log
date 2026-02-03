@@ -22,3 +22,595 @@
 2026-02-02 14:31:04,192 - scot-web - INFO - AI响应成功，原始内容长度: 4015
 2026-02-02 14:31:04,200 - scot-web - INFO - 知识点已保存到: data\knowledge\f96c8a8d-ae04-4ae1-a443-2ece1628c048.json
 2026-02-02 14:31:04,200 - scot-web - INFO - 知识点提取成功
+2026-02-02 15:37:38,000 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 15:37:42,547 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 15:37:42,553 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 15:38:21,215 - scot-web - INFO - AI响应成功，原始内容长度: 3626
+2026-02-02 15:38:21,234 - scot-web - INFO - 知识点已保存到: data\knowledge\cfd684cf-b48c-4dc7-9734-117bfccf8a8a.json
+2026-02-02 15:38:21,234 - scot-web - INFO - 知识点提取成功
+2026-02-02 16:21:48,812 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 16:21:54,296 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 16:21:54,301 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 16:22:28,567 - scot-web - INFO - AI响应成功，原始内容长度: 3055
+2026-02-02 16:22:28,600 - scot-web - INFO - 知识点已保存到: data\knowledge\4c22fbcc-bd2b-4ace-a146-c0b9658c55ea.json
+2026-02-02 16:22:28,611 - scot-web - INFO - 知识点提取成功
+2026-02-02 16:28:00,544 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 16:28:05,399 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 16:28:05,410 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 16:28:40,697 - scot-web - INFO - AI响应成功，原始内容长度: 3475
+2026-02-02 16:28:40,717 - scot-web - INFO - 知识点已保存到: data\knowledge\2ff7a20d-edd0-4356-bbd8-54e3f5b6ee13.json
+2026-02-02 16:28:40,723 - scot-web - INFO - 知识点提取成功
+2026-02-02 16:41:12,664 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 16:41:12,715 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 16:41:20,718 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 16:41:20,728 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 17:07:04,208 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 17:07:04,243 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 17:14:18,436 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 17:14:18,465 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 17:14:40,739 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 17:14:45,660 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 17:14:45,666 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:15:22,689 - scot-web - INFO - AI响应成功，原始内容长度: 3105
+2026-02-02 17:15:22,689 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 47, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-02-02 17:15:22,716 - scot-web - INFO - 知识点已保存到: data\knowledge\3f6f1391-d80b-4a39-8970-7b85f03fc1cc.json
+2026-02-02 17:15:22,717 - scot-web - INFO - 知识点提取成功
+2026-02-02 17:16:19,692 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 17:16:24,515 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 17:16:24,535 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:17:00,386 - scot-web - INFO - AI响应成功，原始内容长度: 3832
+2026-02-02 17:17:00,400 - scot-web - INFO - 知识点已保存到: data\knowledge\2a19db83-fa09-45ed-a1b6-491f5b1efc08.json
+2026-02-02 17:17:00,403 - scot-web - INFO - 知识点提取成功
+2026-02-02 17:17:54,897 - scot-web - INFO - 收到PRD生成请求
+2026-02-02 17:17:59,396 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-02 17:17:59,397 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:19:09,100 - scot-web - INFO - AI响应成功，内容长度: 5352
+2026-02-02 17:19:09,108 - scot-web - INFO - PRD文档已保存到: data\prd\a76ce121-0b51-42dc-ad1a-dc56650a59c9.txt
+2026-02-02 17:19:09,109 - scot-web - INFO - PRD文档生成成功
+2026-02-02 17:39:37,255 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 17:39:37,286 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 17:39:51,960 - scot-web - INFO - 收到PRD生成请求
+2026-02-02 17:39:56,792 - scot-web - INFO - 开始生成PRD文档，内容长度: 4148
+2026-02-02 17:39:56,793 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:41:18,936 - scot-web - INFO - AI响应成功，内容长度: 6807
+2026-02-02 17:41:18,952 - scot-web - INFO - PRD文档已保存到: data\prd\43bd8086-719e-46ed-9890-eb3c2980a417.txt
+2026-02-02 17:41:18,954 - scot-web - INFO - PRD文档生成成功
+2026-02-02 17:41:34,340 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 17:41:38,710 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 17:41:38,721 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:42:28,614 - scot-web - INFO - AI响应成功，原始内容长度: 6505
+2026-02-02 17:42:28,631 - scot-web - ERROR - 解析知识点失败: Expecting value: line 1 column 1 (char 0)
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 47, in extract_knowledge_points_from_html
+    knowledge_tree = json.loads(raw_cleaned)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\environment\python\python119\Lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2026-02-02 17:42:28,692 - scot-web - INFO - 知识点已保存到: data\knowledge\393faebc-3b36-4b51-b681-3d2989e43e3f.json
+2026-02-02 17:42:28,727 - scot-web - INFO - 知识点提取成功
+2026-02-02 17:51:01,979 - scot-web - INFO - 收到HTML上传请求
+2026-02-02 17:51:01,990 - scot-web - INFO - HTML文件上传并解析成功: test_sample.html
+2026-02-02 17:51:14,427 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 17:51:18,997 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 17:51:19,015 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:51:54,798 - scot-web - INFO - AI响应成功，原始内容长度: 3785
+2026-02-02 17:51:54,807 - scot-web - INFO - 知识点已保存到: data\knowledge\3c7d1d74-9153-4d6d-9960-4170a2377754.json
+2026-02-02 17:51:54,807 - scot-web - INFO - 知识点提取成功
+2026-02-02 17:52:05,851 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 17:52:10,053 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 17:52:10,053 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 17:52:45,631 - scot-web - INFO - AI响应成功，原始内容长度: 3545
+2026-02-02 17:52:45,641 - scot-web - INFO - 知识点已保存到: data\knowledge\c3877cd9-caab-4410-a2a6-5c3f3fe8133d.json
+2026-02-02 17:52:45,642 - scot-web - INFO - 知识点提取成功
+2026-02-02 18:46:30,897 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 18:46:36,021 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 18:46:36,024 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:47:10,120 - scot-web - INFO - AI响应成功，原始内容长度: 3555
+2026-02-02 18:47:10,155 - scot-web - INFO - 知识点已保存到: data\knowledge\c98819a1-e5fc-4e92-abc2-0f9e5c6ece2d.json
+2026-02-02 18:47:10,155 - scot-web - INFO - 知识点提取成功
+2026-02-02 18:50:34,764 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:50:34,765 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:51:25,802 - scot-web - INFO - 学习内容生成成功，内容长度: 3792
+2026-02-02 18:51:28,622 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:51:28,622 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:52:24,803 - scot-web - INFO - 学习内容生成成功，内容长度: 5807
+2026-02-02 18:52:28,574 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:52:28,579 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:53:02,444 - scot-web - INFO - 学习内容生成成功，内容长度: 2437
+2026-02-02 18:53:06,843 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:53:06,843 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:54:10,584 - scot-web - INFO - 学习内容生成成功，内容长度: 7604
+2026-02-02 18:56:17,045 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:56:17,045 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:56:59,239 - scot-web - INFO - 学习内容生成成功，内容长度: 3219
+2026-02-02 18:57:03,957 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 18:57:03,958 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 18:58:02,941 - scot-web - INFO - 学习内容生成成功，内容长度: 5721
+2026-02-02 19:00:27,557 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:00:27,564 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:25,163 - scot-web - INFO - 学习内容生成成功，内容长度: 3893
+2026-02-02 19:01:28,651 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:28,652 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:34,354 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:34,355 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:40,036 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:40,036 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:45,555 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:45,556 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:51,320 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:51,320 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:01:56,860 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:01:56,860 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:02,931 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:02,932 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:08,814 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:08,814 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:15,245 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:15,247 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:21,745 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:21,745 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:27,339 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:27,339 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:32,925 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:32,926 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:41,152 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:41,152 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:02:49,314 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:02:49,315 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:10:04,661 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 19:10:07,213 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 19:10:07,225 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:10:10,113 - scot-web - ERROR - 解析知识点失败: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': 'ed2c79e4-468f-498c-9e75-7ef00b87cb0b'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 35, in extract_knowledge_points_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': 'ed2c79e4-468f-498c-9e75-7ef00b87cb0b'}}
+2026-02-02 19:10:10,207 - scot-web - ERROR - 知识点提取失败: cannot access local variable 'raw' where it is not associated with a value
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 35, in extract_knowledge_points_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': 'We have to rate limit you for model deepseek-ai/DeepSeek-V3.2. If you need higher limits, please consider other (commercial) API providers.', 'request_id': 'ed2c79e4-468f-498c-9e75-7ef00b87cb0b'}}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 256, in extract_knowledge_from_file
+    knowledge_data = fast_mind.extract_knowledge_points_from_html(html_content)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 71, in extract_knowledge_points_from_html
+    print("模型原始返回：", raw[:500])
+          ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'raw' where it is not associated with a value
+2026-02-02 19:10:28,234 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 19:10:30,863 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 19:10:30,863 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-02 19:10:33,847 - scot-web - ERROR - 解析知识点失败: Error code: 429 - {'errors': {'message': "You have exceeded today's quota for model deepseek-ai/DeepSeek-V3.2,  please try again tomorrow, or consider using other models", 'request_id': 'c989c503-c013-46a8-b7a8-a7b9daf7cf02'}}
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 35, in extract_knowledge_points_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': "You have exceeded today's quota for model deepseek-ai/DeepSeek-V3.2,  please try again tomorrow, or consider using other models", 'request_id': 'c989c503-c013-46a8-b7a8-a7b9daf7cf02'}}
+2026-02-02 19:10:33,855 - scot-web - ERROR - 知识点提取失败: cannot access local variable 'raw' where it is not associated with a value
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 35, in extract_knowledge_points_from_html
+    response = self.client.chat.completions.create(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_utils\_utils.py", line 299, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\resources\chat\completions.py", line 598, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 1063, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 842, in request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 873, in _request
+    return self._retry_request(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 933, in _retry_request
+    return self._request(
+           ^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\venv\Lib\site-packages\openai\_base_client.py", line 885, in _request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {'errors': {'message': "You have exceeded today's quota for model deepseek-ai/DeepSeek-V3.2,  please try again tomorrow, or consider using other models", 'request_id': 'c989c503-c013-46a8-b7a8-a7b9daf7cf02'}}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\MyProject\vue3-element-admin\backend\api\upload_router.py", line 256, in extract_knowledge_from_file
+    knowledge_data = fast_mind.extract_knowledge_points_from_html(html_content)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\MyProject\vue3-element-admin\backend\agents\fast_mind.py", line 71, in extract_knowledge_points_from_html
+    print("模型原始返回：", raw[:500])
+          ^^^^^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'raw' where it is not associated with a value
+2026-02-02 19:14:57,104 - scot-web - INFO - 收到知识点提取请求
+2026-02-02 19:14:59,728 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 4148, PRD长度: 0
+2026-02-02 19:14:59,731 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:15:42,090 - scot-web - INFO - AI响应成功，原始内容长度: 4505
+2026-02-02 19:15:42,090 - scot-web - INFO - 知识点已保存到: data\knowledge\0db13d5a-9c18-4724-99eb-f11f25a71a19.json
+2026-02-02 19:15:42,090 - scot-web - INFO - 知识点提取成功
+2026-02-02 19:16:34,848 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:16:34,849 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:17:04,083 - scot-web - INFO - 学习内容生成成功，内容长度: 1831
+2026-02-02 19:17:06,971 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:17:06,971 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:17:30,826 - scot-web - INFO - 学习内容生成成功，内容长度: 1658
+2026-02-02 19:17:33,406 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:17:33,406 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:18:06,022 - scot-web - INFO - 学习内容生成成功，内容长度: 2367
+2026-02-02 19:18:08,716 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:18:08,717 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:18:35,791 - scot-web - INFO - 学习内容生成成功，内容长度: 1956
+2026-02-02 19:21:29,349 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:21:29,356 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:22:00,893 - scot-web - INFO - 学习内容生成成功，内容长度: 1695
+2026-02-02 19:22:05,311 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:22:05,311 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:22:33,227 - scot-web - INFO - 学习内容生成成功，内容长度: 1738
+2026-02-02 19:22:37,498 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:22:37,500 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:23:08,509 - scot-web - INFO - 学习内容生成成功，内容长度: 2388
+2026-02-02 19:23:10,774 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:23:10,775 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:23:45,538 - scot-web - INFO - 学习内容生成成功，内容长度: 2338
+2026-02-02 19:23:48,127 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:23:48,128 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:24:38,107 - scot-web - INFO - 学习内容生成成功，内容长度: 3450
+2026-02-02 19:24:40,850 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:24:40,850 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:25:04,227 - scot-web - INFO - 学习内容生成成功，内容长度: 1743
+2026-02-02 19:25:08,831 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:25:08,832 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:25:27,542 - scot-web - INFO - 学习内容生成成功，内容长度: 1470
+2026-02-02 19:25:32,315 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:25:32,316 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:25:56,666 - scot-web - INFO - 学习内容生成成功，内容长度: 1931
+2026-02-02 19:26:00,996 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:26:00,997 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:26:30,114 - scot-web - INFO - 学习内容生成成功，内容长度: 2924
+2026-02-02 19:26:34,944 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:26:34,946 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:27:06,346 - scot-web - INFO - 学习内容生成成功，内容长度: 1946
+2026-02-02 19:29:13,511 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:29:13,515 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:29:37,978 - scot-web - INFO - 学习内容生成成功，内容长度: 1491
+2026-02-02 19:29:40,877 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:29:40,879 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:30:09,835 - scot-web - INFO - 学习内容生成成功，内容长度: 1939
+2026-02-02 19:30:14,112 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:30:14,113 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:30:50,761 - scot-web - INFO - 学习内容生成成功，内容长度: 2436
+2026-02-02 19:30:54,784 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:30:54,784 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:31:37,093 - scot-web - INFO - 学习内容生成成功，内容长度: 2221
+2026-02-02 19:31:41,312 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:31:41,314 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:32:10,791 - scot-web - INFO - 学习内容生成成功，内容长度: 1979
+2026-02-02 19:32:15,107 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:32:15,108 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:32:38,788 - scot-web - INFO - 学习内容生成成功，内容长度: 1861
+2026-02-02 19:32:42,615 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:32:42,615 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:33:19,101 - scot-web - INFO - 学习内容生成成功，内容长度: 3695
+2026-02-02 19:33:23,490 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:33:23,492 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:33:46,917 - scot-web - INFO - 学习内容生成成功，内容长度: 1654
+2026-02-02 19:33:49,207 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:33:49,207 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:34:17,402 - scot-web - INFO - 学习内容生成成功，内容长度: 2155
+2026-02-02 19:34:19,581 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:34:19,581 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:34:41,918 - scot-web - INFO - 学习内容生成成功，内容长度: 2021
+2026-02-02 19:34:44,353 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:34:44,353 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:35:04,754 - scot-web - INFO - 学习内容生成成功，内容长度: 1710
+2026-02-02 19:35:07,716 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:35:07,716 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:35:40,647 - scot-web - INFO - 学习内容生成成功，内容长度: 1735
+2026-02-02 19:43:04,982 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:43:04,986 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:43:31,946 - scot-web - INFO - 学习内容生成成功，内容长度: 1930
+2026-02-02 19:43:36,543 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:43:36,544 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:43:58,500 - scot-web - INFO - 学习内容生成成功，内容长度: 1618
+2026-02-02 19:44:02,868 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:44:02,869 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:44:36,519 - scot-web - INFO - 学习内容生成成功，内容长度: 2237
+2026-02-02 19:44:40,540 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:44:40,542 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:45:10,092 - scot-web - INFO - 学习内容生成成功，内容长度: 1984
+2026-02-02 19:45:15,182 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:45:15,221 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:45:34,899 - scot-web - INFO - 学习内容生成成功，内容长度: 1357
+2026-02-02 19:45:37,565 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:45:37,566 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:46:09,618 - scot-web - INFO - 学习内容生成成功，内容长度: 2423
+2026-02-02 19:46:12,262 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 19:46:12,262 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 19:54:41,990 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:54:44,152 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:54:47,095 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:54:51,864 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:54:55,094 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:54:57,654 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:55:00,186 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 19:55:03,828 - scot-web - INFO - 开始生成学习内容，内容长度: 52
+2026-02-02 20:02:29,567 - scot-web - INFO - 开始生成学习内容，内容长度: 35
+2026-02-02 20:09:17,505 - scot-web - INFO - 开始生成学习内容，内容长度: 33
+2026-02-02 20:10:24,095 - scot-web - INFO - 开始生成学习内容，内容长度: 59
+2026-02-02 20:10:26,576 - scot-web - INFO - 开始生成学习内容，内容长度: 56
+2026-02-02 20:10:29,184 - scot-web - INFO - 开始生成学习内容，内容长度: 87
+2026-02-02 20:10:31,635 - scot-web - INFO - 开始生成学习内容，内容长度: 84
+2026-02-02 20:10:35,749 - scot-web - INFO - 开始生成学习内容，内容长度: 76
+2026-02-02 20:10:40,432 - scot-web - INFO - 开始生成学习内容，内容长度: 67
+2026-02-02 20:10:45,347 - scot-web - INFO - 开始生成学习内容，内容长度: 67
+2026-02-02 20:10:50,315 - scot-web - INFO - 开始生成学习内容，内容长度: 74
+2026-02-02 20:10:55,084 - scot-web - INFO - 开始生成学习内容，内容长度: 86
+2026-02-02 20:10:59,787 - scot-web - INFO - 开始生成学习内容，内容长度: 65
+2026-02-02 20:11:04,124 - scot-web - INFO - 开始生成学习内容，内容长度: 50
+2026-02-02 20:11:08,298 - scot-web - INFO - 开始生成学习内容，内容长度: 91
+2026-02-02 20:11:12,592 - scot-web - INFO - 开始生成学习内容，内容长度: 59
+2026-02-02 20:11:16,945 - scot-web - INFO - 开始生成学习内容，内容长度: 56
+2026-02-02 20:11:21,384 - scot-web - INFO - 开始生成学习内容，内容长度: 67
+2026-02-02 20:11:25,661 - scot-web - INFO - 开始生成学习内容，内容长度: 87
+2026-02-02 20:11:29,819 - scot-web - INFO - 开始生成学习内容，内容长度: 50
+2026-02-02 20:11:34,777 - scot-web - INFO - 开始生成学习内容，内容长度: 91
+2026-02-02 20:11:39,825 - scot-web - INFO - 开始生成学习内容，内容长度: 84
+2026-02-02 20:11:44,643 - scot-web - INFO - 开始生成学习内容，内容长度: 76
+2026-02-02 20:11:47,627 - scot-web - INFO - 开始生成学习内容，内容长度: 74
+2026-02-02 20:11:49,921 - scot-web - INFO - 开始生成学习内容，内容长度: 86
+2026-02-02 20:11:52,279 - scot-web - INFO - 开始生成学习内容，内容长度: 65
+2026-02-02 20:11:54,755 - scot-web - INFO - 开始生成学习内容，内容长度: 67
+2026-02-02 20:24:35,262 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:35,262 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:40,651 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:40,651 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:44,827 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:44,827 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:47,414 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:47,414 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:50,063 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:50,063 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:52,691 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:52,692 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:55,263 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:55,263 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:24:57,866 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:24:57,866 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:00,758 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:00,876 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:04,580 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:04,581 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:08,747 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:08,749 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:13,037 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:13,039 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:17,384 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:17,384 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:22,318 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:22,320 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:26,738 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:26,738 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:29,896 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:29,896 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:32,970 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:32,970 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:35,694 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:35,694 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:38,139 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:38,140 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:41,338 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:41,339 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:44,786 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:44,788 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:49,274 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:49,276 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:54,895 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:54,896 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:25:59,573 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:25:59,574 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:03,367 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:03,370 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:06,399 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:06,399 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:08,794 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:08,794 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:11,415 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:11,416 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:15,251 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:15,252 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:19,510 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:19,511 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:23,032 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:23,033 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:25,462 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:25,462 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:27,799 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:27,799 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:30,099 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:30,099 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:32,455 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:32,455 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:34:35,206 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:34:35,207 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:19,410 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:19,413 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:22,288 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:22,289 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:24,437 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:24,438 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:26,786 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:26,787 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:29,606 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:29,606 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:32,521 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:32,522 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:44,464 - scot-web - INFO - 学习内容生成成功，内容长度: 1770
+2026-02-02 20:35:48,739 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:48,739 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:48,748 - scot-web - INFO - 学习内容生成成功，内容长度: 1660
+2026-02-02 20:35:52,058 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:52,059 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:52,062 - scot-web - INFO - 学习内容生成成功，内容长度: 2379
+2026-02-02 20:35:54,280 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:54,281 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:54,908 - scot-web - INFO - 学习内容生成成功，内容长度: 1632
+2026-02-02 20:35:57,104 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:57,106 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:35:57,110 - scot-web - INFO - 学习内容生成成功，内容长度: 1734
+2026-02-02 20:35:59,358 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:35:59,358 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:36:18,428 - scot-web - INFO - 学习内容生成成功，内容长度: 1962
+2026-02-02 20:36:21,409 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:36:21,409 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:36:21,412 - scot-web - INFO - 学习内容生成成功，内容长度: 1896
+2026-02-02 20:36:24,533 - scot-web - INFO - 学习内容生成成功，内容长度: 1839
+2026-02-02 20:36:26,329 - scot-web - INFO - 学习内容生成成功，内容长度: 3096
+2026-02-02 20:36:48,521 - scot-web - INFO - 学习内容生成成功，内容长度: 2016
+2026-02-02 20:38:38,566 - scot-web - INFO - 学习内容生成成功，内容长度: 1594
+2026-02-02 20:39:04,439 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:04,441 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:07,734 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:07,735 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:09,822 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:09,823 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:12,059 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:12,060 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:14,372 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:14,374 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:16,743 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:16,744 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:31,095 - scot-web - INFO - 学习内容生成成功，内容长度: 1482
+2026-02-02 20:39:35,325 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:35,325 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:38,622 - scot-web - INFO - 学习内容生成成功，内容长度: 2012
+2026-02-02 20:39:40,973 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:40,975 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:44,940 - scot-web - INFO - 学习内容生成成功，内容长度: 1543
+2026-02-02 20:39:49,340 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:49,341 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:39:54,924 - scot-web - INFO - 学习内容生成成功，内容长度: 1893
+2026-02-02 20:39:58,877 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:39:58,878 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:40:10,926 - scot-web - INFO - 学习内容生成成功，内容长度: 1834
+2026-02-02 20:40:13,106 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:40:13,107 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:40:15,115 - scot-web - INFO - 学习内容生成成功，内容长度: 3333
+2026-02-02 20:40:17,649 - scot-web - INFO - 开始生成学习内容，内容长度: 4
+2026-02-02 20:40:17,650 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-02 20:40:25,490 - scot-web - INFO - 学习内容生成成功，内容长度: 2532
+2026-02-02 20:40:26,164 - scot-web - INFO - 学习内容生成成功，内容长度: 1724
+2026-02-02 20:40:37,040 - scot-web - INFO - 学习内容生成成功，内容长度: 1903
+2026-02-02 20:40:39,111 - scot-web - INFO - 学习内容生成成功，内容长度: 1675
+2026-02-02 20:42:04,628 - scot-web - INFO - 学习内容生成成功，内容长度: 1483
+2026-02-02 20:42:13,005 - scot-web - INFO - 学习内容生成成功，内容长度: 2669

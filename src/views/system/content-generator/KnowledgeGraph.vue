@@ -2,61 +2,81 @@
   <div class="card">
     <h2 class="card-title">生成学习路径</h2>
     
+    <!-- 当没有知识图谱时，显示输入界面 -->
     <div v-if="!knowledgeGraph">
+      <!-- 如果有参考数据，显示参考信息 -->
       <div v-if="referenceData">
         <div class="alert alert-info">
           <p><strong>参考信息:</strong></p>
           <p>标题: {{ referenceData.title }}</p>
           <p>文本块数量: {{ referenceData.text_blocks?.length || 0 }}</p>
         </div>
-        
-        <button 
-          @click="extractKnowledge" 
+
+        <button
+          @click="extractKnowledge"
           class="btn"
         >
           基于参考信息生成学习路径
         </button>
+
+        <button
+          @click="extractMockKnowledge"
+          class="btn btn-success ml-2"
+        >
+          模拟生成学习路径
+        </button>
       </div>
-      
+
+      <!-- 如果没有参考数据，显示输入表单 -->
       <div v-else>
         <div class="form-group">
           <label for="referenceUrl">参考网站URL:</label>
-          <input 
-            type="url" 
-            id="referenceUrl" 
-            :value="referenceUrlInput" 
+          <input
+            type="url"
+            id="referenceUrl"
+            :value="referenceUrlInput"
             @input="referenceUrlInput = $event.target.value"
-            class="form-control" 
+            class="form-control"
             placeholder="https://example.com"
           />
         </div>
-        
+
         <div class="form-group">
           <label for="uploadedFile">或上传HTML文件:</label>
-          <input 
-            type="file" 
-            id="uploadedFile" 
-            @change="handleFileUpload" 
-            class="form-control" 
+          <input
+            type="file"
+            id="uploadedFile"
+            @change="handleFileUpload"
+            class="form-control"
             accept=".html,.htm"
           />
         </div>
-        
-        <button 
-          @click="extractKnowledge" 
-          :disabled="!referenceUrlInput && !uploadedFileInput" 
+
+        <button
+          @click="extractKnowledge"
+          :disabled="!referenceUrlInput && !uploadedFileInput"
           class="btn"
         >
           生成学习路径
         </button>
+
+        <button
+          @click="extractMockKnowledge"
+          :disabled="!referenceUrlInput && !uploadedFileInput"
+          class="btn btn-success ml-2"
+        >
+          模拟生成学习路径
+        </button>
       </div>
-      
+
+      <!-- 加载状态 -->
       <div v-if="loading" class="mt-3 text-center">
         <div class="spinner"></div>
         <p class="mt-2">正在生成学习路径...</p>
       </div>
     </div>
-    
+
+    <!-- 当有知识图谱时，显示图谱内容 -->
     <div v-else>
       <div class="alert alert-success">
         提取成功！共 {{ knowledgeGraph.nodes.length }} 个学习结点。
@@ -155,8 +175,8 @@
           </button>
         </div>
         <div class="save-buttons">
-          <button @click="saveKnowledgeGraph" class="btn btn-success" :disabled="!graphName">保存到文件</button>
-          <button @click="saveKnowledgeGraphToDatabase" class="btn btn-primary ml-2" :disabled="!graphName">保存到数据库</button>
+          <!-- <button @click="saveKnowledgeGraph" class="btn btn-success" :disabled="!graphName">保存到文件</button> -->
+          <button @click="saveKnowledgeGraphToDatabase" class="btn btn-primary ml-2" :disabled="!graphName">保存</button>
         </div>
       </div>
 
@@ -410,6 +430,148 @@ export default {
       } finally {
         this.loading = false;
       }
+    },
+
+    async extractMockKnowledge() {
+      this.loading = true;
+
+      try {
+        // 模拟API调用延迟
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        // 生成模拟的知识图谱
+        const mockGraph = this.generateMockKnowledgeGraph();
+
+        this.knowledgeGraph = mockGraph;
+
+        // 设置图谱名称
+        if (this.referenceData) {
+          this.graphName = this.referenceData.title;
+        } else if (this.referenceUrlInput) {
+          this.graphName = new URL(this.referenceUrlInput).hostname;
+        } else if (this.uploadedFileInput) {
+          this.graphName = this.uploadedFileInput.name;
+        } else {
+          this.graphName = '模拟知识图谱';
+        }
+
+        // 通知父组件知识点已提取
+        try {
+          this.$emit('knowledge-extracted', {
+            graph: mockGraph,
+            name: this.graphName
+          });
+        } catch (err) {
+          console.warn('emit knowledge-extracted failed:', err);
+        }
+
+        console.log('模拟知识图谱生成成功');
+      } catch (error) {
+        console.error('模拟知识图谱生成失败:', error);
+        alert('模拟知识图谱生成失败: ' + error.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    generateMockKnowledgeGraph() {
+      // 生成统一的模拟知识图谱
+      return {
+        nodes: [
+          {
+            data: {
+              id: 'chapter-1',
+              label: '基础概念',
+              type: 'chapter'
+            },
+            position: { x: 100, y: 100 }
+          },
+          {
+            data: {
+              id: 'knowledge-1',
+              label: '什么是Vue.js',
+              type: 'knowledge'
+            },
+            position: { x: 150, y: 200 }
+          },
+          {
+            data: {
+              id: 'knowledge-2',
+              label: 'Vue组件基础',
+              type: 'knowledge'
+            },
+            position: { x: 300, y: 200 }
+          },
+          {
+            data: {
+              id: 'chapter-2',
+              label: '核心功能',
+              type: 'chapter'
+            },
+            position: { x: 100, y: 350 }
+          },
+          {
+            data: {
+              id: 'knowledge-3',
+              label: '响应式数据',
+              type: 'knowledge'
+            },
+            position: { x: 150, y: 450 }
+          },
+          {
+            data: {
+              id: 'knowledge-4',
+              label: '生命周期钩子',
+              type: 'knowledge'
+            },
+            position: { x: 300, y: 450 }
+          },
+          {
+            data: {
+              id: 'knowledge-5',
+              label: '指令系统',
+              type: 'knowledge'
+            },
+            position: { x: 450, y: 450 }
+          },
+          {
+            data: {
+              id: 'chapter-3',
+              label: '高级特性',
+              type: 'chapter'
+            },
+            position: { x: 100, y: 600 }
+          },
+          {
+            data: {
+              id: 'knowledge-6',
+              label: 'Vue Router',
+              type: 'knowledge'
+            },
+            position: { x: 150, y: 700 }
+          },
+          {
+            data: {
+              id: 'knowledge-7',
+              label: 'Vuex状态管理',
+              type: 'knowledge'
+            },
+            position: { x: 300, y: 700 }
+          }
+        ],
+        edges: [
+          { data: { source: 'chapter-1', target: 'knowledge-1' } },
+          { data: { source: 'chapter-1', target: 'knowledge-2' } },
+          { data: { source: 'chapter-2', target: 'knowledge-3' } },
+          { data: { source: 'chapter-2', target: 'knowledge-4' } },
+          { data: { source: 'chapter-2', target: 'knowledge-5' } },
+          { data: { source: 'knowledge-3', target: 'knowledge-4' } },
+          { data: { source: 'knowledge-4', target: 'knowledge-5' } },
+          { data: { source: 'chapter-3', target: 'knowledge-6' } },
+          { data: { source: 'chapter-3', target: 'knowledge-7' } },
+          { data: { source: 'knowledge-5', target: 'knowledge-6' } }
+        ]
+      };
     },
     
     handleSaveGraph(graph) {
