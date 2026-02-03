@@ -1,512 +1,603 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- 知识点: 5_1 设置网页语言与字符编码 -->
+    <!-- 知识点ID: 4_1 设置视口与页面缩放 -->
     <meta charset="UTF-8">
-    <!-- 知识点: 5_2 配置视口实现移动端适配 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 知识点: 5_3 编写页面标题 -->
-    <title>SCOT-Web AI 开发工具演示</title>
-    <!-- 知识点: 5_4 使用<style>标签嵌入内部样式 -->
+    <title>LearnHub - 在线学习管理平台</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 全局重置与基础样式 */
+        /* 全局样式 */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-
+        /* 知识点ID: 2_3 设置页面背景色 */
         body {
-            /* 知识点: 2_3 应用字体与文本样式 */
-            font-family: "Arial", sans-serif;
-            color: #333;
-            background-color: #f5f5f5;
+            /* 知识点ID: 2_1 使用 CSS 进行文本样式设置 */
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            color: #333333;
             line-height: 1.6;
+            background-color: #f2f4f7; /* 浅灰蓝背景 */
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
         }
 
-        /* 知识点: 3_3 实现容器居中与最大宽度限制 */
+        /* 知识点ID: 4_2 使用 max-width 实现流体容器 */
         .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
 
-        /* 知识点: 1_2 运用语义化容器元素组织内容区域 */
+        /* 知识点ID: 1_3 创建页面结构 */
+        /* Header 样式 */
         header {
-            text-align: center;
-            padding: 30px 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-
-        /* 知识点: 1_1 使用标题与段落元素构建页面大纲 */
-        h1 {
-            color: #333;
-            font-size: 2.5rem;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        h2 {
-            color: #4CAF50;
-            font-size: 1.8rem;
-            margin: 25px 0 15px 0;
-        }
-
-        h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        p {
-            margin-bottom: 15px;
-            color: #666;
-        }
-
-        /* 主内容-侧边栏 Flexbox 布局 */
-        .content-wrapper {
+            background-color: #1f3a5f; /* 深蓝 */
+            color: #fff;
+            padding: 24px 0;
+            /* 知识点ID: 4_3 使用 Flexbox 进行水平布局 */
             display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        /* 知识点ID: 1_1 使用 h 元素 */
+        #text_h1_logo {
+            font-size: 22px;
+            font-weight: 500;
+        }
+        /* 知识点ID: 1_4 创建导航菜单 */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin-left: 20px;
+        }
+        nav ul li a {
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        /* 知识点ID: 4_4 设置链接悬停交互效果 */
+        nav ul li a:hover {
+            text-decoration: underline;
+            background-color: rgba(255,255,255,0.1);
         }
 
+        /* Main Content 区域 - 采用「主内容-侧边栏」Flexbox布局 */
+        main {
+            margin: 32px auto;
+        }
+        .content-layout {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+            flex-wrap: wrap; /* 小屏幕时堆叠 */
+        }
+        /* 知识点ID: 2_4, 3_3 创建圆角卡片组件 / 带阴影的分区卡片 */
+        .card {
+            background: #ffffff;
+            border-radius: 6px;
+            padding: 24px;
+            margin-bottom: 24px;
+            /* 知识点ID: 2_2 使用盒模型设置间距和边框 */
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        /* 主内容区 */
         .main {
-            flex: 1;
+            flex: 7; /* 约占70% */
             min-width: 300px;
-            /* 约70% */
-            flex-basis: 70%;
         }
-
+        /* 侧边栏 */
         .sidebar {
-            flex: 1;
-            min-width: 300px;
-            /* 约30% */
-            flex-basis: 30%;
+            flex: 3; /* 约占30% */
+            min-width: 250px;
+        }
+        /* 主内容区内的卡片标题 */
+        .main .card h2 {
+            font-size: 18px;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+        /* 侧边栏内的卡片标题 */
+        .sidebar .card h3 {
+            font-size: 16px;
+            color: #1f3a5f;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e5e5e5;
         }
 
-        /* 章节样式 */
-        .section {
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+        /* 知识点ID: 1_2 应用文本格式 */
+        .highlight {
+            font-weight: bold;
+            color: #1f3a5f;
+        }
+        .italic-text {
+            font-style: italic;
+        }
+        .important {
+            background-color: #fff9e6;
+            padding: 2px 4px;
+            border-radius: 3px;
         }
 
-        /* 知识点: 2_1 应用CSS盒模型控制间距与边框 */
+        /* 表格样式 */
+        /* 知识点ID: 3_1 创建基础表格 */
+        table {
+            width: 100%;
+            /* 知识点ID: 3_2 设置表格样式 */
+            border-collapse: collapse;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        table thead {
+            background-color: #f5f5f5;
+        }
+        table th {
+            font-weight: 500;
+            text-align: left;
+        }
+        table th, table td {
+            border: 1px solid #dddddd;
+            padding: 10px;
+        }
+        table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* 列表样式 - 符合指令要求 */
+        /* 有序列表 */
+        #text_list_ol_events {
+            list-style: none;
+            counter-reset: event-counter;
+        }
+        #text_list_ol_events li {
+            counter-increment: event-counter;
+            padding: 12px 0;
+            border-bottom: 1px dashed #e0e0e0;
+            position: relative;
+            padding-left: 30px;
+        }
+        #text_list_ol_events li:before {
+            content: counter(event-counter) ".";
+            position: absolute;
+            left: 0;
+            color: #1f3a5f;
+            font-weight: bold;
+        }
+        /* 无序列表 */
+        #text_list_ul_schedule {
+            list-style: none;
+        }
+        #text_list_ul_schedule li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+        #text_list_ul_schedule li:last-child {
+            border-bottom: none;
+        }
+
+        /* 媒体容器 - 符合指令要求 */
         .media-container {
             background-color: #fff;
             padding: 16px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-top: 20px;
         }
-
-        /* 主要图片样式 */
+        /* 主要图片 */
         #media_image_image {
             width: 100%;
             height: auto;
             border-radius: 6px;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
-
-        /* 图片画廊 - 使用 Flexbox */
-        .gallery {
+        /* 图片画廊 - 使用Flexbox布局 */
+        .image-gallery {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 16px;
         }
-
-        .thumbnail {
+        .gallery-thumb {
             width: 100px;
-            height: 80px;
+            height: 70px;
             object-fit: cover;
             border-radius: 4px;
             cursor: pointer;
             border: 2px solid transparent;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .gallery-thumb:hover,
+        .gallery-thumb.active {
+            border-color: #1f3a5f;
+            transform: scale(1.05);
         }
 
-        .thumbnail:hover,
-        .thumbnail.active {
-            border-color: #4CAF50;
-        }
-
-        /* 侧边栏媒体区：视频与音频 */
-        .sidebar-media {
+        /* 侧边栏媒体布局 - 音频视频并排 (小屏幕堆叠) */
+        .sidebar-media-wrapper {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
-
-        video, audio {
+        .media-item {
+            width: 100%;
+        }
+        /* 音频和视频组件样式 */
+        #media_audio_track, #media_video_video {
             width: 100%;
             border-radius: 6px;
         }
-
-        /* 知识点: 1_3 应用列表元素展示信息条目 */
-        /* 有序列表样式 */
-        #text_list_ol_events {
-            list-style-type: none;
-            padding-left: 0;
+        audio {
+            background-color: #f9f9f9;
         }
 
-        #text_list_ol_events li {
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 0;
-            counter-increment: item;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        #text_list_ol_events li::before {
-            content: counter(item) ".";
-            color: #4CAF50;
-            font-weight: bold;
-            margin-right: 10px;
-            min-width: 20px;
-        }
-
-        /* 无序列表样式 */
-        #text_list_ul_schedule {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        #text_list_ul_schedule li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 0;
-            position: relative;
-            padding-left: 25px;
-        }
-
-        #text_list_ul_schedule li::before {
-            content: "•";
-            color: #4CAF50;
-            font-size: 1.5em;
-            position: absolute;
-            left: 0;
-            top: 8px;
-        }
-
-        /* 功能卡片网格 - 使用 CSS Grid */
-        .features {
-            /* 知识点: 2_2, 3_1, 3_2 使用Grid布局，auto-fill/minmax实现响应式 */
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .feature-card {
-            background-color: #e8f5e9;
+        /* 表单样式 - 符合指令要求 */
+        .form-container {
+            background-color: #fff;
             padding: 20px;
             border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            margin-top: 20px;
         }
-
-        /* 知识点: 2_4 实现视觉增强效果（盒阴影、伪类） */
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        /* 知识点: 1_4, 4_1 构建表单元素 */
         .form-group {
-            margin: 15px 0;
+            margin-bottom: 16px;
         }
-
-        label {
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            font-weight: 500;
             color: #555;
-            font-weight: bold;
         }
-
-        /* 知识点: 2_5, 4_4 设置表单元素的样式，创建提交按钮 */
-        input[type="text"],
-        input[type="email"],
-        textarea {
+        .form-control {
             width: 100%;
-            padding: 12px;
+            padding: 10px 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            font-family: "Arial", sans-serif;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.2s;
         }
-
-        /* 新增指令: 表单输入框获得焦点时边框颜色变为主色调 */
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
+        /* 输入框获得焦点时边框颜色应变为主色调 */
+        .form-control:focus {
             outline: none;
-            border-color: #4CAF50;
+            border-color: #1f3a5f;
+            box-shadow: 0 0 0 2px rgba(31, 58, 95, 0.1);
         }
-
-        button[type="submit"] {
-            background-color: #4CAF50;
+        .btn {
+            background-color: #1f3a5f;
             color: white;
-            padding: 12px 30px;
             border: none;
+            padding: 12px 24px;
             border-radius: 4px;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            background-color: #152542; /* 主色变深 */
         }
 
-        /* 知识点: 2_4 实现视觉增强效果（伪类） */
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        button[type="submit"]:active {
-            transform: scale(0.98);
-        }
-
-        /* 页脚样式 */
+        /* Footer 样式 */
         footer {
+            background-color: #1f3a5f;
+            color: #fff;
             text-align: center;
+            padding: 16px 0;
+            font-size: 13px;
             margin-top: 40px;
-            padding-top: 25px;
-            border-top: 1px solid #eee;
-            color: #666;
-            font-size: 0.9rem;
         }
 
-        /* 响应式调整 */
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .content-wrapper {
+            .content-layout {
                 flex-direction: column;
             }
             .main, .sidebar {
-                flex-basis: 100%;
+                flex: none;
+                width: 100%;
             }
-            h1 {
-                font-size: 2rem;
+            header .container {
+                flex-direction: column;
+                align-items: flex-start;
             }
-            h2 {
-                font-size: 1.5rem;
+            nav ul {
+                margin-top: 16px;
+                flex-wrap: wrap;
+            }
+            nav ul li {
+                margin-left: 0;
+                margin-right: 15px;
+                margin-bottom: 8px;
+            }
+            .sidebar-media-wrapper {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- 页头区域 -->
-        <header>
-            <h1 id="text_paragraph_title">SCOT-Web AI 开发自动化平台</h1>
-            <p id="text_paragraph_intro">一款基于思维链技术，助力开发者从需求到成品高效交付的智能工具。面向网页开发者、产品经理及技术团队，提升全流程协作效率。</p>
-        </header>
+    <!-- 知识点ID: 1_3 创建页面结构 (header) -->
+    <header>
+        <div class="container header-container">
+            <!-- 知识点ID: 1_1 使用 h 元素和 p 元素 -->
+            <h1 id="text_h1_logo"><i class="fas fa-graduation-cap"></i> LearnHub 学习中心</h1>
+            <!-- 知识点ID: 1_4 创建导航菜单 -->
+            <nav>
+                <ul>
+                    <li><a href="#dashboard" data-action="nav">仪表盘</a></li>
+                    <li><a href="#courses" data-action="nav">我的课程</a></li>
+                    <li><a href="#announcements" data-action="nav">公告</a></li>
+                    <li><a href="#resources" data-action="nav">学习资源</a></li>
+                    <li><a href="#help" data-action="nav">帮助中心</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-        <!-- 主内容与侧边栏布局 -->
-        <div class="content-wrapper">
-            <!-- 主内容区 -->
-            <main class="main">
-                <!-- 功能展示区域 -->
-                <section class="section">
-                    <h2>核心功能展示</h2>
-                    <p>以下卡片展示了SCOT-Web系统的关键能力模块。</p>
-                    <div class="features">
-                        <div class="feature-card">
-                            <h3>智能需求解析</h3>
-                            <p>将自然语言需求自动转化为结构化开发任务。</p>
-                        </div>
-                        <div class="feature-card">
-                            <h3>代码片段生成</h3>
-                            <p>根据上下文自动生成HTML、CSS、JavaScript代码。</p>
-                        </div>
-                        <div class="feature-card">
-                            <h3>视觉风格匹配</h3>
-                            <p>分析参考网站，自动提取并应用配色、布局方案。</p>
-                        </div>
-                        <div class="feature-card">
-                            <h3>交互逻辑编排</h3>
-                            <p>为静态页面添加可响应用户操作的动态行为。</p>
-                        </div>
-                    </div>
+    <main class="container">
+        <h2 style="margin-bottom: 8px; color: #1f3a5f;">欢迎回到学习中心，<span class="highlight">王老师</span>！</h2>
+        <p id="text_paragraph_welcome">今天是 <span id="currentDate"></span>。您有 <span class="highlight">3门</span> 课程正在授课，<span class="highlight">1个</span> 待办事项需要处理。</p>
+
+        <div class="content-layout">
+            <!-- ========== 主内容区 (70%) ========== -->
+            <div class="main">
+                <!-- 卡片1: 平台介绍 -->
+                <section class="card">
+                    <h2 id="text_h2_intro">平台介绍</h2>
+                    <p id="text_paragraph_intro">欢迎使用 <span class="highlight">LearnHub 在线学习管理平台</span>。本平台旨在为教师和学生提供一个 <em class="italic-text">高效、直观</em> 的数字化学习环境。通过整合课程管理、进度跟踪、资源共享与互动交流等功能，我们致力于提升在线教育的质量与体验。</p>
+                    <p>平台核心价值在于 <strong>集中展示关键信息</strong>，让您能快速了解整体教学进度、学生动态以及系统公告，从而更专注于教学本身。</p>
                 </section>
 
-                <!-- 媒体展示区域 -->
-                <section class="section">
-                    <h2>项目演示与素材</h2>
-                    <div class="media-container">
-                        <h3>主要展示图片</h3>
-                        <!-- 主要图片 -->
-                        <img id="media_image_image" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SCOT-Web 界面概念图">
-                        <p>上图展示了SCOT-Web平台的用户界面概念设计，强调清晰的布局和直观的操作流。</p>
+                <!-- 卡片2: 课程概览 (表格) -->
+                <section class="card">
+                    <h2 id="text_h2_courses">课程概览</h2>
+                    <p>以下是您本学期负责的主要课程列表，点击课程名可查看详情。</p>
+                    <!-- 知识点ID: 3_1 创建基础表格 -->
+                    <table id="table_courses">
+                        <thead>
+                            <tr>
+                                <th>课程名称</th>
+                                <th>课程代码</th>
+                                <th>学生人数</th>
+                                <th>当前进度</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#" data-action="course-detail">Web前端开发基础</a></td>
+                                <td>CS101</td>
+                                <td>45</td>
+                                <td>60%</td>
+                                <td><span class="highlight">进行中</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" data-action="course-detail">JavaScript高级编程</a></td>
+                                <td>CS201</td>
+                                <td>32</td>
+                                <td>85%</td>
+                                <td><span class="highlight">进行中</span></td>
+                            </tr>
+                            <tr>
+                                <td><a href="#" data-action="course-detail">响应式网页设计</a></td>
+                                <td>CS105</td>
+                                <td>28</td>
+                                <td>30%</td>
+                                <td><span class="important">待开始</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
 
+                <!-- 卡片3: 媒体与资源展示 (包含图片画廊) -->
+                <section class="card">
+                    <h2>课程资源与媒体</h2>
+                    <!-- 主要图片展示 -->
+                    <div class="media-container">
+                        <img id="media_image_image" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1100&q=80" alt="在线学习场景">
+                        <p>上图展示了我们最新的互动式学习界面。<span class="italic-text">点击下方缩略图可切换展示不同的学习环境图片。</span></p>
                         <!-- 图片画廊 -->
-                        <h4 style="margin-top: 20px;">更多项目截图</h4>
-                        <div class="gallery">
-                            <img class="thumbnail active" src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="概念图1" data-full-src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                            <img class="thumbnail" src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="概念图2" data-full-src="https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
-                            <img class="thumbnail" src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="概念图3" data-full-src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <div class="image-gallery">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="学习界面1" class="gallery-thumb active" data-full="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1100&q=80">
+                            <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="学习界面2" class="gallery-thumb" data-full="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1100&q=80">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="学习界面3" class="gallery-thumb" data-full="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1100&q=80">
                         </div>
                     </div>
                 </section>
 
-                <!-- 列表信息区域 -->
-                <section class="section">
-                    <h2>开发流程与时间线</h2>
-                    <div class="media-container">
-                        <h3>主要开发阶段 (有序列表)</h3>
-                        <ol id="text_list_ol_events">
-                            <li><strong>需求分析与规划：</strong> 与客户沟通，明确项目目标、功能范围和设计风格。</li>
-                            <li><strong>原型与UI/UX设计：</strong> 制作线框图和视觉稿，确定交互逻辑和用户体验。</li>
-                            <li><strong>前端开发与集成：</strong> 使用HTML、CSS、JavaScript实现静态页面和基础交互。</li>
-                            <li><strong>测试与优化：</strong> 跨浏览器/设备测试，性能优化，修复Bug。</li>
-                            <li><strong>部署与交付：</strong> 将网站部署到服务器，进行最终验收并交付给客户。</li>
-                        </ol>
-                    </div>
-                    <div class="media-container" style="margin-top: 20px;">
-                        <h3>本周团队任务 (无序列表)</h3>
-                        <ul id="text_list_ul_schedule">
-                            <li>完成用户反馈表单的后端接口联调</li>
-                            <li>优化移动端侧边栏的响应式表现</li>
-                            <li>为媒体播放器添加播放列表功能</li>
-                            <li>撰写下一阶段开发计划文档</li>
-                        </ul>
-                    </div>
+                <!-- 卡片4: 近期活动 (有序列表) -->
+                <section class="card">
+                    <h2>近期重要活动</h2>
+                    <!-- 知识点ID: 1_1 使用列表元素 -->
+                    <ol id="text_list_ol_events">
+                        <li><span class="highlight">期中教学检查</span> - 请各位老师于本周五前提交课程材料。</li>
+                        <li><span class="highlight">Web前端开发公开课</span> - 将于下周三下午3点举行，欢迎旁听。</li>
+                        <li><span class="highlight">平台功能升级通知</span> - 新版本将于本月底上线，包含更强大的数据分析功能。</li>
+                    </ol>
                 </section>
-            </main>
+            </div>
 
-            <!-- 侧边栏 -->
-            <aside class="sidebar">
-                <!-- 侧边栏媒体区 -->
-                <section class="section">
-                    <h2>多媒体演示</h2>
-                    <div class="sidebar-media">
-                        <div class="media-container">
-                            <h3>产品介绍视频</h3>
-                            <video id="media_video_video" controls poster="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=60">
-                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
-                                您的浏览器不支持 video 标签。
-                            </video>
-                            <p style="margin-top: 10px; font-size: 0.9rem;">这是一个示例视频，展示了动态交互效果。</p>
-                        </div>
+            <!-- ========== 侧边栏 (30%) ========== -->
+            <div class="sidebar">
+                <!-- 卡片5: 学习进度与待办 -->
+                <section class="card">
+                    <h3>学习进度提醒</h3>
+                    <ul id="text_list_ul_schedule">
+                        <li>完成 JavaScript 课程第5章 <span>今日</span></li>
+                        <li>批改 CS101 作业 <span>明天</span></li>
+                        <li>准备公开课材料 <span>下周三</span></li>
+                        <li>系统使用反馈提交 <span>本月30日</span></li>
+                    </ul>
+                </section>
 
-                        <div class="media-container">
-                            <h3>背景音效 / 音频说明</h3>
+                <!-- 卡片6: 媒体资源 (音频与视频) -->
+                <section class="card">
+                    <h3>学习资源</h3>
+                    <p>这里提供本周推荐的音频讲座和教学视频。</p>
+                    <div class="sidebar-media-wrapper">
+                        <div class="media-item media-container">
+                            <h4><i class="fas fa-headphones"></i> 本周音频讲座</h4>
+                            <p><em>“响应式设计的最新趋势”</em> - 主讲人：李教授</p>
+                            <!-- 音频组件 -->
                             <audio id="media_audio_track" controls>
                                 <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                                您的浏览器不支持 audio 标签。
+                                您的浏览器不支持音频元素。
                             </audio>
-                            <p style="margin-top: 10px; font-size: 0.9rem;">播放一段示例音频，可用于功能操作的音效反馈。</p>
+                        </div>
+                        <div class="media-item media-container">
+                            <h4><i class="fas fa-video"></i> 教学视频示范</h4>
+                            <p><em>“Flexbox布局实战讲解”</em> - 时长：15分钟</p>
+                            <!-- 视频组件 -->
+                            <video id="media_video_video" controls poster="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80">
+                                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                                您的浏览器不支持视频元素。
+                            </video>
                         </div>
                     </div>
                 </section>
 
-                <!-- 联系表单 -->
-                <section class="section">
-                    <h2>联系我们</h2>
-                    <p>如果您对我们的AI开发工具感兴趣，或想了解更多信息，请填写以下表单。</p>
-                    <!-- 知识点: 4_1, 4_2, 4_3 构建包含多种输入类型的表单，使用label关联，应用验证属性 -->
-                    <form id="contact_form" data-target="form-submit">
-                        <div class="form-group">
-                            <label for="contact_name">姓名：</label>
-                            <input type="text" id="contact_name" name="name" placeholder="请输入您的姓名" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact_email">邮箱：</label>
-                            <input type="email" id="contact_email" name="email" placeholder="请输入您的邮箱地址" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact_message">留言：</label>
-                            <textarea id="contact_message" name="message" rows="5" placeholder="请简要描述您的需求或问题..." required></textarea>
-                        </div>
-                        <!-- 知识点: 4_4 创建并样式化提交按钮 -->
-                        <button type="submit" data-action="submit-form">提交信息</button>
-                    </form>
+                <!-- 卡片7: 快速联系表单 -->
+                <section class="card">
+                    <h3>快速联系技术支持</h3>
+                    <p>遇到技术问题？请填写下表，我们将尽快与您联系。</p>
+                    <div class="form-container">
+                        <form id="contact_form">
+                            <div class="form-group">
+                                <label for="name">姓名</label>
+                                <input type="text" id="name" class="form-control" placeholder="请输入您的姓名" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">邮箱</label>
+                                <input type="email" id="email" class="form-control" placeholder="example@learnhub.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="issue">问题描述</label>
+                                <textarea id="issue" class="form-control" rows="3" placeholder="请简要描述您遇到的问题..."></textarea>
+                            </div>
+                            <button type="submit" class="btn" data-target="form-submit"><i class="fas fa-paper-plane"></i> 发送请求</button>
+                        </form>
+                        <p id="formFeedback" style="margin-top: 12px; font-size: 13px; color: #666;"></p>
+                    </div>
                 </section>
-            </aside>
+            </div>
         </div>
+    </main>
 
-        <!-- 页脚 -->
-        <footer>
-            <p>&copy; 2023 SCOT-Web AI 开发工具演示页面. 本页面用于技术展示与教学目的。</p>
-            <p style="margin-top: 5px;">遵循原生HTML/CSS/JS实现原则，所有交互均在前端完成。</p>
-        </footer>
-    </div>
+    <!-- 知识点ID: 1_3 创建页面结构 (footer) -->
+    <footer>
+        <div class="container">
+            <p id="text_paragraph_copyright">© 2023 LearnHub 在线学习管理平台. 保留所有权利。 | 建议使用 Chrome 或 Edge 浏览器以获得最佳体验。</p>
+            <p style="font-size: 12px; opacity: 0.8; margin-top: 4px;">本页面仅为教学演示，展示前端基础知识点的整合应用。</p>
+        </div>
+    </footer>
 
     <script>
-        // JavaScript 交互逻辑
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('SCOT-Web 演示页面已加载');
+        // 设置当前日期
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+        document.getElementById('currentDate').textContent = now.toLocaleDateString('zh-CN', options);
 
-            // 1. 图片画廊交互：点击缩略图切换主图
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            const mainImage = document.getElementById('media_image_image');
+        // 1. 图片画廊交互
+        const mainImage = document.getElementById('media_image_image');
+        const thumbnails = document.querySelectorAll('.gallery-thumb');
 
-            thumbnails.forEach(thumb => {
-                thumb.addEventListener('click', function() {
-                    // 更新主图src
-                    const newSrc = this.getAttribute('data-full-src');
-                    mainImage.src = newSrc;
-                    mainImage.alt = this.alt;
-
-                    // 更新缩略图活跃状态
-                    thumbnails.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                });
+        thumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // 更新主图片
+                const newSrc = this.getAttribute('data-full');
+                mainImage.src = newSrc;
+                mainImage.alt = this.alt;
+                // 更新激活状态
+                thumbnails.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
             });
-
-            // 2. 表单提交处理
-            const contactForm = document.getElementById('contact_form');
-            contactForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // 阻止默认提交行为
-
-                // 简单收集数据（实际应用中会发送到后端）
-                const name = document.getElementById('contact_name').value;
-                const email = document.getElementById('contact_email').value;
-                const message = document.getElementById('contact_message').value;
-
-                // 简单验证
-                if(name && email && message) {
-                    // 模拟提交成功
-                    alert(`感谢 ${name} 提交信息！我们会尽快通过 ${email} 与您联系。`);
-                    // 清空表单
-                    contactForm.reset();
-                } else {
-                    alert('请填写所有必填字段。');
-                }
-            });
-
-            // 3. 功能卡片点击效果增强（可选）
-            const featureCards = document.querySelectorAll('.feature-card');
-            featureCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('h3').textContent;
-                    console.log(`您点击了功能卡片: ${title}`);
-                    // 可以在这里添加更复杂的交互，比如显示详情模态框
-                });
-            });
-
-            // 4. 音频/视频播放状态日志（用于演示）
-            const audioPlayer = document.getElementById('media_audio_track');
-            const videoPlayer = document.getElementById('media_video_video');
-
-            if(audioPlayer) {
-                audioPlayer.addEventListener('play', () => console.log('音频开始播放'));
-                audioPlayer.addEventListener('pause', () => console.log('音频暂停'));
-            }
-
-            if(videoPlayer) {
-                videoPlayer.addEventListener('play', () => console.log('视频开始播放'));
-                videoPlayer.addEventListener('pause', () => console.log('视频暂停'));
-            }
         });
+
+        // 2. 表单提交交互
+        const contactForm = document.getElementById('contact_form');
+        const formFeedback = document.getElementById('formFeedback');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止默认提交
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const issue = document.getElementById('issue').value.trim();
+
+            // 简单验证
+            if (!name || !email) {
+                formFeedback.textContent = '请填写姓名和邮箱。';
+                formFeedback.style.color = '#d9534f';
+                return;
+            }
+
+            // 模拟提交成功
+            formFeedback.textContent = `感谢您，${name}！您的请求已提交。我们将在24小时内通过 ${email} 与您联系。`;
+            formFeedback.style.color = '#5cb85c';
+
+            // 重置表单
+            setTimeout(() => {
+                contactForm.reset();
+                formFeedback.textContent = '';
+            }, 5000);
+        });
+
+        // 3. 导航链接点击交互（模拟跳转）
+        const navLinks = document.querySelectorAll('nav a, table a[data-action="course-detail"]');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const linkText = this.textContent;
+                // 在实际应用中这里会进行页面跳转或加载新内容
+                // 此处仅模拟提示
+                alert(`[模拟交互] 您点击了“${linkText}”。在实际平台中，这里将导航到对应页面。`);
+            });
+        });
+
+        // 4. 表格行悬停效果增强
+        const tableRows = document.querySelectorAll('#table_courses tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.backgroundColor = '#f0f7ff';
+            });
+            row.addEventListener('mouseleave', function() {
+                this.style.backgroundColor = '';
+            });
+        });
+
+        // 5. 为音频和视频添加简单的播放/暂停日志（可选）
+        const audioEl = document.getElementById('media_audio_track');
+        const videoEl = document.getElementById('media_video_video');
+
+        audioEl.addEventListener('play', () => console.log('音频讲座开始播放'));
+        audioEl.addEventListener('pause', () => console.log('音频讲座已暂停'));
+
+        videoEl.addEventListener('play', () => console.log('教学视频开始播放'));
+        videoEl.addEventListener('pause', () => console.log('教学视频已暂停'));
     </script>
 </body>
 </html>

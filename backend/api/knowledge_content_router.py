@@ -8,7 +8,8 @@ from db.database import get_db
 from db.models import KnowledgeContent as KnowledgeContentModel
 from schemas.knowledge_content_schema import (
     KnowledgeContentCreate, KnowledgeContentUpdate, KnowledgeContentResponse,
-    KnowledgeContentPageQuery, KnowledgeContentPageResponse, ApiResponse
+    KnowledgeContentPageQuery, KnowledgeContentPageResponse, ApiResponse,
+    KnowledgeContentBatchSave
 )
 
 knowledge_content_router = APIRouter(prefix="/api/v1/learning-content", tags=["Learning Content"])
@@ -184,4 +185,75 @@ async def delete_knowledge_contents(content_ids: str, db: Session = Depends(get_
         return ApiResponse(
             code="A0001",
             message=f"删除知识内容失败: {str(e)}"
+        )
+
+
+@knowledge_content_router.post("/batch-save", response_model=ApiResponse)
+async def batch_save_knowledge_contents(batch_data: KnowledgeContentBatchSave, db: Session = Depends(get_db)):
+    """
+    批量保存知识点内容
+    """
+    try:
+        # 根据course_code查询对应的course_id
+        from db.models import Course as CourseModel
+        course = db.query(CourseModel).filter(CourseModel.course_code == batch_data.course_id).first()
+
+        if not course:
+            return ApiResponse(
+                code="A0001",
+                message=f"找不到课程编码为 '{batch_data.course_id}' 的课程"
+            )
+
+        course_id = course.id
+        saved_count = 0
+
+        for content_item in batch_data.knowledge_contents:
+            # 检查是否已存在相同的数据（course_id, node_id, level 组合）
+            # 将整数转换为枚举类型进行比较
+            from db.models import DifficultyLevelEnum
+            level_enum = DifficultyLevelEnum(content_item.level)
+
+            existing = db.query(KnowledgeContentModel).filter(
+                KnowledgeContentModel.course_id == course_id,
+                KnowledgeContentModel.node_id == content_item.node_id,
+                KnowledgeContentModel.level == level_enum
+            ).first()
+
+            if existing:
+                # 更新现有记录
+                existing.title = content_item.title
+                existing.description = content_item.description
+                existing.updated_at = datetime.now()
+                logger.info(f"更新知识内容: course_id={course_id}, node_id={content_item.node_id}, level={content_item.level}")
+            else:
+                # 创建新记录
+                new_content = KnowledgeContentModel(
+                    course_id=course_id,
+                    node_id=content_item.node_id,
+                    title=content_item.title,
+                    description=content_item.description,
+                    level=level_enum
+                )
+                db.add(new_content)
+                logger.info(f"创建新知识内容: course_id={course_id}, node_id={content_item.node_id}, level={content_item.level}")
+
+            saved_count += 1
+
+        db.commit()
+
+        return ApiResponse(
+            code="00000",
+            data={
+                "saved_count": saved_count,
+                "total_items": len(batch_data.knowledge_contents)
+            },
+            message=f"批量保存成功，共处理 {saved_count} 条记录"
+        )
+
+    except Exception as e:
+        db.rollback()
+        logger.error(f"批量保存知识内容失败: {str(e)}")
+        return ApiResponse(
+            code="A0001",
+            message=f"批量保存知识内容失败: {str(e)}"
         )

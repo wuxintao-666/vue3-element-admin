@@ -58,6 +58,20 @@ class KnowledgeContentPageResponse(BaseModel):
     total: int
 
 
+class KnowledgeContentBatchItem(BaseModel):
+    """批量保存的单个知识内容项"""
+    node_id: str = Field(..., description="知识图谱结点ID")
+    level: int = Field(..., ge=1, le=4, description="难度等级 1:入门 2:基础 3:进阶 4:高级")
+    title: str = Field(..., description="内容标题")
+    description: str = Field(..., description="内容正文")
+
+
+class KnowledgeContentBatchSave(BaseModel):
+    """批量保存知识内容的请求"""
+    course_id: str = Field(..., description="课程编码 (course_code)，将自动转换为课程ID")
+    knowledge_contents: List[KnowledgeContentBatchItem] = Field(..., description="知识内容列表")
+
+
 class ApiResponse(BaseModel):
     """统一API响应"""
     code: str = "00000"

@@ -101,12 +101,14 @@
         ref="generatePanel"
         :prd-data="prdData"
         :knowledge-data="knowledgeData"
+        :user-state="userState"
         @website-generated="onWebsiteGenerated"
       />
 
       <PreviewPane
         v-if="currentStep === 7"
         :initial-task-id="generatedTaskId"
+        :generated-files="generatedFiles"
       />
     </div>
     
@@ -175,6 +177,12 @@ export default {
         total: 0,
         completed: 0,
         failed: 0
+      },
+      generatedFiles: null,       // 生成的网页文件
+      userState: {               // 用户状态
+        taskId: '',
+        files: null,
+        userNote: ''
       }
     };
   },
@@ -225,7 +233,6 @@ export default {
       this.uploadData = data.data;
       this.referenceData = data.data;
       this.currentStep = 2;
-      this.canProceed = false;
       console.log('进入PRD生成步骤');
     },
 
@@ -233,7 +240,7 @@ export default {
       this.uploadData = data.data;
       this.referenceData = data.data;
       this.currentStep = 3;
-      this.canProceed = false;
+    
       console.log('进入知识点提取步骤');
     },
     
@@ -343,8 +350,15 @@ export default {
 
     onWebsiteGenerated(data) {
       this.generatedTaskId = data.taskId;
+      this.generatedFiles = data.files;
       this.updateCanProceed();
       console.log('网页生成完成，可以进行下一步');
+      console.log('接收到的数据:', {
+        taskId: data.taskId,
+        files: data.files,
+        userNote: data.userNote
+      });
+      console.log('当前 userState:', this.userState);
     },
     
     nextStep() {

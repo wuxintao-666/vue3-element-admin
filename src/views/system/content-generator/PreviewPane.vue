@@ -69,6 +69,11 @@ export default {
       previewUrl: ''
     };
   },
+  computed: {
+    hasGeneratedFiles() {
+      return this.generatedFiles && Object.keys(this.generatedFiles).length > 0;
+    }
+  },
   methods: {
     loadPreview() {
       if (this.taskIdInput) {
@@ -90,12 +95,55 @@ export default {
     
     onIframeLoad() {
       console.log('预览页面加载完成');
+    },
+
+    createLocalPreview(files) {
+      try {
+        // 查找主要的HTML文件
+        const htmlFile = Object.values(files).find(file =>
+          file.filename && (
+            file.filename.endsWith('.html') ||
+            file.filename.endsWith('.htm') ||
+            file.filename.includes('index')
+          )
+        );
+
+        if (htmlFile && htmlFile.content) {
+          // 创建blob URL
+          const blob = new Blob([htmlFile.content], { type: 'text/html' });
+          const url = URL.createObjectURL(blob);
+
+          // 清理之前的URL
+          if (this.previewUrl && this.previewUrl.startsWith('blob:')) {
+            URL.revokeObjectURL(this.previewUrl);
+          }
+
+          this.previewUrl = url;
+          console.log('创建本地预览:', htmlFile.filename);
+        } else {
+          console.warn('未找到可预览的HTML文件');
+          // 如果没有HTML文件，回退到API预览
+          if (this.taskId) {
+            this.previewUrl = `/api/preview/${this.taskId}`;
+          }
+        }
+      } catch (error) {
+        console.error('创建本地预览失败:', error);
+        // 出错时回退到API预览
+        if (this.taskId) {
+          this.previewUrl = `/api/preview/${this.taskId}`;
+        }
+      }
     }
   },
   props: {
     initialTaskId: {
       type: String,
       default: ''
+    },
+    generatedFiles: {
+      type: Object,
+      default: null
     }
   },
   watch: {
@@ -103,7 +151,17 @@ export default {
       handler(newVal) {
         if (newVal) {
           this.taskId = newVal;
-          this.previewUrl = `/api/preview/${this.taskId}`;
+          if (!this.hasGeneratedFiles) {
+            this.previewUrl = `/api/preview/${this.taskId}`;
+          }
+        }
+      },
+      immediate: true
+    },
+    generatedFiles: {
+      handler(newVal) {
+        if (newVal && Object.keys(newVal).length > 0) {
+          this.createLocalPreview(newVal);
         }
       },
       immediate: true

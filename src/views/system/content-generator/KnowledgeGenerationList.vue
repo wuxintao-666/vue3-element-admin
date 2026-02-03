@@ -13,7 +13,7 @@
             <div class="control-buttons">
               <button
                 @click="startGeneration"
-                :disabled="isGenerating || allGenerated"
+                :disabled="isGenerating || isMockGenerating || allGenerated"
                 class="btn btn-primary"
               >
                 {{ isGenerating ? '生成中...' : allGenerated ? '已全部生成' : '开始生成' }}
@@ -21,10 +21,10 @@
 
               <button
                 @click="startMockGeneration"
-                :disabled="isGenerating || allGenerated"
+                :disabled="isGenerating || isMockGenerating || allGenerated"
                 class="btn btn-success ml-2"
               >
-                {{ isGenerating ? '生成中...' : allGenerated ? '已全部生成' : '模拟生成' }}
+                {{ isMockGenerating ? '生成中...' : allGenerated ? '已全部生成' : '模拟生成' }}
               </button>
 
               <button
@@ -70,7 +70,7 @@
               v-for="(node, index) in knowledgeData.graph.nodes"
               :key="node.data.id"
               class="generation-item"
-              :class="{ 'generating': isGenerating && !hasGeneratedContent(node.data.id) }"
+              :class="{ 'generating': (isGenerating || isMockGenerating) && !hasGeneratedContent(node.data.id) }"
             >
               <span class="item-seq">{{ index + 1 }}</span>
               <span class="item-title">{{ node.data.label }}</span>
@@ -237,6 +237,7 @@ export default {
     return {
       // 生成状态
       isGenerating: false,
+      isMockGenerating: false,
       isRegeneratingNode: null, // 当前正在重新生成的节点ID
 
       // 生成的内容存储（现在通过 prop 获取）
@@ -281,6 +282,7 @@ export default {
       if (this.isGenerating) return;
 
       this.isGenerating = true;
+      this.isMockGenerating = false;
       // 只获取需要生成的知识点节点（排除章节节点）
       const knowledgeNodes = this.knowledgeData.graph.nodes.filter(node => node.data.type === 'knowledge');
       this.updateGenerationProgress({
@@ -294,9 +296,10 @@ export default {
     },
 
     async startMockGeneration() {
-      if (this.isGenerating) return;
+      if (this.isMockGenerating) return;
 
-      this.isGenerating = true;
+      this.isMockGenerating = true;
+      this.isGenerating = false;
       // 只获取需要生成的知识点节点（排除章节节点）
       const knowledgeNodes = this.knowledgeData.graph.nodes.filter(node => node.data.type === 'knowledge');
       this.updateGenerationProgress({
@@ -384,7 +387,7 @@ export default {
           await new Promise(resolve => setTimeout(resolve, 300 + Math.random() * 700));
 
           // 生成模拟的markdown内容
-          const mockContent = this.generateMockContent(node.data.label);
+          const mockContent = this.generateHTMLBasicContent(node.data.label);
 
           // 存储模拟生成的内容
           this.updateGeneratedContents(node.data.id, mockContent);
@@ -411,42 +414,578 @@ export default {
         console.error('模拟生成过程中发生错误:', error);
       } finally {
         // 生成完成
-        this.isGenerating = false;
+        this.isMockGenerating = false;
       }
     },
 
     generateMockContent(nodeLabel) {
-      // 统一的模拟内容，所有知识点都使用相同的内容结构
+      // 生成包含4个难度等级的学习内容
       let mockContent = `# ${nodeLabel}\n\n`;
 
-      mockContent += `## Level 1\n\n`;
-      mockContent += `这是${nodeLabel}的基础概念介绍。理解这些基本原理是学习后续高级内容的基础。\n\n`;
-      mockContent += `### 核心要点：\n`;
-      mockContent += `- 基本概念和定义\n`;
-      mockContent += `- 核心原理和机制\n`;
-      mockContent += `- 相关术语和概念\n\n`;
-
-      mockContent += `## Level 2\n\n`;
-      mockContent += `深入理解${nodeLabel}的工作原理和应用场景。\n\n`;
-      mockContent += `### 详细说明：\n`;
-      mockContent += `- 工作流程和步骤\n`;
-      mockContent += `- 实际应用案例\n`;
-      mockContent += `- 常见问题和解决方案\n`;
-      mockContent += `- 最佳实践建议\n\n`;
-
-      mockContent += `## Level 3\n\n`;
-      mockContent += `高级应用和优化技巧，掌握这些内容可以让你在实际工作中更加高效。\n\n`;
-      mockContent += `### 进阶内容：\n`;
-      mockContent += `- 性能优化方法\n`;
-      mockContent += `- 高级配置和自定义\n`;
-      mockContent += `- 故障排除技巧\n`;
-      mockContent += `- 扩展和集成方案\n\n`;
+      // 根据知识点关键词判断内容类型并生成相应内容
+      if (nodeLabel.includes('了解HTML基本结构')) {
+        mockContent += this.generateHTMLBasicContent();
+      } else if (nodeLabel.includes('使用标题元素')) {
+        mockContent += this.generateHTMLElementsContent();
+      } else if (nodeLabel.includes('创建段落元素')) {
+        mockContent += this.generateParagraphContent();
+      } else if (nodeLabel.includes('理解CSS基本语法')) {
+        mockContent += this.generateCSSBasicContent();
+      } else if (nodeLabel.includes('应用文本样式')) {
+        mockContent += this.generateTextStylingContent();
+      } else if (nodeLabel.includes('使用CSS盒模型')) {
+        mockContent += this.generateBoxModelContent();
+      } else {
+        mockContent += this.generateGenericContent();
+      }
 
       return mockContent.trim();
     },
 
+    // HTML基础内容 - 4个等级
+    generateHTMLBasicContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n`;
+      content += `### 核心概念：\n`;
+      content += `- HTML是标记语言，不是编程语言\n`;
+      content += `- 使用标签来定义网页结构\n`;
+      content += `- 浏览器解析HTML显示网页内容\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `HTML文档有标准的结构，每个部分都有特定的作用。\n\n`;
+      content += `### 基本结构：\n`;
+      content += `- \`<!DOCTYPE html>\`: 声明文档类型\n`;
+      content += `- \`<html>\`: 根元素\n`;
+      content += `- \`<head>\`: 文档头部，包含元信息\n`;
+      content += `- \`<body>\`: 文档主体，显示在浏览器中\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `了解HTML文档的完整结构和最佳实践。\n\n`;
+      content += `### 完整结构：\n`;
+      content += `- 字符编码：\`<meta charset="UTF-8">\`\n`;
+      content += `- 页面标题：\`<title>页面标题</title>\`\n`;
+      content += `- 视口设置：响应式网页的基础\n`;
+      content += `- 注释：\`<!-- 注释内容 -->\`\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握HTML文档的优化技巧和高级用法。\n\n`;
+      content += `### 高级特性：\n`;
+      content += `- 语义化HTML：使用正确的标签提升SEO\n`;
+      content += `- 无障碍访问：为残障用户提供更好的体验\n`;
+      content += `- HTML5新特性：更丰富的媒体和交互元素\n`;
+      content += `- 性能优化：减少不必要的标签和嵌套\n\n`;
+
+      return content;
+    },
+
+    // HTML元素内容 - 4个等级
+    generateHTMLElementsContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `标题元素用于定义文档的层次结构，从最重要的h1到最不重要的h6。\n\n`;
+      content += `### 标题层级：\n`;
+      content += `- h1: 最重要的标题，通常每个页面只有一个\n`;
+      content += `- h2: 二级标题\n`;
+      content += `- h3: 三级标题\n`;
+      content += `- h4, h5, h6: 更低级别的标题\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `正确使用标题元素可以让文档结构更清晰，也有助于搜索引擎理解内容。\n\n`;
+      content += `### 使用原则：\n`;
+      content += `- 不要跳过标题层级\n`;
+      content += `- 每个页面有且只有一个h1\n`;
+      content += `- 标题要简洁明了\n`;
+      content += `- 使用标题建立文档大纲\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `了解标题元素的样式控制和无障碍访问。\n\n`;
+      content += `### 样式与可访问性：\n`;
+      content += `- CSS样式控制标题外观\n`;
+      content += `- 屏幕阅读器依赖标题导航\n`;
+      content += `- 标题锚点：自动生成页面内链接\n`;
+      content += `- 目录生成：基于标题自动创建目录\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握标题元素的高级用法和最佳实践。\n\n`;
+      content += `### 高级技巧：\n`;
+      content += `- SEO优化：标题中的关键词\n`;
+      content += `- 微数据：添加结构化数据\n`;
+      content += `- 标题样式系统：建立一致的视觉层次\n`;
+      content += `- 响应式标题：根据屏幕调整大小\n\n`;
+
+      return content;
+    },
+
+    // 段落内容 - 4个等级
+    generateParagraphContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `段落元素p是HTML中最常用的元素之一，用于包裹文本内容。\n\n`;
+      content += `### 基本用法：\n`;
+      content += `- \`<p>\` 标签定义段落\n`;
+      content += `- 浏览器会在段落前后添加空白\n`;
+      content += `- 可以包含文本、链接、图片等\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `段落元素在网页排版中扮演重要角色。\n\n`;
+      content += `### 排版作用：\n`;
+      content += `- 分隔内容：将文本分成逻辑段落\n`;
+      content += `- 提高可读性：适当的段落长度\n`;
+      content += `- 建立节奏：内容流的控制\n`;
+      content += `- 搜索引擎友好：结构化内容\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `了解段落元素的样式控制和语义化使用。\n\n`;
+      content += `### 样式控制：\n`;
+      content += `- 行高控制：line-height 属性\n`;
+      content += `- 缩进设置：text-indent\n`;
+      content += `- 对齐方式：text-align\n`;
+      content += `- 段落间距：margin 控制\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握段落元素的高级应用和优化技巧。\n\n`;
+      content += `### 高级应用：\n`;
+      content += `- 语义化段落：article, section 等\n`;
+      content += `- 富文本段落：包含格式化文本\n`;
+      content += `- 响应式段落：移动端优化\n`;
+      content += `- 性能优化：减少DOM节点数量\n\n`;
+
+      return content;
+    },
+
+    // CSS基础内容 - 4个等级
+    generateCSSBasicContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `CSS（Cascading Style Sheets）是用来控制网页样式和布局的语言。\n\n`;
+      content += `### 基本概念：\n`;
+      content += `- CSS规则由选择器和声明组成\n`;
+      content += `- 选择器：指定要样式化的HTML元素\n`;
+      content += `- 声明：属性和值对\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `CSS有多种添加样式到HTML文档的方法。\n\n`;
+      content += `### 使用方式：\n`;
+      content += `- 内联样式：直接在HTML标签中使用\n`;
+      content += `- 内部样式表：在head中使用style标签\n`;
+      content += `- 外部样式表：链接独立的.css文件\n`;
+      content += `- 优先级：内联 > 内部 > 外部\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `掌握CSS选择器和常用属性。\n\n`;
+      content += `### 选择器类型：\n`;
+      content += `- 元素选择器：p, div, h1\n`;
+      content += `- 类选择器：.classname\n`;
+      content += `- ID选择器：#idname\n`;
+      content += `- 属性选择器：[type="text"]\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `了解CSS的层叠和继承机制。\n\n`;
+      content += `### 高级概念：\n`;
+      content += `- 层叠：多个规则如何相互作用\n`;
+      content += `- 特殊性：选择器的优先级计算\n`;
+      content += `- 继承：子元素继承父元素样式\n`;
+      content += `- 盒模型：元素的尺寸和间距\n\n`;
+
+      return content;
+    },
+
+    // 文本样式内容 - 4个等级
+    generateTextStylingContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `CSS提供了丰富的文本样式控制属性。\n\n`;
+      content += `### 基础属性：\n`;
+      content += `- color: 文本颜色\n`;
+      content += `- font-size: 字体大小\n`;
+      content += `- font-family: 字体类型\n`;
+      content += `- font-weight: 字重（粗细）\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握文本格式化的各种方法。\n\n`;
+      content += `### 格式化属性：\n`;
+      content += `- font-style: italic（斜体）\n`;
+      content += `- text-decoration: underline（下划线）\n`;
+      content += `- text-transform: 大小写转换\n`;
+      content += `- letter-spacing: 字间距\n`;
+      content += `- line-height: 行高\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `了解文本对齐和间距控制。\n\n`;
+      content += `### 布局属性：\n`;
+      content += `- text-align: 文本对齐方式\n`;
+      content += `- text-indent: 首行缩进\n`;
+      content += `- word-spacing: 词间距\n`;
+      content += `- white-space: 空白处理\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握高级文本样式技巧。\n\n`;
+      content += `### 高级技巧：\n`;
+      content += `- @font-face: 自定义字体\n`;
+      content += `- text-shadow: 文本阴影\n`;
+      content += `- 多列文本：column-count\n`;
+      content += `- 响应式字体：clamp() 函数\n\n`;
+
+      return content;
+    },
+
+    // JavaScript基础内容 - 4个等级
+    generateJSBasicContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `JavaScript是一种高级编程语言，主要用于为网页添加交互功能。\n\n`;
+      content += `### 基本概念：\n`;
+      content += `- 脚本语言：在浏览器中运行\n`;
+      content += `- 动态语言：变量类型可变\n`;
+      content += `- 事件驱动：响应用户操作\n`;
+      content += `- 对象模型：操作HTML文档\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `JavaScript的基本语法包括变量、数据类型和运算符。\n\n`;
+      content += `### 语法基础：\n`;
+      content += `- 变量声明：let, const, var\n`;
+      content += `- 数据类型：字符串、数字、布尔值\n`;
+      content += `- 运算符：算术、比较、逻辑\n`;
+      content += `- 语句：条件、循环\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `函数是JavaScript的核心概念之一。\n\n`;
+      content += `### 函数编程：\n`;
+      content += `- 函数声明和调用\n`;
+      content += `- 参数和返回值\n`;
+      content += `- 作用域和闭包\n`;
+      content += `- 箭头函数语法\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握JavaScript的对象和数组操作。\n\n`;
+      content += `### 数据结构：\n`;
+      content += `- 对象字面量语法\n`;
+      content += `- 数组操作方法\n`;
+      content += `- JSON数据格式\n`;
+      content += `- DOM操作基础\n\n`;
+
+      return content;
+    },
+
+    // 事件监听器内容 - 4个等级
+    generateEventListenerContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `事件监听器允许JavaScript响应用户的操作。\n\n`;
+      content += `### 事件概念：\n`;
+      content += `- 用户交互触发事件\n`;
+      content += `- 浏览器自动分发事件\n`;
+      content += `- JavaScript可以监听和处理事件\n`;
+      content += `- 事件驱动编程模型\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `addEventListener是添加事件监听器的标准方法。\n\n`;
+      content += `### 基本用法：\n`;
+      content += `- element.addEventListener(event, handler)\n`;
+      content += `- 第一个参数：事件类型（如'click'）\n`;
+      content += `- 第二个参数：事件处理函数\n`;
+      content += `- 可添加多个监听器\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `事件对象包含了事件的详细信息。\n\n`;
+      content += `### 事件对象：\n`;
+      content += `- event.target: 触发事件的元素\n`;
+      content += `- event.type: 事件类型\n`;
+      content += `- event.preventDefault(): 阻止默认行为\n`;
+      content += `- event.stopPropagation(): 阻止事件冒泡\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握事件委托和高级事件处理技巧。\n\n`;
+      content += `### 高级技巧：\n`;
+      content += `- 事件委托：利用事件冒泡\n`;
+      content += `- 事件捕获：从外到内的传递\n`;
+      content += `- 自定义事件：创建自己的事件\n`;
+      content += `- 性能优化：减少事件监听器数量\n\n`;
+
+      return content;
+    },
+
+    // 通用内容（兜底）- 4个等级
+    generateGenericContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `这是该知识点的基础概念介绍。理解这些基本原理是学习后续高级内容的基础。\n\n`;
+      content += `### 核心要点：\n`;
+      content += `- 基本概念和定义\n`;
+      content += `- 核心原理和机制\n`;
+      content += `- 相关术语和概念\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `深入理解该知识点的工作原理和应用场景。\n\n`;
+      content += `### 详细说明：\n`;
+      content += `- 工作流程和步骤\n`;
+      content += `- 实际应用案例\n`;
+      content += `- 常见问题和解决方案\n`;
+      content += `- 最佳实践建议\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `掌握该知识点的进阶应用和优化技巧。\n\n`;
+      content += `### 进阶内容：\n`;
+      content += `- 性能优化方法\n`;
+      content += `- 高级配置和自定义\n`;
+      content += `- 故障排除技巧\n`;
+      content += `- 扩展和集成方案\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通该知识点的所有方面，能够独立解决复杂问题。\n\n`;
+      content += `### 专家级内容：\n`;
+      content += `- 架构设计和系统优化\n`;
+      content += `- 最佳实践和设计模式\n`;
+      content += `- 性能监控和调优\n`;
+      content += `- 创新应用和技术前沿\n\n`;
+
+      return content;
+    },
+
+    // 图片元素内容 - 4个等级
+    generateImageContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `img 元素用于在网页中显示图片，是HTML中最常用的元素之一。\n\n`;
+      content += `### 基本语法：\n`;
+      content += `- \`<img src="图片路径" alt="描述">\`\n`;
+      content += `- src 属性：指定图片文件的路径\n`;
+      content += `- alt 属性：图片无法显示时的替代文本\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握img元素的所有属性和基本用法。\n\n`;
+      content += `### 常用属性：\n`;
+      content += `- width 和 height：设置图片尺寸\n`;
+      content += `- title：鼠标悬停时显示的提示文本\n`;
+      content += `- loading：控制图片加载方式（lazy/eager）\n`;
+      content += `- 相对路径和绝对路径的使用\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `深入了解图片优化的最佳实践。\n\n`;
+      content += `### 优化技巧：\n`;
+      content += `- 选择合适的图片格式（JPG/PNG/WebP/SVG）\n`;
+      content += `- 压缩图片文件大小\n`;
+      content += `- 使用响应式图片（srcset）\n`;
+      content += `- 懒加载（loading="lazy"）提升性能\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `掌握高级的图片处理技术和无障碍访问。\n\n`;
+      content += `### 高级应用：\n`;
+      content += `- picture 元素和 source 元素\n`;
+      content += `- 艺术方向（art direction）技术\n`;
+      content += `- 图片预加载和缓存策略\n`;
+      content += `- 无障碍访问：为装饰性图片使用空alt\n\n`;
+
+      return content;
+    },
+
+    // 超链接内容 - 4个等级
+    generateLinkContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `a 元素（anchor）用于创建超链接，让用户能够在不同页面间导航。\n\n`;
+      content += `### 基本用法：\n`;
+      content += `- \`<a href="URL">链接文本</a>\`\n`;
+      content += `- href 属性：指定链接目标地址\n`;
+      content += `- 链接文本：用户点击的可见文本\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `了解超链接的各种属性和链接类型。\n\n`;
+      content += `### 链接属性：\n`;
+      content += `- target="_blank"：在新标签页打开\n`;
+      content += `- rel="noopener"：安全属性\n`;
+      content += `- title：链接提示信息\n`;
+      content += `- 内部链接和外部链接\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `掌握链接的SEO优化和用户体验设计。\n\n`;
+      content += `### 最佳实践：\n`;
+      content += `- 描述性链接文本（避免"点击这里"）\n`;
+      content += `- 链接状态样式（:link, :visited, :hover, :active）\n`;
+      content += `- 键盘导航支持\n`;
+      content += `- 链接验证和维护\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通超链接的高级特性和无障碍访问。\n\n`;
+      content += `### 高级特性：\n`;
+      content += `- 锚点链接（#fragment）\n`;
+      content += `- 邮件链接（mailto:）和电话链接（tel:）\n`;
+      content += `- 下载链接（download 属性）\n`;
+      content += `- ARIA 属性增强无障碍访问\n\n`;
+
+      return content;
+    },
+
+    // CSS盒模型内容 - 4个等级
+    generateBoxModelContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `CSS盒模型是CSS布局的基础，所有HTML元素都可以看作是一个盒子。\n\n`;
+      content += `### 盒模型组成：\n`;
+      content += `- content：内容区域\n`;
+      content += `- padding：内边距\n`;
+      content += `- border：边框\n`;
+      content += `- margin：外边距\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握盒模型的尺寸计算和属性设置。\n\n`;
+      content += `### 尺寸计算：\n`;
+      content += `- 标准盒模型：width = content\n`;
+      content += `- IE盒模型：width = content + padding + border\n`;
+      content += `- box-sizing 属性控制计算方式\n`;
+      content += `- 外边距合并（margin collapsing）\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `深入了解盒模型的布局影响和调试技巧。\n\n`;
+      content += `### 布局影响：\n`;
+      content += `- 外边距折叠规则\n`;
+      content += `- 负边距的应用\n`;
+      content += `- 盒子阴影和圆角\n`;
+      content += `- 开发者工具调试盒模型\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通盒模型的复杂应用和性能优化。\n\n`;
+      content += `### 高级应用：\n`;
+      content += `- Flexbox 和 Grid 中的盒模型\n`;
+      content += `- 基于容器的尺寸单位\n`;
+      content += `- 响应式盒模型设计\n`;
+      content += `- CSS 逻辑属性（margin-inline 等）\n\n`;
+
+      return content;
+    },
+
+    // 背景样式内容 - 4个等级
+    generateBackgroundContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `background 属性用于设置元素的背景效果，让网页更加美观。\n\n`;
+      content += `### 基本属性：\n`;
+      content += `- background-color：背景颜色\n`;
+      content += `- background-image：背景图片\n`;
+      content += `- background-repeat：重复方式\n`;
+      content += `- background-position：位置设置\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握背景属性的各种设置选项。\n\n`;
+      content += `### 常用设置：\n`;
+      content += `- background-size：背景图片尺寸\n`;
+      content += `- background-attachment：滚动行为\n`;
+      content += `- 多重背景图片\n`;
+      content += `- 渐变背景（linear-gradient）\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `学习背景样式的优化和高级效果。\n\n`;
+      content += `### 高级效果：\n`;
+      content += `- 径向渐变（radial-gradient）\n`;
+      content += `- 锥形渐变（conic-gradient）\n`;
+      content += `- CSS 图案和纹理\n`;
+      content += `- 响应式背景图片\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通背景样式的创意应用和性能优化。\n\n`;
+      content += `### 创意应用：\n`;
+      content += `- 多重背景的复杂组合\n`;
+      content += `- 动画背景效果\n`;
+      content += `- CSS 自定义属性控制主题\n`;
+      content += `- 背景图片的懒加载和优化\n\n`;
+
+      return content;
+    },
+
+    // DOM操作内容 - 4个等级
+    generateDOMContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `DOM（Document Object Model）是JavaScript操作HTML文档的接口。\n\n`;
+      content += `### 基本概念：\n`;
+      content += `- 文档对象模型\n`;
+      content += `- 节点类型：元素节点、文本节点、属性节点\n`;
+      content += `- document 对象：DOM的根对象\n`;
+      content += `- getElementById() 方法\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握常用的DOM选择和操作方法。\n\n`;
+      content += `### 选择方法：\n`;
+      content += `- getElementsByClassName()\n`;
+      content += `- getElementsByTagName()\n`;
+      content += `- querySelector() 和 querySelectorAll()\n`;
+      content += `- 元素属性和内容操作\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `深入学习DOM操作的高级技巧。\n\n`;
+      content += `### 高级操作：\n`;
+      content += `- 创建和插入新元素\n`;
+      content += `- 事件委托（event delegation）\n`;
+      content += `- DOM 遍历和操作性能\n`;
+      content += `- 现代 DOM API（classList, dataset）\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通DOM操作的架构设计和最佳实践。\n\n`;
+      content += `### 架构设计：\n`;
+      content += `- 组件化DOM操作\n`;
+      content += `- 虚拟DOM概念\n`;
+      content += `- 声明式 vs 命令式操作\n`;
+      content += `- 性能监控和优化策略\n\n`;
+
+      return content;
+    },
+
+    // 表单验证内容 - 4个等级
+    generateFormValidationContent() {
+      let content = '';
+
+      content += `## Level 1\n\n`;
+      content += `表单验证确保用户输入数据的质量和完整性。\n\n`;
+      content += `### HTML验证：\n`;
+      content += `- required 属性：必填字段\n`;
+      content += `- type 属性：输入类型验证\n`;
+      content += `- min/max 属性：数值范围\n`;
+      content += `- pattern 属性：正则表达式\n\n`;
+
+      content += `## Level 2\n\n`;
+      content += `掌握HTML5表单验证的所有特性。\n\n`;
+      content += `### 验证属性：\n`;
+      content += `- email 和 url 类型\n`;
+      content += `- step 和 minlength/maxlength\n`;
+      content += `- novalidate 属性禁用验证\n`;
+      content += `- :valid 和 :invalid 伪类\n\n`;
+
+      content += `## Level 3\n\n`;
+      content += `学习JavaScript增强的表单验证。\n\n`;
+      content += `### JavaScript验证：\n`;
+      content += `- Constraint Validation API\n`;
+      content += `- setCustomValidity() 自定义错误\n`;
+      content += `- 实时验证和异步验证\n`;
+      content += `- 表单状态管理\n\n`;
+
+      content += `## Level 4\n\n`;
+      content += `精通表单验证的用户体验设计和安全性。\n\n`;
+      content += `### 高级验证：\n`;
+      content += `- 多重验证策略\n`;
+      content += `- 服务端验证集成\n`;
+      content += `- 无障碍验证反馈\n`;
+      content += `- 安全考虑和XSS防护\n\n`;
+
+      return content;
+    },
+
     stopGeneration() {
       this.isGenerating = false;
+      this.isMockGenerating = false;
       console.log('停止生成知识点内容');
     },
 
@@ -472,7 +1011,7 @@ export default {
       }
 
       // 如果正在生成中且该节点还没有内容，则显示生成中状态
-      if (this.isGenerating && this.currentGeneratedContents[nodeId] === undefined) {
+      if ((this.isGenerating || this.isMockGenerating) && this.currentGeneratedContents[nodeId] === undefined) {
         return 'generating';
       }
 
@@ -718,17 +1257,26 @@ export default {
       this.isSaving = true;
 
       try {
-        // 准备要保存的数据
+        // 将markdown内容解析为数据库格式
+        const knowledgeContents = this.parseContentsForDatabase();
+
+        // 准备要保存的数据 - 符合后端数据库结构
         const saveData = {
           course_id: "TEST001",
-          knowledge_contents: this.currentGeneratedContents
+          knowledge_contents: knowledgeContents
         };
-        console.log('保存知识点内容到数据库:', saveData);
-        //模拟
-        await new Promise(resolve => setTimeout(resolve, 2000));
-        //await learningAPI.saveKnowledgeContent(saveData);
 
-        alert('所有知识点内容已成功保存到数据库！');
+        console.log('保存知识点内容到数据库:', saveData);
+        console.log('解析后的记录数量:', knowledgeContents.length);
+
+        // 调用后端API保存知识点内容
+        const response = await learningAPI.saveKnowledgeContent(saveData);
+
+        if (response.code === '00000') {
+            alert(`所有知识点内容已成功保存到数据库！\n共保存了 ${response.data.saved_count} 条记录`);
+        } else {
+            throw new Error(response.message || '保存失败');
+        }
         // 通知父组件保存完成
         this.$emit('generation-completed', saveData);
 
@@ -738,6 +1286,78 @@ export default {
       } finally {
         this.isSaving = false;
       }
+    },
+
+    // 将markdown内容解析为数据库格式，每个level一个记录
+    parseContentsForDatabase() {
+      const records = [];
+
+      // 遍历所有生成的知识点内容
+      for (const [nodeId, content] of Object.entries(this.currentGeneratedContents)) {
+        if (!content || content === null) continue;
+
+        // 找到对应的节点信息，获取节点标题
+        const node = this.knowledgeData.graph.nodes.find(n => n.data.id === nodeId);
+        const nodeTitle = node ? node.data.label : `知识点 ${nodeId}`;
+
+        // 解析markdown内容，按level拆分
+        const levels = this.parseMarkdownLevels(content);
+
+        // 为每个level创建数据库记录
+        levels.forEach(levelData => {
+          records.push({
+            node_id: nodeId,
+            level: levelData.level,
+            title: nodeTitle,
+            description: levelData.description
+          });
+        });
+      }
+
+      return records;
+    },
+
+    // 解析markdown内容，按Level拆分
+    parseMarkdownLevels(markdownContent) {
+      const levels = [];
+      const lines = markdownContent.split('\n');
+      let currentLevel = null;
+      let currentDescription = '';
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const trimmedLine = line.trim();
+
+        // 检查是否是Level标题行
+        const levelMatch = trimmedLine.match(/^#+\s*Level\s*(\d+)/i);
+        if (levelMatch) {
+          // 保存之前的level
+          if (currentLevel !== null && currentDescription.trim()) {
+            levels.push({
+              level: currentLevel,
+              description: currentDescription.trim()
+            });
+          }
+
+          // 开始新的level
+          currentLevel = parseInt(levelMatch[1]);
+          currentDescription = '';
+        }
+        // 累积内容
+        else if (currentLevel !== null) {
+          currentDescription += line + '\n';
+        }
+      }
+
+      // 保存最后一个level
+      if (currentLevel !== null && currentDescription.trim()) {
+        levels.push({
+          level: currentLevel,
+          description: currentDescription.trim()
+        });
+      }
+
+      return levels;
     },
 
     async regenerateKnowledgePoint(node) {

@@ -103,7 +103,7 @@ export const learningAPI = {
 
     // 保存知识点内容到数据库
     saveKnowledgeContent: (data) => {
-        return apiService.post('/api/learning/save-knowledge-content', data);
+        return apiService.post('/api/v1/learning-content/batch-save', data);
     }
 };
 

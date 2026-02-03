@@ -475,101 +475,166 @@ export default {
     },
 
     generateMockKnowledgeGraph() {
-      // 生成统一的模拟知识图谱
+      // 生成两章每章三个小节的模拟知识图谱
       return {
         nodes: [
           {
             data: {
-              id: 'chapter-1',
-              label: '基础概念',
+              id: '1_end',
+              label: '模块一: HTML基础',
               type: 'chapter'
-            },
-            position: { x: 100, y: 100 }
+            }
           },
           {
             data: {
-              id: 'knowledge-1',
-              label: '什么是Vue.js',
-              type: 'knowledge'
-            },
-            position: { x: 150, y: 200 }
+              id: '1_1',
+              label: '了解HTML基本结构',
+              type: 'knowledge',
+              select_element: [
+                'html',
+                'head',
+                'body',
+                'title'
+              ]
+            }
           },
           {
             data: {
-              id: 'knowledge-2',
-              label: 'Vue组件基础',
-              type: 'knowledge'
-            },
-            position: { x: 300, y: 200 }
+              id: '1_2',
+              label: '使用标题元素h1-h6',
+              type: 'knowledge',
+              select_element: [
+                'h1',
+                'h2',
+                'h3',
+                'h4',
+                'h5',
+                'h6'
+              ]
+            }
           },
           {
             data: {
-              id: 'chapter-2',
-              label: '核心功能',
+              id: '1_3',
+              label: '创建段落元素p',
+              type: 'knowledge',
+              select_element: [
+                'p',
+                'br',
+                'hr'
+              ]
+            }
+          },
+          {
+            data: {
+              id: '2_end',
+              label: '模块二: CSS样式',
               type: 'chapter'
-            },
-            position: { x: 100, y: 350 }
+            }
           },
           {
             data: {
-              id: 'knowledge-3',
-              label: '响应式数据',
-              type: 'knowledge'
-            },
-            position: { x: 150, y: 450 }
+              id: '2_1',
+              label: '理解CSS基本语法',
+              type: 'knowledge',
+              select_element: [
+                'style',
+                'link',
+                'css'
+              ]
+            }
           },
           {
             data: {
-              id: 'knowledge-4',
-              label: '生命周期钩子',
-              type: 'knowledge'
-            },
-            position: { x: 300, y: 450 }
+              id: '2_2',
+              label: '应用文本样式',
+              type: 'knowledge',
+              select_element: [
+                'color',
+                'font-size',
+                'font-weight',
+                'text-align'
+              ]
+            }
           },
           {
             data: {
-              id: 'knowledge-5',
-              label: '指令系统',
-              type: 'knowledge'
-            },
-            position: { x: 450, y: 450 }
-          },
-          {
-            data: {
-              id: 'chapter-3',
-              label: '高级特性',
-              type: 'chapter'
-            },
-            position: { x: 100, y: 600 }
-          },
-          {
-            data: {
-              id: 'knowledge-6',
-              label: 'Vue Router',
-              type: 'knowledge'
-            },
-            position: { x: 150, y: 700 }
-          },
-          {
-            data: {
-              id: 'knowledge-7',
-              label: 'Vuex状态管理',
-              type: 'knowledge'
-            },
-            position: { x: 300, y: 700 }
+              id: '2_3',
+              label: '使用CSS盒模型',
+              type: 'knowledge',
+              select_element: [
+                'margin',
+                'padding',
+                'border',
+                'width',
+                'height'
+              ]
+            }
           }
         ],
         edges: [
-          { data: { source: 'chapter-1', target: 'knowledge-1' } },
-          { data: { source: 'chapter-1', target: 'knowledge-2' } },
-          { data: { source: 'chapter-2', target: 'knowledge-3' } },
-          { data: { source: 'chapter-2', target: 'knowledge-4' } },
-          { data: { source: 'chapter-2', target: 'knowledge-5' } },
-          { data: { source: 'knowledge-3', target: 'knowledge-4' } },
-          { data: { source: 'knowledge-4', target: 'knowledge-5' } },
-          { data: { source: 'chapter-3', target: 'knowledge-6' } },
-          { data: { source: 'chapter-3', target: 'knowledge-7' } },
-          { data: { source: 'knowledge-5', target: 'knowledge-6' } }
+          {
+            data: {
+              source: '1_end',
+              target: '1_1'
+            }
+          },
+          {
+            data: {
+              source: '1_end',
+              target: '1_2'
+            }
+          },
+          {
+            data: {
+              source: '1_end',
+              target: '1_3'
+            }
+          },
+          {
+            data: {
+              source: '2_end',
+              target: '2_1'
+            }
+          },
+          {
+            data: {
+              source: '2_end',
+              target: '2_2'
+            }
+          },
+          {
+            data: {
+              source: '2_end',
+              target: '2_3'
+            }
+          }
+        ],
+        dependent_edges: [
+          {
+            data: {
+              source: '1_1',
+              target: '1_2'
+            }
+          },
+          {
+            data: {
+              source: '1_2',
+              target: '1_3'
+            }
+          },
+          {
+            data: {
+              source: '2_1',
+              target: '2_2'
+            }
+          },
+          {
+            data: {
+              source: '2_2',
+              target: '2_3'
+            }
+          }
         ]
       };
     },
