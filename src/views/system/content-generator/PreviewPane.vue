@@ -2,9 +2,10 @@
   <div class="card">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h2 class="card-title">网页预览</h2>
-      <button 
-        v-if="taskId" 
-        @click="refreshPreview" 
+      <button
+        ref="refreshBtn"
+        v-if="taskId"
+        @click="refreshPreview"
         class="btn btn-secondary btn-sm"
       >
         刷新预览
@@ -83,14 +84,56 @@ export default {
     },
     
     refreshPreview() {
+      console.log('PreviewPane: refreshPreview method called', {
+        taskId: this.taskId,
+        oldPreviewUrl: this.previewUrl,
+        timestamp: new Date().getTime()
+      });
+
       // 通过添加时间戳来强制刷新iframe
-      this.previewUrl = `/api/preview/${this.taskId}?t=${new Date().getTime()}`;
+      const newUrl = `/api/preview/${this.taskId}?t=${new Date().getTime()}`;
+      this.previewUrl = newUrl;
+
+      console.log('PreviewPane: Preview URL updated', {
+        newPreviewUrl: newUrl
+      });
     },
     
     resetPreview() {
       this.taskId = '';
       this.taskIdInput = '';
       this.previewUrl = '';
+    },
+
+    waitForRefreshButtonAndClick() {
+      console.log('PreviewPane: Starting to wait for refresh button...');
+
+      const checkButton = (attempts = 0) => {
+        console.log(`PreviewPane: Checking refresh button (attempt ${attempts + 1})`, {
+          hasRefreshBtn: !!this.$refs.refreshBtn,
+          taskId: this.taskId
+        });
+
+        if (this.$refs.refreshBtn) {
+          console.log('PreviewPane: Refresh button found, clicking...');
+          this.$refs.refreshBtn.click();
+          console.log('PreviewPane: Refresh button clicked successfully');
+          return;
+        }
+
+        // 如果还没找到按钮，继续等待，最多等待10次（5秒）
+        if (attempts < 10) {
+          setTimeout(() => checkButton(attempts + 1), 500);
+        } else {
+          console.warn('PreviewPane: Refresh button not found after 5 seconds, giving up');
+        }
+      };
+
+      // 立即开始检查
+      this.$nextTick(() => {
+        console.log('PreviewPane: nextTick executed, starting button check...');
+        checkButton();
+      });
     },
     
     onIframeLoad() {
@@ -144,16 +187,34 @@ export default {
     generatedFiles: {
       type: Object,
       default: null
+    },
+    autoRefresh: {
+      type: Boolean,
+      default: false
     }
   },
   watch: {
     initialTaskId: {
       handler(newVal) {
+        console.log('PreviewPane: initialTaskId watch triggered', {
+          newVal,
+          oldTaskId: this.taskId,
+          hasGeneratedFiles: this.hasGeneratedFiles
+        });
+
         if (newVal) {
           this.taskId = newVal;
+          console.log('PreviewPane: taskId updated to:', this.taskId);
+
           if (!this.hasGeneratedFiles) {
-            this.previewUrl = `/api/preview/${this.taskId}`;
+            const newUrl = `/api/preview/${this.taskId}`;
+            this.previewUrl = newUrl;
+            console.log('PreviewPane: previewUrl set to:', newUrl);
+          } else {
+            console.log('PreviewPane: Skipping previewUrl update due to generatedFiles');
           }
+        } else {
+          console.log('PreviewPane: initialTaskId is empty, skipping update');
         }
       },
       immediate: true
@@ -162,6 +223,29 @@ export default {
       handler(newVal) {
         if (newVal && Object.keys(newVal).length > 0) {
           this.createLocalPreview(newVal);
+        }
+      },
+      immediate: true
+    },
+    autoRefresh: {
+      handler(newVal) {
+        console.log('PreviewPane autoRefresh watch triggered:', {
+          newVal,
+          taskId: this.taskId,
+          hasRefreshBtn: !!this.$refs.refreshBtn,
+          currentTime: new Date().toISOString()
+        });
+
+        if (newVal && this.taskId) {
+          console.log('PreviewPane: Auto refresh enabled, waiting for button to render...');
+          // 等待按钮渲染完成后再执行自动刷新
+          this.waitForRefreshButtonAndClick();
+        } else {
+          console.log('PreviewPane: Auto refresh conditions not met', {
+            newVal,
+            taskId: this.taskId,
+            hasRefreshBtn: !!this.$refs.refreshBtn
+          });
         }
       },
       immediate: true

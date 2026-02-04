@@ -11,6 +11,14 @@
               <el-button type="danger" @click="handleBatchDelete" :icon="Delete" :disabled="!multipleSelection.length">
                 批量删除
               </el-button>
+              <el-button type="success" @click="handleExportXlsx">
+                <el-icon><Download /></el-icon>
+                <span>导出XLSX</span>
+              </el-button>
+              <el-button type="warning" @click="handleImportJson">
+                <el-icon><Upload /></el-icon>
+                <span>导入JSON</span>
+              </el-button>
             </div>
             <div class="flex">
               <el-select
@@ -140,6 +148,15 @@
           @pagination="getList"
         />
       </el-card>
+
+      <!-- 隐藏的文件输入 -->
+      <input
+        ref="fileInputRef"
+        type="file"
+        accept=".json"
+        style="display: none"
+        @change="handleFileSelect"
+      />
     </div>
 
     <!-- 添加/编辑知识内容对话框 -->
@@ -215,7 +232,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Plus, Delete, Search } from "@element-plus/icons-vue";
+import { Plus, Delete, Search, Download, Upload } from "@element-plus/icons-vue";
 import Pagination from "@/components/Pagination/index.vue";
 import {
   listKnowledgeContent,
@@ -223,6 +240,7 @@ import {
   addKnowledgeContent,
   updateKnowledgeContent,
   deleteKnowledgeContent,
+  batchAddKnowledgeContent,
 } from "@/api/system/learning-content-api";
 import type { KnowledgeContentVO, KnowledgeContentForm, KnowledgeContentQuery } from "@/api/system/learning-content-api";
 import { TEST_COURSE_ID } from '@/constants';
@@ -231,6 +249,7 @@ const loading = ref(true);
 const total = ref(0);
 const contentList = ref<KnowledgeContentVO[]>([]);
 const multipleSelection = ref<KnowledgeContentVO[]>([]);
+const fileInputRef = ref<HTMLInputElement>();
 
 const flatContentList = computed(() => contentList.value);
 
@@ -468,6 +487,138 @@ const getStatusType = (status: number) => {
 // 获取状态文本
 const getStatusText = (status: number) => {
   return status === 1 ? "启用" : "禁用";
+};
+
+// 导出XLSX
+const handleExportXlsx = () => {
+  if (!contentList.value || contentList.value.length === 0) {
+    ElMessage.warning('没有数据可导出');
+    return;
+  }
+
+  try {
+    // 动态导入exceljs库
+    import('exceljs').then(async ExcelJS => {
+      const Excel = ExcelJS.default;
+
+      // 创建工作簿
+      const workbook = new Excel.Workbook();
+
+      // 添加知识内容工作表
+      const sheet = workbook.addWorksheet('知识内容');
+      sheet.columns = [
+        { header: '序号', key: 'index', width: 10 },
+        { header: '课程编码', key: 'course_code', width: 15 },
+        { header: '节点ID', key: 'node_id', width: 20 },
+        { header: '标题', key: 'title', width: 30 },
+        { header: '描述', key: 'description', width: 50 },
+        { header: '难度等级', key: 'level', width: 15 },
+        { header: '创建时间', key: 'created_at', width: 20 },
+        { header: '更新时间', key: 'updated_at', width: 20 }
+      ];
+
+      contentList.value.forEach((item, index) => {
+        sheet.addRow({
+          index: index + 1,
+          course_code: item.course_code,
+          node_id: item.node_id,
+          title: item.title,
+          description: item.description,
+          level: item.level,
+          created_at: item.created_at,
+          updated_at: item.updated_at
+        });
+      });
+
+      // 生成文件名
+      const fileName = `知识内容_${new Date().toISOString().split('T')[0]}.xlsx`;
+
+      // 保存文件
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      ElMessage.success('导出成功');
+    }).catch(error => {
+      console.error('导出失败:', error);
+      ElMessage.error('导出失败: ' + error.message);
+    });
+  } catch (error) {
+    console.error('导出失败:', error);
+    ElMessage.error('导出失败: ' + error.message);
+  }
+};
+
+// 导入JSON
+const handleImportJson = () => {
+  fileInputRef.value?.click();
+};
+
+// 文件选择处理
+const handleFileSelect = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (!file) return;
+
+  if (!file.name.endsWith('.json')) {
+    ElMessage.error('请选择JSON格式的文件');
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    const importData = JSON.parse(text);
+
+    // 验证数据格式
+    if (!Array.isArray(importData)) {
+      throw new Error('数据格式错误：应为知识内容数组');
+    }
+
+    // 检查是否有必要的字段
+    const requiredFields = ['course_id', 'node_id', 'title', 'description', 'level'];
+    const sampleItem = importData[0];
+    if (!sampleItem || requiredFields.some(field => !(field in sampleItem))) {
+      throw new Error(`数据格式错误：缺少必要字段 ${requiredFields.join(', ')}`);
+    }
+
+    // 确认导入
+    await ElMessageBox.confirm(
+      `确定要导入这些知识内容吗？\n数据条数：${importData.length}`,
+      '导入确认',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    );
+
+    // 调用批量保存API
+    const response = await batchAddKnowledgeContent(importData);
+
+    if (response.code === "00000") {
+      ElMessage.success(`导入成功，共导入 ${response.data?.saved_count || importData.length} 条记录`);
+      getList(); // 刷新列表
+    } else {
+      throw new Error(response.message || '导入失败');
+    }
+
+  } catch (error) {
+    console.error('导入失败:', error);
+    ElMessage.error('导入失败: ' + (error.message || '未知错误'));
+  } finally {
+    // 清空文件输入
+    if (target) {
+      target.value = '';
+    }
+  }
 };
 
 onMounted(() => {

@@ -87,7 +87,7 @@
         :knowledge-graph="knowledgeData"
         :generated-contents="generatedContents"
         :show-prerequisites-warning="!knowledgeData || !generatedContents || Object.keys(generatedContents).length === 0"
-        @generated-test-tasks-updated="onGeneratedTestTasksUpdated"
+        @generation-completed="onTestTasksSaved"
       />
 
       <!-- <TestTaskDisplay
@@ -113,9 +113,11 @@
       />
 
       <PreviewPane
+        ref="previewPane"
         v-if="currentStep === 7"
         :initial-task-id="generatedTaskId"
         :generated-files="generatedFiles"
+        :auto-refresh="currentStep === 7"
       />
     </div>
     
@@ -179,6 +181,8 @@ export default {
       prdSaved: false,        // PRD是否已保存
       knowledgeSaved: false,   // 知识图谱是否已保存
       knowledgeContentSaved: false, // 知识点内容是否已保存
+      testTaskSaved: false,    // 测试题是否已保存到数据库
+      websiteGenerated: false, // 网页是否已生成
       generatedContents: {},     // 生成的知识点内容
       generationProgress: {      // 生成进度
         total: 0,
@@ -195,11 +199,28 @@ export default {
   },
   methods: {
     goToStep(step) {
+      console.log('Dashboard: goToStep called', {
+        requestedStep: step,
+        currentStep: this.currentStep,
+        generatedTaskId: this.generatedTaskId,
+        currentTime: new Date().toISOString()
+      });
+
       // 允许用户点击步骤标题导航到对应步骤
       if (step >= 1 && step <= 7) {
+        console.log('Dashboard: Step validation passed, updating currentStep');
         this.currentStep = step;
         // 根据步骤检查相应数据来设置canProceed
         this.updateCanProceed();
+
+        console.log('Dashboard: Step change completed', {
+          newCurrentStep: this.currentStep,
+          canProceed: this.canProceed,
+          isStep7: step === 7,
+          autoRefreshProp: step === 7
+        });
+      } else {
+        console.log('Dashboard: Step validation failed, step out of range', step);
       }
     },
 
@@ -221,6 +242,14 @@ export default {
         case 4:
           // 步骤4：知识点内容生成完成后可以前进
           this.canProceed = this.knowledgeContentSaved;
+          break;
+        case 5:
+          // 步骤5：测试题保存到数据库后才能前进
+          this.canProceed = this.testTaskSaved;
+          break;
+        case 6:
+          // 步骤6：网页生成完成后才能前进
+          this.canProceed = this.websiteGenerated;
           break;
         default:
           // 其他步骤暂时保持false，需要手动设置
@@ -358,6 +387,7 @@ export default {
     onWebsiteGenerated(data) {
       this.generatedTaskId = data.taskId;
       this.generatedFiles = data.files;
+      this.websiteGenerated = true; // 网页生成完成
       this.updateCanProceed();
       console.log('网页生成完成，可以进行下一步');
       console.log('接收到的数据:', {
@@ -395,6 +425,13 @@ export default {
     onGeneratedTestTasksUpdated(testTasks) {
       // 处理测试题生成更新
       console.log('测试题生成状态已更新:', testTasks);
+    },
+
+    onTestTasksSaved(data) {
+      // 测试题保存到数据库完成，可以进行下一步
+      this.testTaskSaved = true;
+      this.updateCanProceed();
+      console.log('测试题已保存到数据库，可以进行下一步');
     }
 
   }

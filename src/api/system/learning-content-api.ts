@@ -64,6 +64,17 @@ export function batchDeleteKnowledgeContent(ids: number[]) {
     data: { ids },
   });
 }
+
+/**
+ * 批量保存知识点内容
+ */
+export function batchAddKnowledgeContent(data: KnowledgeContentForm[]) {
+  return request({
+    url: `${baseUrl}/batch-save`,
+    method: 'post',
+    data,
+  });
+}
 /**
  * 知识内容相关类型定义
  */

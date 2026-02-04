@@ -36,7 +36,7 @@ async def generate_test_task(request: TestTaskGenerateRequest):
         slow_mind = SlowMind(context)
 
         # 生成测试题
-        test_task = slow_mind.generate_test_tasks(request.knowledge_node, request.learning_content)
+        test_task = await slow_mind.generate_test_tasks(request.knowledge_node, request.learning_content)
 
         return TestTaskGenerateResponse(**test_task)
 

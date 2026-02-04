@@ -109,7 +109,7 @@
                   查看
                 </button>
                 <button
-                  v-if="node.data.type === 'knowledge' && (hasGeneratedContent(node.data.id) || getGenerationStatus(node.data.id) === 'failed')"
+                  v-if="node.data && (hasGeneratedContent(node.data.id) || getGenerationStatus(node.data.id) === 'failed')"
                   @click="regenerateKnowledgePoint(node)"
                   :disabled="isRegeneratingNode === node.data.id"
                   class="btn btn-small btn-warning ml-1"
@@ -1008,7 +1008,7 @@ export default {
 
 .list-header {
   display: grid;
-  grid-template-columns: 60px 1fr 100px 100px 220px;
+  grid-template-columns: 60px 1fr 100px 100px 160px;
   gap: 15px;
   padding: 15px;
   background-color: #f8f9fa;
@@ -1023,7 +1023,7 @@ export default {
 
 .generation-item {
   display: grid;
-  grid-template-columns: 60px 1fr 100px 100px 220px;
+  grid-template-columns: 60px 1fr 100px 100px 160px;
   gap: 15px;
   padding: 12px 15px;
   border-bottom: 1px solid #f0f0f0;
@@ -1062,8 +1062,16 @@ export default {
 .item-actions {
   display: flex;
   justify-content: flex-start;
-  gap: 8px;
+  gap: 4px;
   flex-wrap: wrap;
+  align-items: center;
+}
+
+.item-actions .btn {
+  padding: 3px 6px;
+  font-size: 11px;
+  line-height: 1.2;
+  min-width: auto;
 }
 
 .type-badge {

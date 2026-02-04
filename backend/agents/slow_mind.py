@@ -198,7 +198,7 @@ class SlowMind:
         logger.info("学习内容生成成功，内容长度: %d", len(learning_content))
         return learning_content
 
-    def generate_test_tasks(self, topic_info: dict, learning_content: dict = None) -> str:
+    async def generate_test_tasks(self, topic_info: dict, learning_content: dict = None) -> str:
         """
         生成测试任务
         :param topic_info: 知识点信息
@@ -211,13 +211,17 @@ class SlowMind:
 
         print("正在生成测试任务...\n")
         logger.debug("发送请求到模型: %s", self.model)
-        response = self.client.chat.completions.create(
+
+        # 在线程池中执行同步的AI调用，避免阻塞异步事件循环
+        create_completion = partial(
+            self.client.chat.completions.create,
             model=self.model,
             messages=[{"role": "user", "content": prompt}],
             extra_body={
                 "enable_thinking": False
             }
         )
+        response = await self._run_in_thread(create_completion)
         raw = response.choices[0].message.content.strip()
         logger.info("测试任务生成成功，内容长度: %d", len(raw))
         # 提取 JSON 部分（防止有 Markdown 包裹或截断）

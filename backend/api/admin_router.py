@@ -144,9 +144,9 @@ async def get_routes():
                                 },
                             },
                             {
-                                "path": "theme",
-                                "component": "system/theme/index",
-                                "name": "Resource",
+                                "path": "test-question",
+                                "component": "system/test-question/index",
+                                "name": "TestQuestion",
                                 "meta": {
                                     "title": "测试题管理",
                                     "icon": "code",
