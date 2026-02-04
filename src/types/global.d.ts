@@ -5,7 +5,7 @@ declare global {
   interface ApiResponse<T = any> {
     code: string;
     data: T;
-    msg: string;
+    message: string;
   }
 
   /**

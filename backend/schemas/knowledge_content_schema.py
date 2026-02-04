@@ -7,9 +7,10 @@ from pydantic import BaseModel, Field
 
 
 class KnowledgeContentBase(BaseModel):
-    graph_id: str = Field(..., alias="graphId", description="主题ID")
-    topic_id: str = Field(..., description="结点ID")
-    description: str = Field(..., description="内容")
+    course_id: str = Field(..., description="课程编码 (course_code)，将自动转换为课程ID")
+    node_id: str = Field(..., description="节点ID")
+    title: str = Field(..., description="内容标题")
+    description: str = Field(..., description="内容描述")
     level: int = Field(..., ge=1, le=4, description="难度等级 1:入门 2:基础 3:进阶 4:高级")
 
 
@@ -18,9 +19,10 @@ class KnowledgeContentCreate(KnowledgeContentBase):
 
 
 class KnowledgeContentUpdate(BaseModel):
-    graph_id: Optional[str] = Field(None, alias="graphId", description="主题ID")
-    topic_id: Optional[str] = Field(None, description="结点ID")
-    description: Optional[str] = Field(None, description="内容")
+    course_id: Optional[str] = Field(None, description="课程编码")
+    node_id: Optional[str] = Field(None, description="节点ID")
+    title: Optional[str] = Field(None, description="内容标题")
+    description: Optional[str] = Field(None, description="内容描述")
     level: Optional[int] = Field(None, ge=1, le=4, description="难度等级 1:入门 2:基础 3:进阶 4:高级")
 
     class Config:
@@ -29,12 +31,14 @@ class KnowledgeContentUpdate(BaseModel):
 
 class KnowledgeContentResponse(BaseModel):
     id: str
-    graph_id: str = Field(..., alias="graphId")
-    topic_id: str
+    course_id: str
+    course_code: Optional[str] = None  # 额外添加的字段
+    node_id: str
+    title: str
     description: str
     level: int
-    create_time: Optional[datetime] = Field(None, alias="createTime")
-    update_time: Optional[datetime] = Field(None, alias="updateTime")
+    created_at: Optional[datetime] = Field(None, alias="created_at")
+    updated_at: Optional[datetime] = Field(None, alias="updated_at")
 
     class Config:
         orm_mode = True
@@ -44,7 +48,8 @@ class KnowledgeContentResponse(BaseModel):
 class KnowledgeContentPageQuery(BaseModel):
     """知识内容分页查询参数"""
     level: Optional[int] = None  # 难度等级
-    graph_id: Optional[str] = Field(None, alias="graphId")  # 主题ID
+    courseId: Optional[str] = None  # 课程编码
+    nodeId: Optional[str] = None  # 节点ID
     pageNum: int = Field(1, gt=0)
     pageSize: int = Field(10, gt=0, le=100)
 

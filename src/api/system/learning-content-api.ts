@@ -73,25 +73,29 @@ export interface KnowledgeContentQuery {
   pageNum?: number
   pageSize?: number
   level?: number
-  graphId?: string
+  nodeId?: string
+  courseId?: string
 }
 
 // 知识内容视图对象
 export interface KnowledgeContentVO {
   id?: string
-  graphId?: string
-  topic_id?: string
+  course_id?: string
+  course_code?: string
+  node_id?: string
+  title?: string
   description?: string
   level?: number
-  createTime?: string
-  updateTime?: string
+  created_at?: string
+  updated_at?: string
 }
 
 // 知识内容表单对象
 export interface KnowledgeContentForm {
   id?: string
-  graphId: string
-  topic_id: string
+  course_id: string
+  node_id: string
+  title: string
   description: string
   level: number
 }

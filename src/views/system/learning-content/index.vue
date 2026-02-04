@@ -6,7 +6,7 @@
           <div class="flex justify-between">
             <div>
               <el-button type="primary" @click="handleAdd" :icon="Plus">
-                添加知识点
+                添加知识内容
               </el-button>
               <el-button type="danger" @click="handleBatchDelete" :icon="Delete" :disabled="!multipleSelection.length">
                 批量删除
@@ -27,8 +27,8 @@
                 <el-option label="4级（高级）" :value="4" />
               </el-select>
               <el-input
-                v-model="queryParams.graphId"
-                placeholder="请输入主题ID"
+                v-model="queryParams.nodeId"
+                placeholder="请输入节点ID"
                 clearable
                 @keyup.enter="handleQuery"
                 @clear="handleQuery"
@@ -84,15 +84,18 @@
   <!-- 多选 -->
   <el-table-column type="selection" width="55" align="center" />
 
-  <!-- 知识图谱 -->
-  <el-table-column label="主题" width="120">
+  <!-- 课程编码 -->
+  <el-table-column label="课程编码" width="120">
     <template #default="{ row }">
-      {{ getThemeName(row.graphId) }}
+      {{ row.course_code || TEST_COURSE_ID }}
     </template>
   </el-table-column>
 
   <!-- 节点ID -->
-  <el-table-column label="结点ID" prop="topic_id" show-overflow-tooltip />
+  <el-table-column label="节点ID" prop="node_id" show-overflow-tooltip />
+
+  <!-- 标题 -->
+  <el-table-column label="标题" prop="title" show-overflow-tooltip />
 
   <!-- 内容 -->
   <el-table-column label="内容" prop="description" show-overflow-tooltip />
@@ -107,10 +110,10 @@
   </el-table-column>
 
   <!-- 创建时间 -->
-  <el-table-column label="创建时间" prop="createTime" width="180" />
+  <el-table-column label="创建时间" prop="created_at" width="180" />
 
   <!-- 更新时间 -->
-  <el-table-column label="更新时间" prop="updateTime" width="180" />
+  <el-table-column label="更新时间" prop="updated_at" width="180" />
 
   <!-- 操作 -->
   <el-table-column label="操作" width="220" fixed="right">
@@ -139,7 +142,7 @@
       </el-card>
     </div>
 
-    <!-- 添加/编辑知识点对话框 -->
+    <!-- 添加/编辑知识内容对话框 -->
     <el-dialog
       :title="dialog.title"
       v-model="dialog.visible"
@@ -152,30 +155,18 @@
         :rules="formRules"
         label-width="100px"
       >
-        <el-form-item label="主题" prop="graphId">
-          <el-select
-            v-model="formData.graphId"
-            placeholder="请选择主题"
-            style="width: 100%"
-            filterable
-          >
-            <el-option
-              v-for="theme in themeOptions"
-              :key="theme.value"
-              :label="theme.label"
-              :value="theme.value"
-            />
-          </el-select>
+        <el-form-item label="节点ID" prop="node_id">
+          <el-input v-model="formData.node_id" placeholder="请输入节点ID" />
         </el-form-item>
-        <el-form-item label="结点ID" prop="topic_id">
-          <el-input v-model="formData.topic_id" placeholder="请输入结点ID" />
+        <el-form-item label="标题" prop="title">
+          <el-input v-model="formData.title" placeholder="请输入内容标题" />
         </el-form-item>
         <el-form-item label="内容" prop="description">
           <el-input
             v-model="formData.description"
             type="textarea"
             :rows="4"
-            placeholder="请输入内容"
+            placeholder="请输入内容描述"
           />
         </el-form-item>
         <el-form-item label="难度等级" prop="level">
@@ -190,12 +181,6 @@
             <el-option label="4级（高级）" :value="4" />
           </el-select>
         </el-form-item>
-        <!--         <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="formData.status">
-            <el-radio :value="1">启用</el-radio>
-            <el-radio :value="0">禁用</el-radio>
-          </el-radio-group>
-        </el-form-item> -->
       </el-form>
       <template #footer>
         <div class="dialog-footer">
@@ -205,22 +190,23 @@
       </template>
     </el-dialog>
 
-    <!-- 查看知识点对话框 -->
+    <!-- 查看知识内容对话框 -->
     <el-dialog
-      title="查看知识点"
+      title="查看知识内容"
       v-model="viewDialog.visible"
       width="600px"
     >
       <div v-if="viewData">
-        <p><strong>主题：</strong>{{ getThemeName(viewData.graphId) }}</p>
-        <p><strong>结点ID：</strong>{{ viewData.topic_id }}</p>
+        <p><strong>课程编码：</strong>{{ viewData.course_code || TEST_COURSE_ID }}</p>
+        <p><strong>节点ID：</strong>{{ viewData.node_id }}</p>
+        <p><strong>标题：</strong>{{ viewData.title }}</p>
         <p><strong>难度等级：</strong>
           <el-tag :type="getLevelType(viewData.level)">{{ viewData.level }}级</el-tag>
         </p>
         <p><strong>内容：</strong></p>
         <div class="content-view">{{ viewData.description }}</div>
-        <p><strong>创建时间：</strong>{{ viewData.createTime }}</p>
-        <p><strong>更新时间：</strong>{{ viewData.updateTime }}</p>
+        <p><strong>创建时间：</strong>{{ viewData.created_at }}</p>
+        <p><strong>更新时间：</strong>{{ viewData.updated_at }}</p>
       </div>
     </el-dialog>
   </div>
@@ -239,36 +225,20 @@ import {
   deleteKnowledgeContent,
 } from "@/api/system/learning-content-api";
 import type { KnowledgeContentVO, KnowledgeContentForm, KnowledgeContentQuery } from "@/api/system/learning-content-api";
-import ThemeAPI from "@/api/system/theme-api";
-import type { ThemeVO } from "@/api/system/theme-api";
-import { computed } from "vue";
+import { TEST_COURSE_ID } from '@/constants';
 // 定义响应式数据
 const loading = ref(true);
 const total = ref(0);
 const contentList = ref<KnowledgeContentVO[]>([]);
 const multipleSelection = ref<KnowledgeContentVO[]>([]);
-const themeList = ref<ThemeVO[]>([]);
 
 const flatContentList = computed(() => contentList.value);
-
-// 主题选项列表（用于选择器）
-const themeOptions = computed(() =>
-  themeList.value.map(theme => ({
-    label: theme.name,
-    value: theme.id
-  }))
-);
-
-// 根据主题ID获取主题名称
-const getThemeName = (themeId: string) => {
-  const theme = themeList.value.find(t => t.id === themeId);
-  return theme ? theme.name : themeId;
-};
 
 // 查询参数
 const queryParams = reactive<KnowledgeContentQuery>({
   level: undefined,
-  graphId: undefined,
+  nodeId: undefined,
+  courseId: TEST_COURSE_ID,
   pageNum: 1,
   pageSize: 10,
 });
@@ -283,8 +253,9 @@ const dialog = reactive({
 
 const formData = ref<KnowledgeContentForm>({
   id: undefined,
-  graphId: "",
-  topic_id: "",
+  course_id: TEST_COURSE_ID,
+  node_id: "",
+  title: "",
   description: "",
   level: 1,
 });
@@ -299,24 +270,16 @@ const contentFormRef = ref();
 
 // 表单验证规则
 const formRules = {
-  graphId: [{ required: true, message: "请选择主题", trigger: "change" }],
-  topic_id: [{ required: true, message: "请输入结点ID", trigger: "blur" }],
+  node_id: [{ required: true, message: "请输入节点ID", trigger: "blur" }],
+  title: [{ required: true, message: "请输入标题", trigger: "blur" }],
   description: [{ required: true, message: "请输入内容", trigger: "blur" }],
   level: [{ required: true, message: "请选择难度等级", trigger: "change" }],
 };
 
-// 获取主题列表
-const getThemeList = async () => {
-  try {
-    const response = await ThemeAPI.getPageList({
-      pageNum: 1,
-      pageSize: 1000, // 获取所有主题
-      status: 1 // 只获取启用的主题
-    });
-    themeList.value = response.list || [];
-  } catch (error) {
-    console.error("获取主题列表失败", error);
-  }
+// 初始化数据
+const initData = async () => {
+  // 设置默认的课程ID
+  queryParams.courseId = TEST_COURSE_ID;
 };
 
 // 获取知识点列表
@@ -342,7 +305,7 @@ const handleQuery = () => {
 
 // 重置搜索
 const resetQuery = () => {
-  queryParams.graphId = undefined;
+  queryParams.nodeId = undefined;
   queryParams.level = undefined;
   queryParams.pageNum = 1;
   getList();
@@ -353,16 +316,17 @@ const handleSelectionChange = (selection: KnowledgeContentVO[]) => {
   multipleSelection.value = selection;
 };
 
-// 添加知识点
+// 添加知识内容
 const handleAdd = () => {
   dialog.visible = true;
-  dialog.title = "添加知识点";
+  dialog.title = "添加知识内容";
   dialog.isEdit = false;
   // 重置表单
   Object.assign(formData.value, {
     id: undefined,
-    graphId: "",
-    topic_id: "",
+    course_id: TEST_COURSE_ID,
+    node_id: "",
+    title: "",
     description: "",
     level: 1,
   });
@@ -460,9 +424,11 @@ const handleSubmit = () => {
         }
         dialog.visible = false;
         getList();
-      } catch (error) {
+      } catch (error: any) {
         const message = dialog.isEdit ? "更新失败" : "创建失败";
-        ElMessage.error(message);
+        // 显示后端返回的详细错误信息
+        const errorMessage = error?.response?.data?.message || error?.message || message;
+        ElMessage.error(errorMessage);
         console.error(message, error);
       }
     }
@@ -505,7 +471,7 @@ const getStatusText = (status: number) => {
 };
 
 onMounted(() => {
-  getThemeList();
+  initData();
   getList();
 });
 </script>

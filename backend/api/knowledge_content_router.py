@@ -21,7 +21,8 @@ logger = logging.getLogger(__name__)
 @knowledge_content_router.get("/", response_model=ApiResponse)
 async def get_knowledge_contents(
     level: Optional[int] = None,
-    graphId: Optional[str] = None,
+    courseId: Optional[str] = None,
+    nodeId: Optional[str] = None,
     pageNum: int = 1,
     pageSize: int = 10,
     db: Session = Depends(get_db)
@@ -30,19 +31,41 @@ async def get_knowledge_contents(
     获取知识内容分页列表
     """
     try:
+        # 根据course_code查询课程ID
+        course_db_id = None
+        if courseId:
+            from db.models import Course
+            course = db.query(Course).filter(Course.course_code == courseId).first()
+            if course:
+                course_db_id = course.id
+
         query = db.query(KnowledgeContentModel)
 
         if level is not None:
-            query = query.filter(KnowledgeContentModel.level == level)
+            from db.models import DifficultyLevelEnum
+            query = query.filter(KnowledgeContentModel.level == DifficultyLevelEnum(level))
 
-        if graphId:
-            query = query.filter(KnowledgeContentModel.graph_id == graphId)
+        if course_db_id is not None:
+            query = query.filter(KnowledgeContentModel.course_id == course_db_id)
+
+        if nodeId:
+            query = query.filter(KnowledgeContentModel.node_id.ilike(f"%{nodeId}%"))
 
         total = query.count()
         offset = (pageNum - 1) * pageSize
-        contents = query.order_by(KnowledgeContentModel.create_time.desc()).offset(offset).limit(pageSize).all()
+        contents = query.order_by(KnowledgeContentModel.created_at.desc()).offset(offset).limit(pageSize).all()
 
-        content_list = [KnowledgeContentResponse.from_orm(content).dict(by_alias=True) for content in contents]
+        # 转换数据格式，添加course_code
+        content_list = []
+        for content in contents:
+            content_dict = KnowledgeContentResponse.from_orm(content).dict(by_alias=True)
+            # 添加course_code
+            if course_db_id:
+                from db.models import Course
+                course = db.query(Course).filter(Course.id == content.course_id).first()
+                if course:
+                    content_dict['course_code'] = course.course_code
+            content_list.append(content_dict)
 
         return ApiResponse(
             code="00000",
@@ -94,11 +117,51 @@ async def create_knowledge_content(content_data: KnowledgeContentCreate, db: Ses
     创建知识内容
     """
     try:
+        # 根据course_code查找课程
+        from db.models import Course
+        course = db.query(Course).filter(Course.course_code == content_data.course_id).first()
+        if not course:
+            return ApiResponse(
+                code="A0001",
+                message=f"课程代码 {content_data.course_id} 不存在"
+            )
+
+        # 检查节点是否存在于知识图谱中
+        from db.models import KGNode
+        node = db.query(KGNode).filter(
+            KGNode.course_id == course.id,
+            KGNode.id == content_data.node_id
+        ).first()
+
+        if not node:
+            return ApiResponse(
+                code="A0001",
+                message=f"节点 '{content_data.node_id}' 在课程 '{content_data.course_id}' 的知识图谱中不存在"
+            )
+
+        # 检查是否已存在相同course_id、node_id和level的记录
+        from db.models import DifficultyLevelEnum
+        existing_content = db.query(KnowledgeContentModel).filter(
+            KnowledgeContentModel.course_id == course.id,
+            KnowledgeContentModel.node_id == content_data.node_id,
+            KnowledgeContentModel.level == DifficultyLevelEnum(content_data.level)
+        ).first()
+
+        if existing_content:
+            level_names = {1: "入门", 2: "基础", 3: "进阶", 4: "高级"}
+            level_name = level_names.get(content_data.level, f"难度{content_data.level}")
+            return ApiResponse(
+                code="A0001",
+                message=f"该课程的节点 '{content_data.node_id}' 已存在{level_name}级别的知识内容，不能重复创建"
+            )
+
+        from db.models import DifficultyLevelEnum
         new_content = KnowledgeContentModel(
-            graph_id=content_data.graph_id,
-            topic_id=content_data.topic_id,
+            course_id=course.id,
+            node_id=content_data.node_id,
+            title=content_data.title,
             description=content_data.description,
-            level=content_data.level
+            level=DifficultyLevelEnum(content_data.level)
         )
 
         db.add(new_content)
@@ -134,16 +197,68 @@ async def update_knowledge_content(content_id: str, content_data: KnowledgeConte
             )
 
         update_fields = content_data.dict(exclude_unset=True)
+
+        # 准备新的course_id、node_id和level用于验证
+        new_course_id = content.course_id
+        new_node_id = content.node_id
+        new_level = content.level
+
         for key, value in update_fields.items():
             # 处理字段名映射
-            if key == "graphId":
-                setattr(content, "graph_id", value)
-            elif key == "maintainerId":
-                setattr(content, "maintainer_id", value)
+            if key == "course_id":
+                # 根据course_code查找course_id
+                from db.models import Course
+                course = db.query(Course).filter(Course.course_code == value).first()
+                if course:
+                    new_course_id = course.id
+                    setattr(content, "course_id", course.id)
+                else:
+                    return ApiResponse(
+                        code="A0001",
+                        message=f"课程代码 {value} 不存在"
+                    )
+            elif key == "node_id":
+                new_node_id = value
+                setattr(content, key, value)
+            elif key == "level":
+                # 将整数转换为枚举值
+                from db.models import DifficultyLevelEnum
+                new_level = DifficultyLevelEnum(value)
+                setattr(content, key, new_level)
             else:
                 setattr(content, key, value)
 
-        content.update_time = datetime.now()
+        # 检查更新后的节点是否存在于知识图谱中
+        from db.models import KGNode
+        node = db.query(KGNode).filter(
+            KGNode.course_id == new_course_id,
+            KGNode.id == new_node_id
+        ).first()
+
+        if not node:
+            return ApiResponse(
+                code="A0001",
+                message=f"节点 '{new_node_id}' 在知识图谱中不存在，无法更新"
+            )
+
+        # 检查更新后的course_id、node_id和level组合是否与其他记录冲突（排除当前记录）
+        if (new_course_id != content.course_id or new_node_id != content.node_id or new_level != content.level):
+            existing = db.query(KnowledgeContentModel).filter(
+                KnowledgeContentModel.course_id == new_course_id,
+                KnowledgeContentModel.node_id == new_node_id,
+                KnowledgeContentModel.level == new_level,
+                KnowledgeContentModel.id != content_id
+            ).first()
+
+            if existing:
+                level_names = {1: "入门", 2: "基础", 3: "进阶", 4: "高级"}
+                level_name = level_names.get(new_level.value if hasattr(new_level, 'value') else int(new_level), f"难度{new_level}")
+                return ApiResponse(
+                    code="A0001",
+                    message=f"该课程的节点 '{new_node_id}' 已存在{level_name}级别的其他知识内容，无法更新"
+                )
+
+        content.updated_at = datetime.now()
         db.commit()
 
         return ApiResponse(
@@ -208,25 +323,35 @@ async def batch_save_knowledge_contents(batch_data: KnowledgeContentBatchSave, d
         saved_count = 0
 
         for content_item in batch_data.knowledge_contents:
-            # 检查是否已存在相同的数据（course_id, node_id, level 组合）
-            # 将整数转换为枚举类型进行比较
-            from db.models import DifficultyLevelEnum
-            level_enum = DifficultyLevelEnum(content_item.level)
+            # 检查节点是否存在于知识图谱中
+            from db.models import KGNode
+            node = db.query(KGNode).filter(
+                KGNode.course_id == course_id,
+                KGNode.id == content_item.node_id
+            ).first()
 
+            if not node:
+                logger.warning(f"跳过不存在的节点: course_id={course_id}, node_id={content_item.node_id}")
+                continue
+
+            # 检查是否已存在相同course_id、node_id和level的记录（不允许重复）
+            from db.models import DifficultyLevelEnum
             existing = db.query(KnowledgeContentModel).filter(
                 KnowledgeContentModel.course_id == course_id,
                 KnowledgeContentModel.node_id == content_item.node_id,
-                KnowledgeContentModel.level == level_enum
+                KnowledgeContentModel.level == DifficultyLevelEnum(content_item.level)
             ).first()
 
             if existing:
-                # 更新现有记录
-                existing.title = content_item.title
-                existing.description = content_item.description
-                existing.updated_at = datetime.now()
-                logger.info(f"更新知识内容: course_id={course_id}, node_id={content_item.node_id}, level={content_item.level}")
+                # 记录已存在，跳过重复的记录
+                level_names = {1: "入门", 2: "基础", 3: "进阶", 4: "高级"}
+                level_name = level_names.get(content_item.level, f"难度{content_item.level}")
+                logger.warning(f"跳过已存在的知识内容: course_id={course_id}, node_id={content_item.node_id}, level={level_name}")
+                continue
             else:
                 # 创建新记录
+                level_enum = DifficultyLevelEnum(content_item.level)
+
                 new_content = KnowledgeContentModel(
                     course_id=course_id,
                     node_id=content_item.node_id,
@@ -236,8 +361,7 @@ async def batch_save_knowledge_contents(batch_data: KnowledgeContentBatchSave, d
                 )
                 db.add(new_content)
                 logger.info(f"创建新知识内容: course_id={course_id}, node_id={content_item.node_id}, level={content_item.level}")
-
-            saved_count += 1
+                saved_count += 1
 
         db.commit()
 
