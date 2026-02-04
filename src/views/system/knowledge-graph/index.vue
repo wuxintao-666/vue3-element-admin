@@ -1,381 +1,216 @@
 <template>
   <div class="app-container">
-    <el-card v-loading="loading" shadow="never" class="card-wrapper">
-      <template #header>
-        <div class="flex justify-between">
-          <div>
-            <el-button type="primary" @click="handleAdd">
-              <el-icon>
-                <Plus />
-              </el-icon>
-              <span>添加知识图谱</span>
-            </el-button>
-            <el-button type="danger" :disabled="!multipleSelection.length" @click="handleBatchDelete">
-              <el-icon>
-                <Delete />
-              </el-icon>
-              <span>批量删除</span>
-            </el-button>
-          </div>
-          <div>
-            <el-input
-              v-model="queryParams.keywords"
-              placeholder="知识图谱名称"
-              clearable
-              style="width: 200px; margin-right: 10px"
-              @keyup.enter="handleQuery"
-            />
-            <el-button type="primary" @click="handleQuery">
-              <el-icon>
-                <Search />
-              </el-icon>
-              <span>搜索</span>
-            </el-button>
+    <!-- 操作按钮区域 -->
+    <div class="action-buttons" style="margin-bottom: 20px;">
+      <!-- 视图切换按钮 -->
+      <el-button-group>
+        <el-button
+          type="primary"
+          :class="{ active: currentView === 'graph' }"
+          @click="currentView = 'graph'"
+        >
+          <el-icon><Grid /></el-icon>
+          <span>图谱视图</span>
+        </el-button>
+        <el-button
+          type="primary"
+          :class="{ active: currentView === 'list' }"
+          @click="currentView = 'list'"
+        >
+          <el-icon><List /></el-icon>
+          <span>列表视图</span>
+        </el-button>
+      </el-button-group>
+
+      <el-button type="primary" @click="handleExportXlsx">
+        <el-icon><Download /></el-icon>
+        <span>导出</span>
+      </el-button>
+      <el-button type="success" @click="handleImportJson">
+        <el-icon><Upload /></el-icon>
+        <span>导入</span>
+      </el-button>
+      <el-button
+        type="warning"
+        @click="handleSaveToDatabase"
+        :disabled="!hasUnsavedChanges"
+        :class="{ 'has-changes': hasUnsavedChanges }"
+      >
+        <el-icon><Check /></el-icon>
+        <span>保存到数据库{{ hasUnsavedChanges ? ' (有未保存更改)' : '' }}</span>
+      </el-button>
+      <input
+        ref="fileInputRef"
+        type="file"
+        accept=".json"
+        style="display: none"
+        @change="handleFileSelect"
+      />
+    </div>
+    <!-- 列表视图 -->
+    <div v-if="currentView === 'list'" class="form-group">
+        <label>AI生成的学习路径 (共 {{ knowledgeGraph.nodes.length }} 个节点):</label>
+        <div class="knowledge-list">
+          <div
+            v-for="(node, index) in knowledgeGraph.nodes"
+            :key="node.data.id"
+            class="knowledge-item"
+          >
+            <!-- 节点标题栏 -->
+            <div class="knowledge-header">
+              <span class="knowledge-id">{{ Number(index) + 1 }}.</span>
+              <span class="knowledge-label">{{ node.data.label }}</span>
+              <span class="knowledge-type" :class="node.data.type">
+                {{ node.data.type === 'chapter' ? '章节' : '知识点' }}
+              </span>
+              <div class="knowledge-actions">
+                <button
+                  @click="showNodeDetail(node.data)"
+                  class="btn btn-small btn-info"
+                >
+                  详情
+                </button>
+                <button
+                  @click="editNode(node.data)"
+                  class="btn btn-small btn-warning ml-1"
+                >
+                  编辑
+                </button>
+              </div>
+            </div>
+
+
           </div>
         </div>
-      </template>
 
-      <el-table
-        :data="graphList"
-        row-key="id"
-        border
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column type="selection" width="55" fixed="left" />
-        <el-table-column label="主题" width="120">
-          <template #default="{ row }">
-            {{ getThemeName(row.id) }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="name" label="名称" width="150" show-overflow-tooltip />
-        <el-table-column prop="description" label="简介" min-width="200" show-overflow-tooltip />
-        <el-table-column prop="tags" label="标签" width="150">
-          <template #default="{ row }">
-            <el-space wrap>
-              <el-tag v-for="tag in row.tags" :key="tag">{{ tag }}</el-tag>
-            </el-space>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
-          <template #default="{ row }">
-            <el-tag :type="getStatusTagType(row.status)">{{ getStatusText(row.status) }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="maintainerId" label="维护人ID" width="120" show-overflow-tooltip />
-        <el-table-column prop="createTime" label="创建时间" width="150" />
-        <el-table-column prop="updateTime" label="更新时间" width="150" />
-        <el-table-column fixed="right" label="操作" width="320">
-          <template #default="{ row }">
-            <el-button type="primary" link @click="handleEdit(row.id)">编辑</el-button>
-            <el-button type="primary" link @click="handleViewGraph(row.id)">查看图谱</el-button>
-            <el-button type="primary" link @click="handlePublish(row.id)">发布</el-button>
-            <el-button type="primary" link @click="handleDelete(row.id)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+        <!-- 保存提示 -->
+        <div v-if="!isKnowledgeSaved" class="save-prompt">
+          <div class="alert alert-warning">
+            <strong>提示：</strong>请检查并编辑以上AI生成的学习路径内容，确认无误后点击"保存图谱"按钮保存修改。
+          </div>
+        </div>
+      </div>
+    <div v-else>  
+    <!-- 知识图谱可视化对话框 -->
+    <div class="graph-container" v-if="graphData">
+      <div class="graph-visualization">
+        <KnowledgeGraphVisualization :graphData="graphData" @save-graph="handleSaveGraph" />
+      </div>
+    </div>
+    </div>
 
-      <template #footer>
-        <Pagination
-          v-if="total > 0"
-          :total="total"
-          v-model:page="queryParams.pageNum"
-          v-model:limit="queryParams.pageSize"
-          @pagination="getList"
-        />
-      </template>
-    </el-card>
-
-    <!-- 添加/编辑知识图谱对话框 -->
+    <!-- 编辑节点对话框 -->
     <el-dialog
-      :title="dialog.title"
-      v-model="dialog.visible"
-      width="600px"
-      @close="handleDialogClose"
+      title="编辑节点"
+      v-model="editDialog.visible"
+      width="500px"
+      @close="closeEditDialog"
     >
       <el-form
-        ref="graphFormRef"
-        :model="formData"
-        :rules="formRules"
-        label-width="120px"
+        ref="editFormRef"
+        :model="editForm"
+        :rules="editFormRules"
+        label-width="80px"
       >
-        <el-form-item label="主题ID" prop="id">
-          <el-select
-            v-model="formData.id"
-            placeholder="请选择主题"
-            style="width: 100%"
-            filterable
-          >
-            <el-option
-              v-for="theme in themeOptions"
-              :key="theme.value"
-              :label="theme.label"
-              :value="theme.value"
-            />
-          </el-select>
+        <el-form-item label="节点ID" prop="id">
+          <el-input v-model="editForm.id" :disabled="true" placeholder="节点ID不可修改" />
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入知识图谱名称" />
+        <el-form-item label="节点标签" prop="label">
+          <el-input v-model="editForm.label" placeholder="请输入节点标签" />
         </el-form-item>
-        <el-form-item label="简介" prop="description">
-          <el-input
-            v-model="formData.description"
-            type="textarea"
-            :rows="4"
-            placeholder="请输入知识图谱简介"
-          />
-        </el-form-item>
-        <el-form-item label="标签" prop="tags">
-          <el-select
-            v-model="formData.tags"
-            multiple
-            placeholder="请选择标签"
-            style="width: 100%"
-          >
-            <el-option
-              v-for="tag in tagOptions"
-              :key="tag.value"
-              :label="tag.label"
-              :value="tag.value"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio-group v-model="formData.status">
-            <el-radio :value="1">启用</el-radio>
-            <el-radio :value="0">禁用</el-radio>
+        <el-form-item label="节点类型" prop="type">
+          <el-radio-group v-model="editForm.type">
+            <el-radio label="chapter">章节</el-radio>
+            <el-radio label="knowledge">知识点</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="维护人ID" prop="maintainerId">
-          <el-input v-model="formData.maintainerId" placeholder="请输入维护人ID" />
+        <el-form-item label="关联元素" prop="select_element">
+          <el-input
+            v-model="editForm.select_element"
+            type="textarea"
+            :rows="3"
+            placeholder="请输入关联的HTML元素，用逗号分隔"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="dialog.visible = false">取 消</el-button>
-          <el-button type="primary" @click="handleSubmit">确 定</el-button>
+          <el-button @click="editDialog.visible = false">取消</el-button>
+          <el-button type="primary" @click="saveEditedNode">确定</el-button>
         </div>
       </template>
     </el-dialog>
 
-    <!-- 知识图谱可视化对话框 -->
-    <el-dialog
-      :title="graphDialogTitle"
-      v-model="graphDialog.visible"
-      width="90%"
-      top="2vh"
-      @close="closeGraphDialog"
-    >
-      <div class="graph-container" v-if="graphData">
-        <div class="graph-info">
-          <h3>知识图谱信息</h3>
-          <p><strong>节点数量:</strong> {{ graphData.nodes?.length || 0 }}</p>
-          <p><strong>边数量:</strong> {{ graphData.edges?.length || 0 }}</p>
-          <p><strong>依赖边数量:</strong> {{ graphData.dependent_edges?.length || 0 }}</p>
-        </div>
-        <div class="graph-visualization">
-          <el-card>
-            <template #header>
-              <div class="graph-controls">
-                <el-button size="small" @click="toggleGraphView">切换视图</el-button>
-                <el-button size="small" @click="resetGraph">重置视图</el-button>
-                <el-button size="small" @click="addNodeDialogVisible = true">添加节点</el-button>
-                <el-button size="small" @click="addEdgeDialogVisible = true">添加边</el-button>
-                <el-button size="small" @click="saveGraphData" type="primary">保存修改</el-button>
-              </div>
-            </template>
-            <div ref="graphRef" class="graph" style="width: 100%; height: 300px;"></div>
-          </el-card>
-        </div>
-      </div>
-    </el-dialog>
-    
-    <!-- 添加节点对话框 -->
-    <el-dialog title="添加节点" v-model="addNodeDialogVisible" width="500px">
-      <el-form :model="newNodeForm" label-width="80px">
-        <el-form-item label="节点ID">
-          <el-input v-model="newNodeForm.id" placeholder="请输入节点ID" />
-        </el-form-item>
-        <el-form-item label="节点标签">
-          <el-input v-model="newNodeForm.label" placeholder="请输入节点标签" />
-        </el-form-item>
-        <el-form-item label="节点类型">
-          <el-select v-model="newNodeForm.type" placeholder="请选择节点类型">
-            <el-option label="知识点" value="knowledge"></el-option>
-            <el-option label="章节" value="chapter"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="addNodeDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addNode">确定</el-button>
-      </template>
-    </el-dialog>
-    
-    <!-- 添加边对话框 -->
-    <el-dialog title="添加边" v-model="addEdgeDialogVisible" width="500px">
-      <el-form :model="newEdgeForm" label-width="80px">
-        <el-form-item label="源节点">
-          <el-select v-model="newEdgeForm.source" filterable placeholder="请选择源节点">
-            <el-option 
-              v-for="node in graphData?.nodes || []" 
-              :key="node.data.id" 
-              :label="`${node.data.label} (${node.data.id})`" 
-              :value="node.data.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="目标节点">
-          <el-select v-model="newEdgeForm.target" filterable placeholder="请选择目标节点">
-            <el-option 
-              v-for="node in graphData?.nodes || []" 
-              :key="node.data.id" 
-              :label="`${node.data.label} (${node.data.id})`" 
-              :value="node.data.id"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="边类型">
-          <el-radio-group v-model="newEdgeForm.edgeType">
-            <el-radio label="relation">关系边</el-radio>
-            <el-radio label="dependency">依赖边</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="addEdgeDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addEdge">确定</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick, computed } from "vue";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { Plus, Delete, Search } from "@element-plus/icons-vue";
+import { Search, Download, Upload, Check, Grid, List } from "@element-plus/icons-vue";
 import KnowledgeGraphAPI, { type KnowledgeGraphVO } from "@/api/system/knowledge-graph-api";
-import ThemeAPI from "@/api/system/theme-api";
-import type { ThemeVO } from "@/api/system/theme-api";
 import Pagination from "@/components/Pagination/index.vue";
-import cytoscape, { type Core, type ElementDefinition } from "cytoscape";
-
+import KnowledgeGraphVisualization from "@/views/system/content-generator/KnowledgeGraphVisualization.vue";
+import { TEST_COURSE_ID } from '@/constants';
 // 定义响应式数据
 const loading = ref(true);
 const total = ref(0);
 const graphList = ref<KnowledgeGraphVO[]>([]);
-const multipleSelection = ref<KnowledgeGraphVO[]>([]);
-const themeList = ref<ThemeVO[]>([]);
 
-// 主题选项列表（用于选择器）
-const themeOptions = computed(() =>
-  themeList.value.map(theme => ({
-    label: theme.name,
-    value: theme.id
-  }))
-);
-
-// 根据主题ID获取主题名称
-const getThemeName = (themeId: string) => {
-  const theme = themeList.value.find(t => t.id === themeId);
-  return theme ? theme.name : themeId;
-};
 
 // 查询参数
 const queryParams = reactive({
-  keywords: undefined,
+  courseCode: undefined,
   status: undefined,
   pageNum: 1,
   pageSize: 10
 });
 
-// 对话框相关数据
-const dialog = reactive({
-  visible: false,
-  title: "",
-  isEdit: false,
-  currentId: ""
-});
-
-const formData = ref({
-  id: undefined,
-  name: "",
-  description: "",
-  tags: [] as string[],
-  status: 1,
-  maintainerId: ""
-});
-
 const graphDialog = reactive({
-  visible: false,
+  visible: true,
   currentId: ""
 });
 
-// 知识图谱编辑相关数据
-const addNodeDialogVisible = ref(false);
-const addEdgeDialogVisible = ref(false);
-const newNodeForm = ref({
-  id: '',
-  label: '',
-  type: 'knowledge'
-});
-const newEdgeForm = ref({
-  source: '',
-  target: '',
-  edgeType: 'relation' as 'relation' | 'dependency'
-});
-
-const graphRef = ref<HTMLElement>();
-let cy: Core | null = null;
 const graphData = ref<any>(null);
 const graphDialogTitle = ref('');
-const graphLoading = ref(false);
+const fileInputRef = ref<HTMLInputElement>();
+const hasUnsavedChanges = ref(false);
 
-const graphFormRef = ref();
+// 视图切换相关
+const currentView = ref<'graph' | 'list'>('graph');
 
-// 表单验证规则
-const formRules = {
-  id: [{ required: true, message: "请选择主题", trigger: "change" }],
-  name: [{ required: true, message: "请输入知识图谱名称", trigger: "blur" }],
-  description: [{ required: true, message: "请输入知识图谱简介", trigger: "blur" }],
-  tags: [{ required: true, message: "请选择标签", trigger: "change" }],
-  status: [{ required: true, message: "请选择状态", trigger: "change" }],
-  maintainerId: [{ required: true, message: "请输入维护人ID", trigger: "blur" }]
+// 列表视图相关变量
+const knowledgeGraph = computed(() => graphData.value || { nodes: [], edges: [], dependent_edges: [] });
+const isKnowledgeSaved = ref(true);
+
+// 编辑节点相关变量
+const editDialog = reactive({
+  visible: false
+});
+
+const editForm = ref({
+  id: '',
+  label: '',
+  type: 'knowledge',
+  select_element: ''
+});
+
+const editFormRules = {
+  label: [{ required: true, message: '请输入节点标签', trigger: 'blur' }],
+  type: [{ required: true, message: '请选择节点类型', trigger: 'change' }]
 };
 
-// 标签选项
-const tagOptions = [
-  { label: "前端", value: "frontend" },
-  { label: "后端", value: "backend" },
-  { label: "全栈", value: "fullstack" },
-  { label: "移动端", value: "mobile" },
-  { label: "AI", value: "ai" },
-  { label: "数据库", value: "database" },
-  { label: "云原生", value: "cloud" },
-  { label: "微服务", value: "microservice" }
-];
+const editFormRef = ref();
 
-// 获取主题列表
-const getThemeList = async () => {
-  try {
-    const response = await ThemeAPI.getPageList({
-      pageNum: 1,
-      pageSize: 1000, // 获取所有主题
-      status: 1 // 只获取启用的主题
-    });
-    themeList.value = response.list || [];
-  } catch (error) {
-    console.error("获取主题列表失败", error);
-  }
-};
 
 // 获取知识图谱列表
 const getList = async () => {
   loading.value = true;
   try {
-    const response = await KnowledgeGraphAPI.getPageList(queryParams);
-    graphList.value = response.list || [];
-    //console.log("获取知识图谱列表成功", graphList.value);
-    total.value = response.total;
+    const response = await KnowledgeGraphAPI.getGraphDataByCourse(TEST_COURSE_ID);
+    graphData.value = response;
+    hasUnsavedChanges.value = false;
+    console.log("获取知识图谱列表成功", graphData.value);
   } catch (error) {
     console.error("获取知识图谱列表失败", error);
   } finally {
@@ -391,449 +226,566 @@ const handleQuery = () => {
 
 // 重置搜索
 const resetQuery = () => {
-  queryParams.keywords = undefined;
+  queryParams.courseCode = undefined;
   queryParams.status = undefined;
   queryParams.pageNum = 1;
   getList();
 };
 
-// 处理多选
-const handleSelectionChange = (selection: KnowledgeGraphVO[]) => {
-  multipleSelection.value = selection;
-};
 
-// 添加知识图谱
-const handleAdd = () => {
-  dialog.visible = true;
-  dialog.title = "添加知识图谱";
-  dialog.isEdit = false;
-  // 重置表单
-  Object.assign(formData.value, {
-    id: undefined,
-    name: "",
-    description: "",
-    tags: [],
-    status: 1,
-    maintainerId: ""
-  });
-};
+// 删除知识图谱数据
+const handleDelete = async (courseId: string) => {
+  try {
+    await ElMessageBox.confirm("确定要删除这个课程的知识图谱数据吗？删除后无法恢复。", "警告", {
+      confirmButtonText: "确定",
+      cancelButtonText: "取消",
+      type: "warning"
+    });
 
-// 编辑知识图谱
-const handleEdit = (id: string) => {
-  dialog.visible = true;
-  dialog.title = "编辑知识图谱";
-  dialog.isEdit = true;
-  dialog.currentId = id;
-  
-  // 获取知识图谱详情并填充表单
-  KnowledgeGraphAPI.getFormData(id).then(response => {
-    Object.assign(formData.value, response.data);
-  }).catch(error => {
-    console.error("获取知识图谱详情失败", error);
-    ElMessage.error("获取知识图谱详情失败");
-  });
-};
+    // 调用删除课程知识图谱数据的API
+    const response = await fetch(`/api/v1/knowledge-graph/course/${courseId}/delete`, {
+      method: 'DELETE'
+    });
 
-// 删除知识图谱
-const handleDelete = (id: string) => {
-  ElMessageBox.confirm("确定要删除这个知识图谱吗？", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  }).then(() => {
-    return KnowledgeGraphAPI.deleteById(id);
-  }).then(() => {
-    getList();
-    ElMessage.success("删除成功");
-  }).catch(error => {
+    const result = await response.json();
+
+    if (result.code === "00000") {
+      getList();
+      ElMessage.success("删除成功");
+    } else {
+      throw new Error(result.message);
+    }
+  } catch (error) {
     if (error !== "cancel") {
       ElMessage.error("删除失败");
-      console.error("删除知识图谱失败", error);
+      console.error("删除知识图谱数据失败", error);
     }
-  });
-};
-
-// 批量删除
-const handleBatchDelete = () => {
-  if (!multipleSelection.value.length) {
-    ElMessage.warning("请至少选择一项");
-    return;
   }
-
-  const ids = multipleSelection.value.map(item => item.id);
-  ElMessageBox.confirm("确定要删除选中的知识图谱吗？", "警告", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  }).then(() => {
-    // 这里应该调用批量删除API，但API中没有提供该功能，暂时循环删除
-    const promises = ids.map(id => KnowledgeGraphAPI.deleteById(id));
-    return Promise.all(promises);
-  }).then(() => {
-    getList();
-    ElMessage.success("删除成功");
-  }).catch(error => {
-    if (error !== "cancel") {
-      ElMessage.error("删除失败");
-      console.error("批量删除知识图谱失败", error);
-    }
-  });
-};
-
-// 发布知识图谱
-const handlePublish = (id: string) => {
-  ElMessageBox.confirm("确定要发布这个知识图谱吗？", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "info"
-  }).then(() => {
-    return KnowledgeGraphAPI.publish(id);
-  }).then(() => {
-    getList();
-    ElMessage.success("发布成功");
-  }).catch(error => {
-    if (error !== "cancel") {
-      ElMessage.error("发布失败");
-      console.error("发布知识图谱失败", error);
-    }
-  });
-};
-
-// 提交表单
-const handleSubmit = () => {
-  graphFormRef.value.validate((valid: boolean) => {
-    if (valid) {
-      let promise;
-      if (dialog.isEdit) {
-        promise = KnowledgeGraphAPI.update(dialog.currentId, formData.value);
-      } else {
-        promise = KnowledgeGraphAPI.create(formData.value);
-      }
-      
-      promise.then(() => {
-        getList();
-        dialog.visible = false;
-        ElMessage.success(dialog.isEdit ? "更新成功" : "创建成功");
-      }).catch(error => {
-        ElMessage.error(dialog.isEdit ? "更新失败" : "创建失败");
-        console.error(dialog.isEdit ? "更新知识图谱失败" : "创建知识图谱失败", error);
-      });
-    }
-  });
-};
-
-// 关闭对话框
-const handleDialogClose = () => {
-  graphFormRef.value?.clearValidate();
-};
-
-// 获取状态标签类型
-const getStatusTagType = (status: number) => {
-  return status === 1 ? "success" : "danger";
-};
-
-// 获取状态文本
-const getStatusText = (status: number) => {
-  return status === 1 ? "启用" : "禁用";
 };
 
 // 查看知识图谱
-const handleViewGraph = async (id: string) => {
-  graphDialog.currentId = id;
+const handleViewGraph = async (courseCode: string) => {
+  graphDialog.currentId = courseCode;
   graphDialog.visible = true;
-  
+
   try {
-    const response = await KnowledgeGraphAPI.getGraphData(id);
+    // 使用新的按课程编码获取图谱数据的API
+    const response = await KnowledgeGraphAPI.getGraphDataByCourse(courseCode);
     graphData.value = response;
     console.log("获取知识图谱数据成功", graphData.value);
-    graphDialogTitle.value = `知识图谱: ${graphList.value.find(g => g.id === id)?.name}`;
+    graphDialogTitle.value = `知识图谱: ${courseCode}`;
     console.log("图谱对话框标题:", graphDialogTitle.value);
-    // 等待DOM更新后再初始化图谱
-    await nextTick();
-    initGraph();
   } catch (error) {
     console.error("获取知识图谱数据失败", error);
     ElMessage.error("获取知识图谱数据失败");
   }
 };
 
-// 添加节点
-const addNode = () => {
-  if (!newNodeForm.value.id || !newNodeForm.value.label) {
-    ElMessage.error('节点ID和标签不能为空');
-    return;
-  }
-  
-  // 检查ID是否已存在
-  const exists = graphData.value.nodes.some((node: any) => node.data.id === newNodeForm.value.id);
-  if (exists) {
-    ElMessage.error('节点ID已存在');
-    return;
-  }
-  
-  const newNode = {
-    data: {
-      id: newNodeForm.value.id,
-      label: newNodeForm.value.label,
-      type: newNodeForm.value.type
-    }
-  };
-  
-  graphData.value.nodes.push(newNode);
-  
-  // 添加到cytoscape
-  if (cy) {
-    cy.add(newNode);
-  }
-  
-  newNodeForm.value = { id: '', label: '', type: 'knowledge' };
-  addNodeDialogVisible.value = false;
-  ElMessage.success('节点添加成功');
+
+// 保存图谱数据到本地变量
+const handleSaveGraph = async (graph: any) => {
+  // 只更新本地变量，表示有未保存的更改
+  graphData.value = graph;
+  hasUnsavedChanges.value = true;
+  ElMessage.success('图谱修改已保存到本地，可点击"保存到数据库"按钮保存更改');
 };
 
-// 添加边
-const addEdge = () => {
-  if (!newEdgeForm.value.source || !newEdgeForm.value.target) {
-    ElMessage.error('请选择源节点和目标节点');
+// 导出XLSX
+const handleExportXlsx = () => {
+  if (!graphData.value) {
+    ElMessage.warning('没有图谱数据可导出');
     return;
   }
-  
-  if (newEdgeForm.value.source === newEdgeForm.value.target) {
-    ElMessage.error('源节点和目标节点不能相同');
-    return;
-  }
-  
-  // 检查边是否已存在
-  const edges = newEdgeForm.value.edgeType === 'relation' ? 
-    graphData.value.edges : 
-    graphData.value.dependent_edges;
-    
-  const exists = edges.some((edge: any) => 
-    edge.data.source === newEdgeForm.value.source && 
-    edge.data.target === newEdgeForm.value.target
-  );
-  
-  if (exists) {
-    ElMessage.error('该边已存在');
-    return;
-  }
-  
-  const newEdge = {
-    data: {
-      source: newEdgeForm.value.source,
-      target: newEdgeForm.value.target
-    }
-  };
-  
-  if (newEdgeForm.value.edgeType === 'relation') {
-    graphData.value.edges.push(newEdge);
-  } else {
-    graphData.value.dependent_edges.push(newEdge);
-  }
-  
-  // 添加到cytoscape
-  if (cy) {
-    cy.add(newEdge);
-  }
-  
-  newEdgeForm.value = { source: '', target: '', edgeType: 'relation' };
-  addEdgeDialogVisible.value = false;
-  ElMessage.success('边添加成功');
-};
 
-// 保存图谱数据
-const saveGraphData = async () => {
-  if (!graphDialog.value.currentId) {
-    ElMessage.error('未指定知识图谱ID');
-    return;
-  }
-  
   try {
-    // 这里需要后端提供一个更新图谱结构的API
-    // 暂时显示成功信息，实际应用中需要调用API
-    ElMessage.success('图谱数据保存成功');
-    console.log('要保存的图谱数据:', graphData.value);
+    // 动态导入exceljs库
+    import('exceljs').then(async ExcelJS => {
+      const Excel = ExcelJS.default;
+
+      // 准备数据
+      const nodes = graphData.value.nodes || [];
+      const edges = graphData.value.edges || [];
+      const dependentEdges = graphData.value.dependent_edges || [];
+
+      // 创建工作簿
+      const workbook = new Excel.Workbook();
+
+      // 添加节点工作表
+      const nodesSheet = workbook.addWorksheet('节点');
+      nodesSheet.columns = [
+        { header: '序号', key: 'index', width: 10 },
+        { header: '节点ID', key: 'id', width: 20 },
+        { header: '节点标签', key: 'label', width: 30 },
+        { header: '节点类型', key: 'type', width: 15 },
+        { header: '关联元素', key: 'elements', width: 30 }
+      ];
+
+      nodes.forEach((node: any, index: number) => {
+        nodesSheet.addRow({
+          index: index + 1,
+          id: node.data.id,
+          label: node.data.label,
+          type: node.data.type,
+          elements: (node.data.select_element || []).join(', ')
+        });
+      });
+
+      // 添加关系边工作表
+      const edgesSheet = workbook.addWorksheet('关系边');
+      edgesSheet.columns = [
+        { header: '序号', key: 'index', width: 10 },
+        { header: '起点节点', key: 'source', width: 20 },
+        { header: '终点节点', key: 'target', width: 20 },
+        { header: '边类型', key: 'type', width: 15 }
+      ];
+
+      edges.forEach((edge: any, index: number) => {
+        edgesSheet.addRow({
+          index: index + 1,
+          source: edge.data.source,
+          target: edge.data.target,
+          type: '普通关系'
+        });
+      });
+
+      // 添加依赖边工作表
+      const dependentEdgesSheet = workbook.addWorksheet('依赖边');
+      dependentEdgesSheet.columns = [
+        { header: '序号', key: 'index', width: 10 },
+        { header: '起点节点', key: 'source', width: 20 },
+        { header: '终点节点', key: 'target', width: 20 },
+        { header: '边类型', key: 'type', width: 15 }
+      ];
+
+      dependentEdges.forEach((edge: any, index: number) => {
+        dependentEdgesSheet.addRow({
+          index: index + 1,
+          source: edge.data.source,
+          target: edge.data.target,
+          type: '依赖关系'
+        });
+      });
+
+      // 导出文件
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `知识图谱_${TEST_COURSE_ID}_${new Date().toLocaleDateString('zh-CN').replace(/\//g, '-')}.xlsx`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+
+      ElMessage.success('导出成功');
+    }).catch(error => {
+      console.error('加载exceljs库失败:', error);
+      ElMessage.error('导出失败：无法加载导出库');
+    });
   } catch (error) {
-    console.error('保存图谱数据失败', error);
-    ElMessage.error('保存图谱数据失败');
+    console.error('导出失败:', error);
+    ElMessage.error('导出失败');
   }
 };
 
-// 初始化图谱
-const initGraph = () => {
-  if (!graphRef.value || !graphData.value) return;
-  
-  // 销毁之前的实例
-  if (cy) {
-    cy.destroy();
-  }
-  graphRef.value.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-  // 检查数据是否存在
-  const nodes = graphData.value.nodes || [];
-  const edges = graphData.value.edges || [];
-  const dependentEdges = graphData.value.dependent_edges || [];
-  
-  // 合并所有边
-  const allEdges = [...edges, ...dependentEdges];
-  
-  // 初始化cytoscape
-  cy = cytoscape({
-    container: graphRef.value,
-    elements: [
-      ...nodes.map((node: any) => ({
-        data: node.data
-      })),
-      ...allEdges.map((edge: any) => ({
-        data: edge.data
-      }))
-    ],
-    style: [
-      {
-    selector: 'node',
-    style: {
-      'label': 'data(label)',
-      'width': 100,
-      'height': 100
-    }
-  },
-  {
-    selector: 'node[type = "chapter"]',
-    style: {
-      'shape': 'rectangle',
-      'background-color': '#3498db'
-    }
-  },
-  {
-    selector: 'node[type != "chapter"]',
-    style: {
-      'shape': 'ellipse',
-      'background-color': '#e74c3c'
-    }
-  },
-      {
-        selector: 'edge',
-        style: {
-          'width': 2,
-          'line-color': '#9dbaea',
-          'target-arrow-color': '#9dbaea',
-          'target-arrow-shape': 'triangle',
-          'curve-style': 'bezier'
-        }
-      }
-    ],
-    layout: {
-      name: 'cose',
-      animate: true,
-      animationDuration: 500,
-      fit: true,
-      padding: 30
-    },
-    // 解决被动事件监听器问题
-    userPanningEnabled: true,
-    userZoomingEnabled: true,
-    wheelSensitivity: 0.1, // 降低滚轮灵敏度
-    minZoom: 0.1,
-    maxZoom: 3,
-    // 禁用一些可能导致问题的交互
-    boxSelectionEnabled: false,
-    autounselectify: false,
-    autoungrabify: false,
-    // 禁用视口优化功能，这些可能导致事件处理问题
-    textureOnViewport: false,
-    motionBlur: false,
-    hideEdgesOnViewport: false,
-    hideLabelsOnViewport: false,
-    // 禁用触摸相关功能
-    touchTapThreshold: 8,
-    desktopTapThreshold: 4
-  });
+// 导入JSON
+const handleImportJson = () => {
+  fileInputRef.value?.click();
+};
 
-  // 在Cytoscape准备就绪后处理事件监听器
-  cy.ready(() => {
-    // 尝试移除可能导致问题的被动事件监听器
-    try {
-      const container = graphRef.value;
-      if (container) {
-        // 移除Cytoscape可能添加的冲突事件监听器
-        const cyElement = container.querySelector('.cy');
-        if (cyElement) {
-          // 强制设置样式来避免事件问题
-          cyElement.style.touchAction = 'none';
-        }
+// 文件选择处理
+const handleFileSelect = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+
+  if (!file) return;
+
+  if (!file.name.endsWith('.json')) {
+    ElMessage.error('请选择JSON格式的文件');
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    const importData = JSON.parse(text);
+
+    // 验证数据格式
+    if (!importData.nodes || !Array.isArray(importData.nodes)) {
+      throw new Error('数据格式错误：缺少nodes字段或格式不正确');
+    }
+
+    // 确认导入
+    await ElMessageBox.confirm(
+      `确定要导入这个知识图谱吗？\n节点数量：${importData.nodes.length}\n关系边数量：${importData.edges?.length || 0}\n依赖边数量：${importData.dependent_edges?.length || 0}`,
+      '导入确认',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }
-    } catch (error) {
-      console.warn('处理Cytoscape事件监听器时出错:', error);
+    );
+
+    // 调用导入API
+    const response = await fetch(`/api/v1/knowledge-graph/course/${TEST_COURSE_ID}/import`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(importData)
+    });
+
+    const result = await response.json();
+
+    if (result.code === "00000") {
+      ElMessage.success('导入成功');
+      hasUnsavedChanges.value = false;
+      // 重新加载数据
+      getList();
+    } else {
+      throw new Error(result.message);
+    }
+
+  } catch (error: any) {
+    if (error !== 'cancel') {
+      console.error('导入失败:', error);
+      ElMessage.error(`导入失败：${error.message}`);
+    }
+  } finally {
+    // 清空文件输入
+    if (target) {
+      target.value = '';
+    }
+  }
+};
+
+// 保存到数据库
+const handleSaveToDatabase = async () => {
+  if (!graphData.value) {
+    ElMessage.error('没有图谱数据可保存');
+    return;
+  }
+
+  if (!hasUnsavedChanges.value) {
+    ElMessage.warning('没有未保存的更改');
+    return;
+  }
+
+  try {
+    // 确认保存
+    await ElMessageBox.confirm(
+      '确定要将当前图谱数据保存到数据库吗？此操作将覆盖现有的图谱数据。',
+      '保存确认',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    );
+
+    // 调用保存API
+    const response = await fetch(`/api/knowledge/save_to_database`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        course_code: TEST_COURSE_ID,
+        name: `知识图谱_${TEST_COURSE_ID}`,
+        graph: graphData.value
+      })
+    });
+
+    const result = await response.json();
+
+    // save_to_database API 返回的是 KnowledgeSaveToDatabaseResponse，不是标准的 ApiResponse
+    if (result && result.course_code) {
+      hasUnsavedChanges.value = false;
+      ElMessage.success('保存到数据库成功');
+    } else {
+      throw new Error('保存失败：响应格式不正确');
+    }
+
+  } catch (error: any) {
+    if (error !== 'cancel') {
+      console.error('保存到数据库失败:', error);
+      ElMessage.error(`保存到数据库失败：${error.message}`);
+    }
+  }
+};
+
+// 显示节点详情
+const showNodeDetail = (nodeData: any) => {
+  ElMessageBox.alert(
+    `<div class="node-detail">
+      <h4>${nodeData.label}</h4>
+      <p><strong>类型：</strong>${nodeData.type === 'chapter' ? '章节' : '知识点'}</p>
+      <p><strong>ID：</strong>${nodeData.id}</p>
+      ${nodeData.select_element && nodeData.select_element.length > 0 ?
+        `<p><strong>关联元素：</strong>${nodeData.select_element.join(', ')}</p>` : ''}
+    </div>`,
+    '节点详情',
+    {
+      dangerouslyUseHTMLString: true,
+      confirmButtonText: '确定'
+    }
+  );
+};
+
+// 编辑节点
+const editNode = (nodeData: any) => {
+  // 填充编辑表单
+  editForm.value = {
+    id: nodeData.id,
+    label: nodeData.label,
+    type: nodeData.type,
+    select_element: (nodeData.select_element || []).join(', ')
+  };
+
+  // 显示编辑对话框
+  editDialog.visible = true;
+};
+
+// 保存编辑后的节点
+const saveEditedNode = () => {
+  editFormRef.value.validate(async (valid: boolean) => {
+    if (valid) {
+      try {
+        // 处理关联元素字符串为数组
+        const selectElementArray = editForm.value.select_element
+          .split(',')
+          .map(item => item.trim())
+          .filter(item => item.length > 0);
+
+        // 更新本地数据中的节点
+        if (graphData.value && graphData.value.nodes) {
+          const nodeIndex = graphData.value.nodes.findIndex((node: any) => node.data.id === editForm.value.id);
+          if (nodeIndex !== -1) {
+            // 更新节点数据
+            graphData.value.nodes[nodeIndex].data = {
+              ...graphData.value.nodes[nodeIndex].data,
+              label: editForm.value.label,
+              type: editForm.value.type,
+              select_element: selectElementArray
+            };
+
+            // 标记有未保存更改
+            hasUnsavedChanges.value = true;
+
+            // 关闭对话框
+            editDialog.visible = false;
+
+            ElMessage.success('节点修改成功，请记得保存到数据库');
+          } else {
+            ElMessage.error('未找到要编辑的节点');
+          }
+        } else {
+          ElMessage.error('图谱数据不存在');
+        }
+      } catch (error) {
+        console.error('保存节点失败:', error);
+        ElMessage.error('保存节点失败');
+      }
     }
   });
+};
+
+// 关闭编辑对话框
+const closeEditDialog = () => {
+  editFormRef.value?.clearValidate();
 };
 
 // 关闭图谱对话框
 const closeGraphDialog = () => {
-  if (cy) {
-    cy.destroy();
-    cy = null;
-  }
   graphData.value = null;
 };
 
-// 切换图谱视图
-const toggleGraphView = () => {
-  if (cy) {
-    cy.elements().unselect();
-    cy.layout({ name: 'cose' }).run();
-  }
-};
-
-// 重置图谱视图
-const resetGraph = () => {
-  if (cy) {
-    cy.fit();
-    cy.center();
-  }
-};
-
 onMounted(() => {
-  getThemeList();
   getList();
 });
 </script>
 
 <style lang="scss" scoped>
-.card-wrapper {
+.app-container {
   min-height: calc(100vh - 200px);
 }
 
-.graph-container {
-  .graph-info {
-    margin-bottom: 20px;
-    padding: 10px;
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+
+  .el-button-group {
+    margin-right: 20px;
+  }
+
+  .active {
+    background-color: #409eff !important;
+    border-color: #409eff !important;
+  }
+
+  .has-changes {
+    animation: pulse 2s infinite;
+    border-color: #e6a23c !important;
+    background-color: #fdf6ec !important;
+    color: #e6a23c !important;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(230, 162, 60, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(230, 162, 60, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(230, 162, 60, 0);
+    }
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+}
+
+.knowledge-list {
+  border: 1px solid #e4e7ed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.knowledge-item {
+  border-bottom: 1px solid #e4e7ed;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.knowledge-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #fafafa;
+
+  &:hover {
     background-color: #f5f7fa;
-    border-radius: 4px;
+  }
+}
+
+.knowledge-id {
+  font-weight: bold;
+  color: #409eff;
+  margin-right: 12px;
+  min-width: 24px;
+}
+
+.knowledge-label {
+  flex: 1;
+  font-weight: 500;
+  color: #303133;
+}
+
+.knowledge-type {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 12px;
+
+  &.chapter {
+    background-color: #e1f3d8;
+    color: #67c23a;
   }
 
+  &.knowledge {
+    background-color: #fdf6ec;
+    color: #e6a23c;
+  }
+}
+
+.knowledge-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  padding: 4px 12px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+
+  &:hover {
+    border-color: #c0c4cc;
+  }
+
+  &.btn-small {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  &.btn-info {
+    background-color: #ecf5ff;
+    border-color: #b3d8ff;
+    color: #409eff;
+
+    &:hover {
+      background-color: #d9ecff;
+    }
+  }
+
+  &.btn-warning {
+    background-color: #fdf6ec;
+    border-color: #f5dab1;
+    color: #e6a23c;
+
+    &:hover {
+      background-color: #f5dab1;
+    }
+  }
+}
+
+.ml-1 {
+  margin-left: 4px;
+}
+
+.save-prompt {
+  margin-top: 16px;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+
+  &.alert-warning {
+    background-color: #fdf6ec;
+    border: 1px solid #f5dab1;
+    color: #e6a23c;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+}
+
+.graph-container {
   .graph-visualization {
-    height: 60vh;
-
-    .graph {
-      width: 100%;
-      height: 100%;
-
-      // 尝试禁用pointer-events来避免被动事件监听器问题
-      :deep(.cy) {
-        touch-action: none;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
-    }
-
-    .graph-controls {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
+    height: 70vh;
   }
+}
+
+.dialog-footer {
+  text-align: right;
 }
 </style>

@@ -122,3 +122,15 @@
 2026-02-04 01:52:57,541 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
 2026-02-04 01:52:57,542 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
 2026-02-04 01:53:27,401 - scot-web - INFO - 测试任务生成成功，内容长度: 2698
+2026-02-04 11:57:57,003 - scot-web - INFO - 收到知识点提取请求
+2026-02-04 11:57:58,832 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 3495, PRD长度: 0
+2026-02-04 11:57:58,835 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 11:58:54,867 - scot-web - INFO - AI响应成功，原始内容长度: 4545
+2026-02-04 11:58:54,876 - scot-web - INFO - 知识点已保存到: data\knowledge\78844177-543f-4051-89f7-3d1233a0092a.json
+2026-02-04 11:58:54,877 - scot-web - INFO - 知识点提取成功
+2026-02-04 11:59:44,375 - scot-web - INFO - 收到知识点提取请求
+2026-02-04 11:59:46,055 - scot-web - INFO - 开始从HTML内容提取知识点，HTML长度: 3495, PRD长度: 0
+2026-02-04 11:59:46,056 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 12:00:37,335 - scot-web - INFO - AI响应成功，原始内容长度: 4929
+2026-02-04 12:00:37,355 - scot-web - INFO - 知识点已保存到: data\knowledge\0adfc7ee-8ae7-42ee-9e06-43e6579189df.json
+2026-02-04 12:00:37,356 - scot-web - INFO - 知识点提取成功

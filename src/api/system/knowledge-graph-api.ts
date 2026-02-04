@@ -56,9 +56,17 @@ const KnowledgeGraphAPI = {
   
   /** 获取知识图谱详情 */
   getGraphData(id: string) {
-    return request<any, KnowledgeGraphData>({ 
-      url: `${KNOWLEDGE_GRAPH_BASE_URL}/${id}/graph`, 
-      method: "get" 
+    return request<any, KnowledgeGraphData>({
+      url: `${KNOWLEDGE_GRAPH_BASE_URL}/${id}/graph`,
+      method: "get"
+    });
+  },
+
+  /** 根据课程编码获取知识图谱数据 */
+  getGraphDataByCourse(courseCode: string) {
+    return request<any, KnowledgeGraphData>({
+      url: `${KNOWLEDGE_GRAPH_BASE_URL}/course/${courseCode}/graph`,
+      method: "get"
     });
   }
 };
@@ -66,8 +74,8 @@ const KnowledgeGraphAPI = {
 export default KnowledgeGraphAPI;
 
 export interface KnowledgeGraphQuery {
-  /** 搜索关键字 */
-  keywords?: string;
+  /** 课程编码 */
+  courseCode?: string;
   /** 状态 */
   status?: number;
   /** 页码 */
@@ -93,6 +101,12 @@ export interface KnowledgeGraphVO {
   createTime?: string;
   /** 更新时间 */
   updateTime?: string;
+  /** 课程编码 */
+  courseCode?: string;
+  /** 节点数量 */
+  nodesCount?: number;
+  /** 边数量 */
+  edgesCount?: number;
 }
 
 export interface KnowledgeGraphForm {

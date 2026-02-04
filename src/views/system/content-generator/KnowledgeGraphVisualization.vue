@@ -1,6 +1,10 @@
 <template>
   <div class="knowledge-graph-container">
-    <h2 class="card-title">知识点图谱可视化</h2>
+    <div class="graph-info">
+          <!-- <h3>知识图谱信息</h3> -->
+          <p><strong>节点数量:</strong> {{ graphData.nodes?.length || 0 }} | <strong>边数量:</strong> {{ graphData.edges?.length || 0 }} | <strong>依赖边数量:</strong> {{ graphData.dependent_edges?.length || 0 }}</p>
+        </div>
+    <!-- <h2 class="card-title">知识点图谱可视化</h2> -->
     
     <div v-if="!graphData" class="no-data">
       暂无知识图谱数据
@@ -41,7 +45,7 @@
         </div>
       </div>
 
-      <div class="graph-wrapper">
+      <div class="graph-wrapper" style="position: relative;">
         <div id="cy-graph" class="cy-graph"></div>
       </div>
       
@@ -752,12 +756,17 @@ export default {
 
 /* 新建边模式提示样式 */
 .edge-create-notice {
-  margin-bottom: 15px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
   padding: 12px;
   background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
   border: 2px solid #2196f3;
   border-radius: 8px;
   animation: pulse 2s infinite;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 400px;
 }
 
 .notice-content {

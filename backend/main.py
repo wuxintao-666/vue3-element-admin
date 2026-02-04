@@ -68,7 +68,8 @@ app.include_router(knowledge_content_router)
 app.include_router(programming_exercise_router)
 
 # 添加知识图谱管理路由
-#app.include_router(knowledge_graph_router)
+from api.knowledge_graph_router import knowledge_graph_router
+app.include_router(knowledge_graph_router)
 
 # 添加课程管理路由
 app.include_router(course_router)
