@@ -1,0 +1,454 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: HTML文档结构与语义",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "创建基础HTML文档结构",
+        "type": "knowledge",
+        "select_element": [
+          "!DOCTYPE",
+          "html",
+          "head",
+          "meta",
+          "title",
+          "body"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "使用HTML5语义化元素",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "nav",
+          "main",
+          "section",
+          "footer"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "定义文本标题与段落",
+        "type": "knowledge",
+        "select_element": [
+          "h1",
+          "h2",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "创建导航链接",
+        "type": "knowledge",
+        "select_element": [
+          "a"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_5",
+        "label": "构建表格数据",
+        "type": "knowledge",
+        "select_element": [
+          "table",
+          "thead",
+          "tbody",
+          "tr",
+          "th",
+          "td"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: CSS基础样式与盒模型",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "应用全局与元素选择器",
+        "type": "knowledge",
+        "select_element": [
+          "body",
+          "header",
+          "nav",
+          "main",
+          "section",
+          "footer",
+          "h1",
+          "h2",
+          "p",
+          "a",
+          "table",
+          "th",
+          "td"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "设置颜色与字体样式",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "控制内外边距与边框",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "应用背景与阴影",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "2_5",
+        "label": "定义CSS盒模型与宽度",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: CSS Flexbox布局",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "使用Flex容器",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "主轴对齐与空间分布",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "辅轴对齐",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_end",
+        "label": "模块四: 响应式Web设计基础",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "4_1",
+        "label": "配置视口元标签",
+        "type": "knowledge",
+        "select_element": [
+          "meta"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_2",
+        "label": "应用最大宽度实现内容居中",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_3",
+        "label": "使用媒体查询定义响应式样式",
+        "type": "knowledge",
+        "select_element": []
+      }
+    },
+    {
+      "data": {
+        "id": "4_4",
+        "label": "实现表格响应式设计",
+        "type": "knowledge",
+        "select_element": []
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_5"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_5"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_4"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_5"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_5"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_1",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_2",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_3",
+        "target": "4_4"
+      }
+    }
+  ]
+}

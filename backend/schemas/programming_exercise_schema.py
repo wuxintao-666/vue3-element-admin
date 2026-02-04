@@ -73,7 +73,7 @@ class ProgrammingExerciseBatchItem(BaseModel):
 
 class ProgrammingExerciseBatchSave(BaseModel):
     """批量保存编程练习题的请求"""
-    course_id: str = Field(..., description="课程编码 (固定为TEST001)")
+    course_id: str = Field(..., description="课程编码 ")
     exercises: List[ProgrammingExerciseBatchItem] = Field(..., description="编程练习题列表")
 
 

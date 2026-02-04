@@ -209,6 +209,7 @@
 import { learningAPI } from './api/index.js';
 import MarkdownEditor from './MarkdownEditor.vue';
 import MarkdownIt from 'markdown-it';
+import { TEST_COURSE_ID } from '@/constants';
 
 export default {
   name: 'KnowledgeGenerationList',
@@ -1262,7 +1263,7 @@ export default {
 
         // 准备要保存的数据 - 符合后端数据库结构
         const saveData = {
-          course_id: "TEST001",
+          course_id: TEST_COURSE_ID,
           knowledge_contents: knowledgeContents
         };
 

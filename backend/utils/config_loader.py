@@ -13,6 +13,7 @@ def load_config():
         "FAST_MODEL": os.getenv("FAST_MODEL", "Qwen/Qwen2.5-7B-Instruct"),
         "SLOW_MODEL": os.getenv("SLOW_MODEL", "deepseek-ai/DeepSeek-V3.2"),
         "EXECUTOR_MODEL": os.getenv("EXECUTOR_MODEL", "deepseek-ai/DeepSeek-V3.2"),
+        "TEST_COURSE_ID": os.getenv("TEST_COURSE_ID", "TEST001"),
     }
     
     return config

@@ -11,6 +11,7 @@ from schemas.programming_exercise_schema import (
     ProgrammingExercisePageQuery, ProgrammingExercisePageResponse, ApiResponse,
     ProgrammingExerciseBatchSave
 )
+from utils.config_loader import load_config
 
 programming_exercise_router = APIRouter(prefix="/api/v1/programming-exercises", tags=["Programming Exercises"])
 
@@ -209,11 +210,13 @@ async def batch_save_programming_exercises(batch_data: ProgrammingExerciseBatchS
     批量保存编程练习题
     """
     try:
-        # 验证course_id必须是TEST001
-        if batch_data.course_id != "TEST001":
+        config = load_config()
+        test_course_id = config["TEST_COURSE_ID"]
+        # 验证course_id必须是配置的测试课程ID
+        if batch_data.course_id != test_course_id:
             return ApiResponse(
                 code="A0001",
-                message="课程编码必须是TEST001"
+                message=f"课程编码必须是{test_course_id}"
             )
 
         # 根据course_code查询对应的course_id

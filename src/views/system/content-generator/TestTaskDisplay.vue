@@ -318,6 +318,7 @@
 
 <script>
 import { testGenerationAPI, programmingExerciseAPI } from './api/index.js';
+import { TEST_COURSE_ID } from '@/constants';
 
 export default {
   name: 'TestTaskDisplay',
@@ -711,7 +712,7 @@ export default {
 
         // 准备要保存的数据
         const saveData = {
-          course_id: "TEST001",
+          course_id: TEST_COURSE_ID,
           exercises: exercises
         };
 

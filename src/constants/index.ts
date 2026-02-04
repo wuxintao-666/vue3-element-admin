@@ -33,6 +33,9 @@ export const STORAGE_KEYS = {
 
 export const ROLE_ROOT = "ROOT"; // 超级管理员角色
 
+// 测试相关常量
+export const TEST_COURSE_ID = import.meta.env.VITE_TEST_COURSE_ID || "TEST001"; // 测试课程ID，从环境变量读取
+
 // 分组键集合（便于批量操作）
 export const AUTH_KEYS = {
   ACCESS_TOKEN: STORAGE_KEYS.ACCESS_TOKEN,

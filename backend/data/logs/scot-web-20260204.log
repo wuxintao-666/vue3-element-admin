@@ -1,0 +1,124 @@
+2026-02-04 00:48:37,667 - scot-web - INFO - 开始生成测试任务，内容长度: 3
+2026-02-04 00:48:37,674 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 00:48:56,952 - scot-web - INFO - 测试任务生成成功，内容长度: 2406
+2026-02-04 00:49:02,539 - scot-web - INFO - 开始生成测试任务，内容长度: 3
+2026-02-04 00:49:02,539 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 00:49:21,073 - scot-web - INFO - 测试任务生成成功，内容长度: 1970
+2026-02-04 01:13:35,866 - scot-web - INFO - 开始生成测试任务，知识点: 模块一: HTML基础
+2026-02-04 01:13:35,868 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:14:04,885 - scot-web - INFO - 测试任务生成成功，内容长度: 2127
+2026-02-04 01:14:08,877 - scot-web - INFO - 开始生成测试任务，知识点: 了解HTML基本结构
+2026-02-04 01:14:08,878 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:14:27,760 - scot-web - INFO - 测试任务生成成功，内容长度: 1614
+2026-02-04 01:14:29,959 - scot-web - INFO - 开始生成测试任务，知识点: 使用标题元素h1-h6
+2026-02-04 01:14:29,960 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:17:35,355 - scot-web - INFO - 测试任务生成成功，内容长度: 2466
+2026-02-04 01:17:39,563 - scot-web - INFO - 开始生成测试任务，知识点: 创建段落元素p
+2026-02-04 01:17:39,563 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:18:04,139 - scot-web - INFO - 测试任务生成成功，内容长度: 1514
+2026-02-04 01:18:09,077 - scot-web - INFO - 开始生成测试任务，知识点: 模块二: CSS样式
+2026-02-04 01:18:09,078 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:20:58,200 - scot-web - INFO - 开始生成测试任务，知识点: 模块一: HTML基础
+2026-02-04 01:20:58,203 - scot-web - INFO - 学习内容: None
+2026-02-04 01:20:58,204 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:21:25,113 - scot-web - INFO - 测试任务生成成功，内容长度: 1922
+2026-02-04 01:21:27,450 - scot-web - INFO - 开始生成测试任务，知识点: 了解HTML基本结构
+2026-02-04 01:21:27,450 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:21:27,453 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:24:20,037 - scot-web - INFO - 测试任务生成成功，内容长度: 1951
+2026-02-04 01:24:24,414 - scot-web - INFO - 开始生成测试任务，知识点: 使用标题元素h1-h6
+2026-02-04 01:24:24,415 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:24:24,419 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:24:48,460 - scot-web - INFO - 测试任务生成成功，内容长度: 1951
+2026-02-04 01:24:52,528 - scot-web - INFO - 开始生成测试任务，知识点: 创建段落元素p
+2026-02-04 01:24:52,528 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:24:52,529 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:25:21,897 - scot-web - INFO - 测试任务生成成功，内容长度: 1934
+2026-02-04 01:25:26,083 - scot-web - INFO - 开始生成测试任务，知识点: 模块二: CSS样式
+2026-02-04 01:25:26,083 - scot-web - INFO - 学习内容: None
+2026-02-04 01:25:26,084 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:25:52,955 - scot-web - INFO - 测试任务生成成功，内容长度: 1654
+2026-02-04 01:25:57,183 - scot-web - INFO - 开始生成测试任务，知识点: 理解CSS基本语法
+2026-02-04 01:25:57,183 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:25:57,183 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:26:24,759 - scot-web - INFO - 测试任务生成成功，内容长度: 1964
+2026-02-04 01:26:26,990 - scot-web - INFO - 开始生成测试任务，知识点: 应用文本样式
+2026-02-04 01:26:26,991 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:26:26,992 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:26:49,603 - scot-web - INFO - 测试任务生成成功，内容长度: 1779
+2026-02-04 01:26:49,603 - scot-web - ERROR - 解析测试任务 JSON 失败，返回空任务
+2026-02-04 01:35:36,913 - scot-web - INFO - 开始生成测试任务，知识点: 模块一: HTML基础
+2026-02-04 01:35:36,917 - scot-web - INFO - 学习内容: None
+2026-02-04 01:35:36,917 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:36:02,509 - scot-web - INFO - 测试任务生成成功，内容长度: 1984
+2026-02-04 01:36:06,644 - scot-web - INFO - 开始生成测试任务，知识点: 了解HTML基本结构
+2026-02-04 01:36:06,644 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:36:06,652 - scot-web - DEBUG - 发送请求到模型: Qwen/Qwen3-32B
+2026-02-04 01:38:57,162 - scot-web - INFO - 开始生成测试任务，知识点: 模块一: HTML基础
+2026-02-04 01:38:57,168 - scot-web - INFO - 学习内容: None
+2026-02-04 01:38:57,170 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:39:26,499 - scot-web - INFO - 测试任务生成成功，内容长度: 2621
+2026-02-04 01:39:28,601 - scot-web - INFO - 开始生成测试任务，知识点: 了解HTML基本结构
+2026-02-04 01:39:28,601 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:39:28,605 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:40:01,409 - scot-web - INFO - 测试任务生成成功，内容长度: 3370
+2026-02-04 01:40:05,508 - scot-web - INFO - 开始生成测试任务，知识点: 使用标题元素h1-h6
+2026-02-04 01:40:05,509 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:40:05,510 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:40:34,410 - scot-web - INFO - 测试任务生成成功，内容长度: 2604
+2026-02-04 01:40:38,587 - scot-web - INFO - 开始生成测试任务，知识点: 创建段落元素p
+2026-02-04 01:40:38,587 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:40:38,587 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:41:10,991 - scot-web - INFO - 测试任务生成成功，内容长度: 3011
+2026-02-04 01:41:15,108 - scot-web - INFO - 开始生成测试任务，知识点: 模块二: CSS样式
+2026-02-04 01:41:15,109 - scot-web - INFO - 学习内容: None
+2026-02-04 01:41:15,110 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:42:01,957 - scot-web - INFO - 测试任务生成成功，内容长度: 5573
+2026-02-04 01:42:06,024 - scot-web - INFO - 开始生成测试任务，知识点: 理解CSS基本语法
+2026-02-04 01:42:06,025 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:42:06,025 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:42:28,368 - scot-web - INFO - 测试任务生成成功，内容长度: 1795
+2026-02-04 01:42:33,163 - scot-web - INFO - 开始生成测试任务，知识点: 应用文本样式
+2026-02-04 01:42:33,164 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:42:33,166 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:43:01,038 - scot-web - INFO - 测试任务生成成功，内容长度: 2112
+2026-02-04 01:43:05,308 - scot-web - INFO - 开始生成测试任务，知识点: 使用CSS盒模型
+2026-02-04 01:43:05,308 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:43:05,309 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:44:01,613 - scot-web - INFO - 测试任务生成成功，内容长度: 5216
+2026-02-04 01:44:33,726 - scot-web - INFO - 开始生成测试任务，知识点: 使用CSS盒模型
+2026-02-04 01:44:33,727 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:44:33,729 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:45:15,100 - scot-web - INFO - 测试任务生成成功，内容长度: 3614
+2026-02-04 01:48:51,591 - scot-web - INFO - 开始生成测试任务，知识点: 模块一: HTML基础
+2026-02-04 01:48:51,592 - scot-web - INFO - 学习内容: None
+2026-02-04 01:48:51,593 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:49:14,917 - scot-web - INFO - 测试任务生成成功，内容长度: 1965
+2026-02-04 01:49:17,177 - scot-web - INFO - 开始生成测试任务，知识点: 了解HTML基本结构
+2026-02-04 01:49:17,178 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:49:17,180 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:49:47,671 - scot-web - INFO - 测试任务生成成功，内容长度: 3192
+2026-02-04 01:49:50,272 - scot-web - INFO - 开始生成测试任务，知识点: 使用标题元素h1-h6
+2026-02-04 01:49:50,272 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:49:50,273 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:50:25,979 - scot-web - INFO - 测试任务生成成功，内容长度: 3627
+2026-02-04 01:50:30,362 - scot-web - INFO - 开始生成测试任务，知识点: 应用文本样式
+2026-02-04 01:50:30,363 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:50:30,367 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:51:04,214 - scot-web - INFO - 测试任务生成成功，内容长度: 2955
+2026-02-04 01:51:08,431 - scot-web - INFO - 开始生成测试任务，知识点: 创建段落元素p
+2026-02-04 01:51:08,433 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:51:08,435 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:51:33,880 - scot-web - INFO - 测试任务生成成功，内容长度: 2149
+2026-02-04 01:51:38,040 - scot-web - INFO - 开始生成测试任务，知识点: 使用CSS盒模型
+2026-02-04 01:51:38,041 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:51:38,042 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:52:07,107 - scot-web - INFO - 测试任务生成成功，内容长度: 2777
+2026-02-04 01:52:10,715 - scot-web - INFO - 开始生成测试任务，知识点: 模块二: CSS样式
+2026-02-04 01:52:10,716 - scot-web - INFO - 学习内容: None
+2026-02-04 01:52:10,716 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:52:53,349 - scot-web - INFO - 测试任务生成成功，内容长度: 3852
+2026-02-04 01:52:57,540 - scot-web - INFO - 开始生成测试任务，知识点: 理解CSS基本语法
+2026-02-04 01:52:57,541 - scot-web - INFO - 学习内容: {'levels': [{'level': 1, 'description': 'HTML（HyperText Markup Language）是网页的骨架，所有网页都是由HTML元素组成的。\n\n### 核心概念：\n- HTML是标记语言，不是编程语言\n- 使用标签来定义网页结构\n- 浏览器解析HTML显示网页内容'}, {'level': 2, 'description': 'HTML文档有标准的结构，每个部分都有特定的作用。\n\n### 基本结构：\n- `<!DOCTYPE html>`: 声明文档类型\n- `<html>`: 根元素\n- `<head>`: 文档头部，包含元信息\n- `<body>`: 文档主体，显示在浏览器中'}, {'level': 3, 'description': '了解HTML文档的完整结构和最佳实践。\n\n### 完整结构：\n- 字符编码：`<meta charset="UTF-8">`\n- 页面标题：`<title>页面标题</title>`\n- 视口设置：响应式网页的基础\n- 注释：`<!-- 注释内容 -->`'}, {'level': 4, 'description': '掌握HTML文档的优化技巧和高级用法。\n\n### 高级特性：\n- 语义化HTML：使用正确的标签提升SEO\n- 无障碍访问：为残障用户提供更好的体验\n- HTML5新特性：更丰富的媒体和交互元素\n- 性能优化：减少不必要的标签和嵌套'}]}
+2026-02-04 01:52:57,542 - scot-web - DEBUG - 发送请求到模型: deepseek-ai/DeepSeek-V3.2
+2026-02-04 01:53:27,401 - scot-web - INFO - 测试任务生成成功，内容长度: 2698

@@ -119,19 +119,6 @@ async def get_routes():
                         },
                         "children": [
                             {
-                                "path": "theme",
-                                "component": "system/theme/index",
-                                "name": "Resource",
-                                "meta": {
-                                    "title": "主题资源管理",
-                                    "icon": "code",
-                                    "hidden": False,
-                                    "keepAlive": True,
-                                    "alwaysShow": False,
-                                    "params": None,
-                                },
-                            },
-                            {
                                 "path": "learning-content",
                                 "component": "system/learning-content/index",
                                 "name": "LearningContent",
@@ -154,6 +141,19 @@ async def get_routes():
                                     "hidden": False,
                                     "keepAlive": True,
                                     "alwaysShow": False,
+                                },
+                            },
+                            {
+                                "path": "theme",
+                                "component": "system/theme/index",
+                                "name": "Resource",
+                                "meta": {
+                                    "title": "测试题管理",
+                                    "icon": "code",
+                                    "hidden": False,
+                                    "keepAlive": True,
+                                    "alwaysShow": False,
+                                    "params": None,
                                 },
                             },
                             {

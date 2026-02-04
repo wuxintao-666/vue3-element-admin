@@ -1,0 +1,471 @@
+{
+  "nodes": [
+    {
+      "data": {
+        "id": "1_end",
+        "label": "模块一: 页面结构与语义化标记",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "1_1",
+        "label": "创建基础HTML文档结构 (html, head, body)",
+        "type": "knowledge",
+        "select_element": [
+          "html",
+          "head",
+          "title",
+          "body"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_2",
+        "label": "使用语义化标签定义页面区域 (header, main, footer)",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "main",
+          "footer",
+          "section"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_3",
+        "label": "定义段落与标题 (p, h1, h2)",
+        "type": "knowledge",
+        "select_element": [
+          "p",
+          "h1",
+          "h2"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "1_4",
+        "label": "创建导航链接 (nav, a)",
+        "type": "knowledge",
+        "select_element": [
+          "nav",
+          "a"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_end",
+        "label": "模块二: 样式基础与文本排版",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "2_1",
+        "label": "引入与编写内联CSS样式",
+        "type": "knowledge",
+        "select_element": [
+          "style"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_2",
+        "label": "设置全局样式 (body, font-family, color)",
+        "type": "knowledge",
+        "select_element": [
+          "body"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_3",
+        "label": "设置文本样式 (color, font-size, text-decoration)",
+        "type": "knowledge",
+        "select_element": [
+          "a",
+          "h1",
+          "h2",
+          "p"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "2_4",
+        "label": "设置间距与布局 (margin, padding)",
+        "type": "knowledge",
+        "select_element": [
+          "header",
+          "main",
+          "footer",
+          "section"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_end",
+        "label": "模块三: 布局技术与盒子模型",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "3_1",
+        "label": "理解与应用盒子模型 (padding, border, margin)",
+        "type": "knowledge",
+        "select_element": [
+          ".card",
+          "header",
+          "footer"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_2",
+        "label": "使用Flexbox实现水平布局 (display: flex)",
+        "type": "knowledge",
+        "select_element": [
+          ".header-container"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_3",
+        "label": "实现页面居中布局 (margin: auto)",
+        "type": "knowledge",
+        "select_element": [
+          ".header-container",
+          "main"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_4",
+        "label": "使用max-width控制响应宽度",
+        "type": "knowledge",
+        "select_element": [
+          ".header-container",
+          "main"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "3_5",
+        "label": "应用圆角与阴影美化元素 (border-radius, box-shadow)",
+        "type": "knowledge",
+        "select_element": [
+          ".card"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_end",
+        "label": "模块四: 表格与结构化数据展示",
+        "type": "chapter"
+      }
+    },
+    {
+      "data": {
+        "id": "4_1",
+        "label": "创建表格结构 (table, thead, tbody, tr)",
+        "type": "knowledge",
+        "select_element": [
+          "table",
+          "thead",
+          "tbody",
+          "tr"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_2",
+        "label": "定义表格行与单元格 (th, td)",
+        "type": "knowledge",
+        "select_element": [
+          "th",
+          "td"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_3",
+        "label": "设置表格样式 (border-collapse, text-align)",
+        "type": "knowledge",
+        "select_element": [
+          "table",
+          "th",
+          "td"
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": "4_4",
+        "label": "为表格标题行设置背景色",
+        "type": "knowledge",
+        "select_element": [
+          "th"
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_5"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_4"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    }
+  ],
+  "dependent_edges": [
+    {
+      "data": {
+        "source": "1_end",
+        "target": "2_end"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "3_end"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "4_end"
+      }
+    },
+    {
+      "data": {
+        "source": "1_end",
+        "target": "1_1"
+      }
+    },
+    {
+      "data": {
+        "source": "1_1",
+        "target": "1_2"
+      }
+    },
+    {
+      "data": {
+        "source": "1_2",
+        "target": "1_3"
+      }
+    },
+    {
+      "data": {
+        "source": "1_3",
+        "target": "1_4"
+      }
+    },
+    {
+      "data": {
+        "source": "2_end",
+        "target": "2_1"
+      }
+    },
+    {
+      "data": {
+        "source": "2_1",
+        "target": "2_2"
+      }
+    },
+    {
+      "data": {
+        "source": "2_2",
+        "target": "2_3"
+      }
+    },
+    {
+      "data": {
+        "source": "2_3",
+        "target": "2_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_end",
+        "target": "3_1"
+      }
+    },
+    {
+      "data": {
+        "source": "3_1",
+        "target": "3_2"
+      }
+    },
+    {
+      "data": {
+        "source": "3_2",
+        "target": "3_3"
+      }
+    },
+    {
+      "data": {
+        "source": "3_3",
+        "target": "3_4"
+      }
+    },
+    {
+      "data": {
+        "source": "3_4",
+        "target": "3_5"
+      }
+    },
+    {
+      "data": {
+        "source": "4_end",
+        "target": "4_1"
+      }
+    },
+    {
+      "data": {
+        "source": "4_1",
+        "target": "4_2"
+      }
+    },
+    {
+      "data": {
+        "source": "4_2",
+        "target": "4_3"
+      }
+    },
+    {
+      "data": {
+        "source": "4_3",
+        "target": "4_4"
+      }
+    }
+  ]
+}

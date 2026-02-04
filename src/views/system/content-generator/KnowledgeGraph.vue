@@ -290,6 +290,7 @@
 <script>
 import { knowledgeAPI, uploadAPI } from './api/index.js';
 import KnowledgeGraphVisualization from './KnowledgeGraphVisualization.vue';
+import { TEST_COURSE_ID } from '@/constants';
 
 export default {
   name: 'KnowledgeGraph',
@@ -711,7 +712,7 @@ export default {
       }
 
       // 获取course_code（这里假设从某个地方获取，暂时使用默认值）
-      const courseCode = "TEST001"; // TODO: 从实际的课程选择中获取course_code
+      const courseCode = TEST_COURSE_ID; // 从环境变量获取测试课程ID
 
       try {
         const requestData = {
