@@ -20,6 +20,7 @@ from api.auth_router import auth_router  # 添加认证API路由
 from api.course_router import course_router  # 课程管理路由
 #from api.theme_router import theme_router  # 主题管理路由
 from api.knowledge_content_router import knowledge_content_router  # 知识内容管理路由
+from api.programming_exercise_router import programming_exercise_router  # 编程练习题管理路由
 #from api.knowledge_graph_router import knowledge_graph_router  # 知识图谱管理路由
 from db.database import Base, engine
 import os
@@ -62,6 +63,9 @@ app.include_router(auth_router)
 
 # 添加知识内容管理路由
 app.include_router(knowledge_content_router)
+
+# 添加编程练习题管理路由
+app.include_router(programming_exercise_router)
 
 # 添加知识图谱管理路由
 #app.include_router(knowledge_graph_router)

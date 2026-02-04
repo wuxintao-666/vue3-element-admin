@@ -115,6 +115,34 @@ export const testGenerationAPI = {
     }
 };
 
+// 编程练习题相关API
+export const programmingExerciseAPI = {
+    // 批量保存编程练习题
+    saveProgrammingExercises: (data) => {
+        return apiService.post('/api/v1/programming-exercises/batch-save', data);
+    },
+
+    // 获取编程练习题列表
+    getProgrammingExercises: (params) => {
+        return apiService.get('/api/v1/programming-exercises/', { params });
+    },
+
+    // 获取编程练习题详情
+    getProgrammingExercise: (id) => {
+        return apiService.get(`/api/v1/programming-exercises/${id}`);
+    },
+
+    // 更新编程练习题
+    updateProgrammingExercise: (id, data) => {
+        return apiService.put(`/api/v1/programming-exercises/${id}`, data);
+    },
+
+    // 删除编程练习题
+    deleteProgrammingExercises: (ids) => {
+        return apiService.delete(`/api/v1/programming-exercises/${ids}`);
+    }
+};
+
 // 执行器相关API
 export const executorAPI = {
     // 执行任务

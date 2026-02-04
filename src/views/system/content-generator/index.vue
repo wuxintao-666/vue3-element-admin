@@ -83,11 +83,18 @@
       />
       
       <TestTaskDisplay
-        v-else-if="currentStep === 5"
-        :test-task="testTask"
-        :loading="testTaskLoading"
-        @back-to-learning="backToLearningContent"
+        v-if="currentStep === 5"
+        :knowledge-graph="knowledgeData"
+        :generated-contents="generatedContents"
+        :show-prerequisites-warning="!knowledgeData || !generatedContents || Object.keys(generatedContents).length === 0"
+        @generated-test-tasks-updated="onGeneratedTestTasksUpdated"
       />
+
+      <!-- <TestTaskDisplay
+        v-else-if="currentStep === 5"
+        :knowledge-graph="knowledgeData"
+        :generated-contents="generatedContents"
+      /> -->
       
       <!-- <KnowledgeGenerationList
         v-else-if="currentStep === 4"
@@ -375,7 +382,21 @@ export default {
         this.updateCanProceed();
         console.log('返回步骤:', this.currentStep);
       }
+    },
+
+    getKnowledgeGraph() {
+      // 返回完整的知识图谱数据
+      if (this.knowledgeData && this.knowledgeData.graph) {
+        return this.knowledgeData.graph;
+      }
+      return { nodes: [], edges: [] };
+    },
+
+    onGeneratedTestTasksUpdated(testTasks) {
+      // 处理测试题生成更新
+      console.log('测试题生成状态已更新:', testTasks);
     }
+
   }
 };
 </script>

@@ -4,7 +4,7 @@
     
     <div v-if="!userState.taskId">
       <div v-if="!prdData || !knowledgeData">
-        <div class="alert alert-warning">
+        <div class="alert-warning">
           请先完成PRD文档和知识点图谱的生成与保存
         </div>
       </div>
@@ -387,19 +387,9 @@ ul li:before {
   font-size: 1rem;
 }
 
-/* 警告和成功提示样式 */
-.alert {
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border: none;
-}
 
-.alert-warning {
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-  color: #856404;
-  border-left: 4px solid #ffc107;
-}
+
+
 
 .alert-success {
   background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);

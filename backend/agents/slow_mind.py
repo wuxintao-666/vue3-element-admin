@@ -198,14 +198,16 @@ class SlowMind:
         logger.info("学习内容生成成功，内容长度: %d", len(learning_content))
         return learning_content
 
-    def generate_test_tasks(self, html_content: str) -> str:
+    def generate_test_tasks(self, topic_info: dict, learning_content: dict = None) -> str:
         """
         生成测试任务
-        :param html_content: HTML内容
+        :param topic_info: 知识点信息
+        :param learning_content: 学习内容
         :return: 测试任务
         """
-        logger.info("开始生成测试任务，内容长度: %d", len(html_content))
-        prompt = generate_test_task_prompt(html_content)
+        logger.info("开始生成测试任务，知识点: %s", topic_info.get("label", ""))
+        logger.info("学习内容: %s", learning_content)
+        prompt = generate_test_task_prompt(topic_info, learning_content)
 
         print("正在生成测试任务...\n")
         logger.debug("发送请求到模型: %s", self.model)

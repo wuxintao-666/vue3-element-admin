@@ -34,11 +34,11 @@ async def generate_test_task(request: TestTaskGenerateRequest):
         # 初始化AI执行上下文
         context = ExecutionContext()
         slow_mind = SlowMind(context)
-        
+
         # 生成测试题
-        test_task = slow_mind.generate_test_tasks(request.knowledge_node)
-        
+        test_task = slow_mind.generate_test_tasks(request.knowledge_node, request.learning_content)
+
         return TestTaskGenerateResponse(**test_task)
-        
+
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"测试题生成失败: {str(e)}")
