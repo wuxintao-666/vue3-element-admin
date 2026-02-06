@@ -45,6 +45,19 @@ class User(Base):
     created_at = Column(DateTime, default=datetime.now, comment="创建时间")
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
 
+
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True, autoincrement=True, comment="管理员ID")
+    username = Column(String(50), unique=True, nullable=False, index=True, comment="管理员用户名")
+    password = Column(String(255), nullable=False, comment="密码哈希")
+    email = Column(String(100), comment="邮箱")
+    mobile = Column(String(20), comment="手机号码")
+    last_login = Column(DateTime, comment="最后登录时间")
+    created_at = Column(DateTime, default=datetime.now, comment="创建时间")
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, comment="更新时间")
+
     class Config:
         from_attributes = True
 

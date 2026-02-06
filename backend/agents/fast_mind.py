@@ -30,6 +30,7 @@ class FastMind:
             knowledge_tree = self._get_mock_knowledge_points()
         else:
             print("正在分析 HTML 内容并生成知识图谱 / 任务树...\n")
+            raw = ""  # 初始化raw变量以避免异常处理时访问未定义的变量
             try:
                 logger.debug("发送请求到模型: %s", self.model)
                 response = self.client.chat.completions.create(
@@ -68,7 +69,7 @@ class FastMind:
 
             except Exception as e:
                 logger.error("解析知识点失败: %s", str(e), exc_info=True)
-                print("模型原始返回：", raw[:500])
+                print("模型原始返回：", raw[:500] if raw else "raw变量未定义")
                 print("解析知识点失败:", e)
                 knowledge_tree = self._get_mock_knowledge_points()
 

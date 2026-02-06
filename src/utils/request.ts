@@ -72,7 +72,22 @@ httpRequest.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    const { code, message } = response.data as ApiResponse;
+    // 处理HTTP状态码错误
+    if (response.status >= 400) {
+      const errorMessage = response.data?.detail || response.data?.message || `请求失败 (${response.status})`;
+      ElMessage.error(errorMessage);
+      return Promise.reject(new Error(errorMessage));
+    }
+
+    const responseData = response.data as ApiResponse;
+
+    // 处理后端返回的detail字段错误信息
+    if (responseData.detail) {
+      ElMessage.error(responseData.detail);
+      return Promise.reject(new Error(responseData.detail));
+    }
+
+    const { code, message } = responseData;
 
     switch (code) {
       case ApiCodeEnum.ACCESS_TOKEN_INVALID:

@@ -515,7 +515,10 @@ const fetchVisitTrendData = () => {
     startDate: dayjs(startDate).format("YYYY-MM-DD"),
     endDate: dayjs(endDate).format("YYYY-MM-DD"),
   }).then((data) => {
+    console.log("获取到访问趋势数据:", data);
     updateVisitTrendChartOptions(data);
+  }).catch((error) => {
+    console.error("获取访问趋势数据失败:", error);
   });
 };
 
@@ -525,6 +528,14 @@ const fetchVisitTrendData = () => {
  * @param data - 访问趋势数据
  */
 const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
+  console.log("更新图表数据:", data);
+
+  // 验证数据格式
+  if (!data.dates || !data.pvList || !data.uvList) {
+    console.error("图表数据格式不正确:", data);
+    return;
+  }
+
   visitTrendChartOptions.value = {
     tooltip: {
       trigger: "axis",
@@ -571,7 +582,7 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
       {
         name: "访客数(UV)",
         type: "line",
-        data: data.ipList,
+        data: data.uvList,
         areaStyle: {
           color: "rgba(103, 194, 58, 0.1)",
         },
@@ -585,6 +596,8 @@ const updateVisitTrendChartOptions = (data: VisitTrendVO) => {
       },
     ],
   };
+
+  console.log("图表配置已更新:", visitTrendChartOptions.value);
 };
 
 /**

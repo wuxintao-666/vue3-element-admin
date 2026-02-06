@@ -5,6 +5,9 @@ from typing import Optional, List
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+# 导入统一响应格式
+from .base_schema import ApiResponse, PageResponse
+
 
 class KnowledgeContentBase(BaseModel):
     course_id: str = Field(..., description="课程编码 (course_code)，将自动转换为课程ID")
@@ -77,8 +80,4 @@ class KnowledgeContentBatchSave(BaseModel):
     knowledge_contents: List[KnowledgeContentBatchItem] = Field(..., description="知识内容列表")
 
 
-class ApiResponse(BaseModel):
-    """统一API响应"""
-    code: str = "00000"
-    data: Optional[dict] = None
-    message: Optional[str] = None
+# ApiResponse 已移至 base_schema.py

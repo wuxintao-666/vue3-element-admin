@@ -20,6 +20,24 @@ const AuthAPI = {
     });
   },
 
+  /** 注册接口*/
+  register(data: RegisterFormData) {
+    const payload = {
+      username: data.username,
+      password: data.password,
+      nickname: data.nickname,
+      email: data.email,
+      mobile: data.mobile,
+      captcha_key: data.captchaKey,
+      captcha_code: data.captchaCode,
+    };
+    return request<any, RegisterResult>({
+      url: `${AUTH_BASE_URL}/register`,
+      method: "post",
+      data: payload,
+    });
+  },
+
   /** 刷新 token 接口*/
   refreshToken(refreshToken: string) {
     return request<any, LoginResult>({
@@ -83,4 +101,24 @@ export interface CaptchaInfo {
   captchaKey: string;
   /** 验证码图片Base64字符串 */
   captchaBase64: string;
+}
+
+/** 注册表单数据 */
+export interface RegisterFormData {
+  /** 用户名 */
+  username: string;
+  /** 密码 */
+  password: string;
+  /** 邮箱 */
+  email?: string;
+  /** 手机号 */
+  mobile?: string;
+}
+
+/** 注册响应 */
+export interface RegisterResult {
+  /** 用户ID */
+  userId: number;
+  /** 消息 */
+  message: string;
 }

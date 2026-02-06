@@ -3,12 +3,21 @@ from pydantic import BaseModel
 from typing import List, Optional
 from sqlalchemy.orm import Session
 from datetime import datetime
+from passlib.context import CryptContext
 
 from db.database import get_db
-from db.models import User as UserModel
+from db.models import User as UserModel, Admin as AdminModel
 from schemas.user_schema import UserPageQuery, UserResponse, PageResponse, ApiResponse
+from schemas.admin_schema import AdminResponse
+from schemas.error_codes import ErrorCodes, ErrorMessages
 
 admin_router = APIRouter(prefix="/api/v1")
+
+# 密码哈希上下文
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+# 验证码存储（从auth_router.py导入）
+from .auth_router import captcha_store
 
 class Meta(BaseModel):
     title: str
@@ -35,12 +44,23 @@ class RouteResponse(BaseModel):
 class LoginRequest(BaseModel):
     username: str
     password: str
-    # 暂时保留验证码字段，但不进行验证
-    captchaKey: Optional[str] = None
-    captchaCode: Optional[str] = None
+    # 验证码字段
+    captcha_key: Optional[str] = None
+    captcha_code: Optional[str] = None
     rememberMe: bool = False
 
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+    email: Optional[str] = None
+    mobile: Optional[str] = None
+
 class LoginResponse(BaseModel):
+    code: str = "00000"
+    data: dict
+    msg: str = "success"
+
+class RegisterResponse(BaseModel):
     code: str = "00000"
     data: dict
     msg: str = "success"
@@ -358,84 +378,126 @@ async def get_user_profile():
     }
 
 @admin_router.get("/users/me")
-async def get_current_user():
+async def get_current_user(db: Session = Depends(get_db)):
     """
-    获取当前登录用户信息 - 符合vue3-element-admin前端要求
+    获取当前登录管理员信息 - 符合vue3-element-admin前端要求
     """
-    return {
-        "code": "00000",
-        "data": {
-            "userId": 2,
-            "username": "admin",
-            "nickname": "系统管理员",
-            "avatar": "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
-            "roles": ["ADMIN"],
-            "perms": [
-                "sys:user:query",
-                "sys:user:add",
-                "sys:user:edit",
-                "sys:user:delete",
-                "sys:user:import",
-                "sys:user:export",
-                "sys:user:reset-password",
+    # 这里应该从token中获取管理员ID，暂时返回默认管理员信息
+    # 实际项目中需要从JWT token解析出管理员ID
+    admin = db.query(AdminModel).filter(AdminModel.username == "admin").first()
 
-                "sys:role:query",
-                "sys:role:add",
-                "sys:role:edit",
-                "sys:role:delete",
+    if admin:
+        return {
+            "code": "00000",
+            "data": {
+                "userId": admin.id,
+                "username": admin.username,
+                "nickname": "系统管理员",
+                "avatar": "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
+                "roles": ["ADMIN"],
+                "perms": [
+                    "sys:user:query",
+                    "sys:user:add",
+                    "sys:user:edit",
+                    "sys:user:delete",
+                    "sys:user:import",
+                    "sys:user:export",
+                    "sys:user:reset-password",
 
-                "sys:dept:query",
-                "sys:dept:add",
-                "sys:dept:edit",
-                "sys:dept:delete",
+                    "sys:role:query",
+                    "sys:role:add",
+                    "sys:role:edit",
+                    "sys:role:delete",
 
-                "sys:menu:query",
-                "sys:menu:add",
-                "sys:menu:edit",
-                "sys:menu:delete",
+                    "sys:dept:query",
+                    "sys:dept:add",
+                    "sys:dept:edit",
+                    "sys:dept:delete",
 
-                "sys:dict:query",
-                "sys:dict:add",
-                "sys:dict:edit",
-                "sys:dict:delete",
-                "sys:dict:delete",
+                    "sys:menu:query",
+                    "sys:menu:add",
+                    "sys:menu:edit",
+                    "sys:menu:delete",
 
-                "sys:dict-item:query",
-                "sys:dict-item:add",
-                "sys:dict-item:edit",
-                "sys:dict-item:delete",
+                    "sys:dict:query",
+                    "sys:dict:add",
+                    "sys:dict:edit",
+                    "sys:dict:delete",
 
-                "sys:notice:query",
-                "sys:notice:add",
-                "sys:notice:edit",
-                "sys:notice:delete",
-                "sys:notice:revoke",
-                "sys:notice:publish",
+                    "sys:dict-item:query",
+                    "sys:dict-item:add",
+                    "sys:dict-item:edit",
+                    "sys:dict-item:delete",
 
-                "sys:config:query",
-                "sys:config:add",
-                "sys:config:update",
-                "sys:config:delete",
-                "sys:config:refresh",
-            ]
-        },
-        "msg": "success"
-    }
+                    "sys:notice:query",
+                    "sys:notice:add",
+                    "sys:notice:edit",
+                    "sys:notice:delete",
+                    "sys:notice:revoke",
+                    "sys:notice:publish",
+
+                    "sys:config:query",
+                    "sys:config:add",
+                    "sys:config:update",
+                    "sys:config:delete",
+                    "sys:config:refresh",
+                ]
+            },
+            "msg": "success"
+        }
+    else:
+        # 如果没有找到管理员，返回默认信息
+        return {
+            "code": "00000",
+            "data": {
+                "userId": 1,
+                "username": "admin",
+                "nickname": "系统管理员",
+                "avatar": "https://foruda.gitee.com/images/1723603502796844527/03cdca2a_716974.gif",
+                "roles": ["ADMIN"],
+                "perms": ["*:*:*"]
+            },
+            "msg": "success"
+        }
 
 @admin_router.post("/auth/login", response_model=LoginResponse)
-async def login(login_request: LoginRequest):
+async def login(login_request: LoginRequest, db: Session = Depends(get_db)):
     """
-    用户登录接口
+    管理员登录接口
     """
-    # 未来可以在这里添加验证码验证逻辑
-    # 暂时跳过验证码验证，只验证用户名和密码
-    
-    # 简单的验证，实际项目中需要连接数据库验证密码
-    if login_request.username == "admin" and login_request.password == "123456":
-        # 生成模拟token
-        access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-        refresh_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-        
+    try:
+        # 验证验证码
+        if not login_request.captcha_key or not login_request.captcha_code:
+            raise HTTPException(status_code=400, detail=ErrorMessages.CAPTCHA_REQUIRED)
+
+        stored_captcha = captcha_store.get(login_request.captcha_key)
+        if not stored_captcha:
+            raise HTTPException(status_code=400, detail=ErrorMessages.CAPTCHA_EXPIRED)
+
+        if stored_captcha != login_request.captcha_code.lower():
+            raise HTTPException(status_code=400, detail=ErrorMessages.CAPTCHA_ERROR)
+
+        # 验证通过后删除已使用的验证码
+        captcha_store.pop(login_request.captcha_key, None)
+
+        # 从管理员表查找用户
+        admin = db.query(AdminModel).filter(AdminModel.username == login_request.username).first()
+
+        if not admin:
+            raise HTTPException(status_code=401, detail=ErrorMessages.USER_NOT_EXIST)
+
+        # 验证密码
+        if not pwd_context.verify(login_request.password, admin.password):
+            raise HTTPException(status_code=401, detail=ErrorMessages.USER_PASSWORD_ERROR)
+
+        # 更新最后登录时间
+        admin.last_login = datetime.now()
+        db.commit()
+
+        # 生成模拟token (实际项目中应该使用JWT)
+        access_token = f"admin_token_{admin.id}_{int(datetime.now().timestamp())}"
+        refresh_token = f"refresh_token_{admin.id}_{int(datetime.now().timestamp())}"
+
         return LoginResponse(
             data={
                 "access_token": access_token,
@@ -443,8 +505,11 @@ async def login(login_request: LoginRequest):
             },
             msg="登录成功"
         )
-    else:
-        raise HTTPException(status_code=401, detail="用户名或密码错误")
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"登录失败: {str(e)}")
 
 @admin_router.post("/auth/logout")
 async def logout():
@@ -452,4 +517,42 @@ async def logout():
     用户登出接口
     """
     return {"code": "00000", "msg": "登出成功"}
+
+@admin_router.post("/auth/register", response_model=RegisterResponse)
+async def register(register_request: RegisterRequest, db: Session = Depends(get_db)):
+    """
+    用户注册接口
+    """
+    try:
+        # 检查管理员用户名是否已存在
+        existing_admin = db.query(AdminModel).filter(AdminModel.username == register_request.username).first()
+        if existing_admin:
+            raise HTTPException(status_code=400, detail=ErrorMessages.DATA_ALREADY_EXISTS)
+
+        # 哈希密码
+        hashed_password = pwd_context.hash(register_request.password)
+
+        # 创建新管理员
+        new_admin = AdminModel(
+            username=register_request.username,
+            password=hashed_password,
+            email=register_request.email,
+            mobile=register_request.mobile,
+            last_login=datetime.now()
+        )
+
+        db.add(new_admin)
+        db.commit()
+        db.refresh(new_admin)
+
+        return RegisterResponse(
+            data={"user_id": new_admin.id},
+            msg="注册成功"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"注册失败: {str(e)}")
  

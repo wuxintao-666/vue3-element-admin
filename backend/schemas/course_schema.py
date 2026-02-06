@@ -5,6 +5,9 @@ from typing import Optional, List
 from datetime import datetime
 from pydantic import BaseModel, Field
 
+# 导入统一响应格式
+from .base_schema import ApiResponse, PageResponse
+
 
 class CourseBase(BaseModel):
     course_code: str = Field(..., description="课程唯一编码")
@@ -49,8 +52,4 @@ class CoursePageResponse(BaseModel):
     total: int
 
 
-class ApiResponse(BaseModel):
-    """统一API响应"""
-    code: str = "00000"
-    data: Optional[dict] = None
-    message: Optional[str] = None
+# ApiResponse 已移至 base_schema.py

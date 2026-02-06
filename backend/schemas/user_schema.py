@@ -1,9 +1,12 @@
 """
 用户模式定义（Pydantic）
 """
-from typing import Optional, List
+from typing import Optional, List, Any
 from datetime import datetime
 from pydantic import BaseModel, EmailStr
+
+# 导入统一响应格式
+from .base_schema import ApiResponse, PageResponse
 
 class UserBase(BaseModel):
     username: str
@@ -44,8 +47,4 @@ class PageResponse(BaseModel):
     list: List[UserResponse]
     total: int
 
-class ApiResponse(BaseModel):
-    """统一API响应"""
-    code: str = "00000"
-    data: Optional[dict] = None
-    message: Optional[str] = None
+# ApiResponse 已移至 base_schema.py

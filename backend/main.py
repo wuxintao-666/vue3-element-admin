@@ -47,7 +47,7 @@ app.include_router(prd_router, prefix="/api/prd", tags=["PRD"])
 app.include_router(knowledge_router, prefix="/api/knowledge", tags=["Knowledge"])
 app.include_router(executor_router, prefix="/api/execute", tags=["Executor"])
 app.include_router(preview_router, prefix="/api/preview", tags=["Preview"])
-app.include_router(logs_router, prefix="/api/logs", tags=["Logs"])
+app.include_router(logs_router, prefix="/api/v1/logs", tags=["Logs"])
 app.include_router(learning_router, prefix="/api/learning", tags=["Learning"])
 app.include_router(test_router, prefix="/api/test", tags=["Test"])  # 添加这一行
 # 添加用户管理路由（前端用户管理页面使用）
