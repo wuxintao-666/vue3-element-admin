@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>前端基础教学演示 - 知识图谱综合示例</title>
+    <!-- 知识点：引入与编写内联CSS样式 (style元素) -->
+    <style>
+        /* ==================== 全局样式 ==================== */
+        /* 知识点：设置全局样式 (body, font-family, color) */
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            /* 知识点：设置间距与布局 (margin, padding) */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* ==================== 通用布局样式 ==================== */
+        /* 知识点：实现页面居中布局 (margin: auto) */
+        /* 知识点：使用max-width控制响应宽度 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ==================== 语义化区域样式 ==================== */
+        /* 知识点：设置间距与布局 (header, main, footer, section) */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            padding: 1.5rem 0;
+            /* 知识点：应用圆角与阴影美化元素 (box-shadow) */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 知识点：使用Flexbox实现水平布局 (display: flex) */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        main {
+            padding: 2rem 0;
+            min-height: 70vh;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        section {
+            /* 知识点：理解与应用盒子模型 (margin, padding) */
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            /* 知识点：应用圆角与阴影美化元素 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* ==================== 文本与链接样式 ==================== */
+        /* 知识点：设置文本样式 (color, font-size, text-decoration) */
+        h1 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin: 0;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-top: 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3498db;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.05rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* 知识点：创建导航链接 (nav, a) */
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1abc9c;
+            text-decoration: underline;
+        }
+
+        nav a {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        /* ==================== 卡片组件样式 ==================== */
+        /* 知识点：理解与应用盒子模型 (padding, border, margin) */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #e1e8ed;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            /* 知识点：应用圆角与阴影美化元素 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+
+        /* ==================== 表格样式 ==================== */
+        /* 知识点：设置表格样式 (border-collapse, text-align) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        /* 知识点：为表格标题行设置背景色 (th) */
+        th {
+            background-color: #3498db;
+            color: white;
+            text-align: left;
+            padding: 1rem;
+            font-weight: 600;
+        }
+
+        /* 知识点：定义表格行与单元格 (th, td) */
+        td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e8f4fc;
+        }
+
+        /* ==================== 交互元素样式 ==================== */
+        .demo-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.2rem;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .highlight {
+            background-color: #fffacd;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+        }
+
+        /* ==================== 响应式设计 ==================== */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 知识点：创建基础HTML文档结构 (html, head, body) -->
+    <!-- 知识点：使用语义化标签定义页面区域 (header, main, footer) -->
+    <header>
+        <div class="header-container">
+            <h1>前端基础教学演示</h1>
+            <nav>
+                <!-- 知识点：创建导航链接 (nav, a) -->
+                <a href="#structure">HTML结构</a>
+                <a href="#styling">CSS样式</a>
+                <a href="#layout">布局与盒子模型</a>
+                <a href="#table">表格</a>
+                <a href="#interaction">交互功能</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 介绍区域 -->
+        <section>
+            <h2>欢迎来到前端基础教学页面</h2>
+            <p>本页面是一个综合性教学演示，展示了根据知识图谱生成的前端开发核心知识点。页面采用<span class="highlight">结构、表现、行为分离</span>的原则构建，包含了HTML5语义化标签、现代CSS布局技术和JavaScript交互功能。</p>
+            <p>请浏览下方各个模块，每个模块都对应一个或多个知识点，并配有代码示例和实时演示。</p>
+        </section>
+
+        <!-- 模块1: HTML结构 -->
+        <section id="structure">
+            <h2>HTML文档结构与语义化标签</h2>
+            <p>HTML (超文本标记语言) 是网页的骨架。使用语义化标签可以让代码更易读，对搜索引擎更友好，并提高可访问性。</p>
+
+            <div class="card">
+                <h3>基础文档结构</h3>
+                <p>每个HTML文档都应包含以下基本结构：</p>
+                <div class="code-block">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>页面标题</title>
+</head>
+<body>
+    <!-- 页面内容在这里 -->
+</body>
+</html>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>语义化区域演示</h3>
+                <p>本页面使用了以下语义化标签：</p>
+                <ul>
+                    <li><strong><header></strong>: 页面顶部区域，包含标题和导航</li>
+                    <li><strong><main></strong>: 页面主要内容区域</li>
+                    <li><strong><section></strong>: 内容的分组，如本教学模块</li>
+                    <li><strong><footer></strong>: 页面底部区域</li>
+                </ul>
+            </div>
+
+            <!-- 知识点：定义段落与标题 (p, h1, h2) -->
+            <div class="demo-box">
+                <h3>标题与段落示例</h3>
+                <h2>这是一个二级标题 (h2)</h2>
+                <h3>这是一个三级标题 (h3)</h3>
+                <p>这是一个段落示例。在HTML中，使用 <p> 标签定义段落。语义化的标题结构（h1-h6）对于文档大纲和SEO非常重要。</p>
+                <p>第二个段落示例，展示了多个段落的使用。</p>
+            </div>
+        </section>
+
+        <!-- 模块2: CSS样式 -->
+        <section id="styling">
+            <h2>CSS样式与文本装饰</h2>
+            <p>CSS (层叠样式表) 控制网页的表现和外观。通过CSS，我们可以设置颜色、字体、间距和各种视觉效果。</p>
+
+            <div class="card">
+                <h3>文本样式示例</h3>
+                <p>下面演示了不同的文本样式效果：</p>
+                <p style="color: #e74c3c; font-size: 1.2rem;">这是一个红色、稍大字体的段落。</p>
+                <p style="font-weight: bold;">这是一个加粗的段落。</p>
+                <p style="font-style: italic;">这是一个斜体的段落。</p>
+                <p style="text-decoration: underline;">这是一个带下划线的段落。</p>
+                <p><a href="#" style="text-decoration: none; color: #9b59b6;">这是一个无下划线的紫色链接</a></p>
+            </div>
+
+            <div class="card">
+                <h3>内联CSS vs 内部样式表</h3>
+                <p>本页面使用了内部样式表（<style>标签），这是将CSS嵌入HTML文档的一种方式。另一种方式是使用内联样式（直接在元素上使用style属性），但内部样式表和外部CSS文件更易于维护。</p>
+            </div>
+        </section>
+
+        <!-- 模块3: 布局与盒子模型 -->
+        <section id="layout">
+            <h2>CSS布局与盒子模型</h2>
+            <p>理解盒子模型是掌握CSS布局的关键。每个元素都被视为一个盒子，包含内容、内边距(padding)、边框(border)和外边距(margin)。</p>
+
+            <div class="card">
+                <h3>盒子模型可视化</h3>
+                <p>下面的彩色区域展示了盒子模型的各个部分：</p>
+                <div style="background-color: #3498db; color: white; padding: 20px; border: 5px solid #2c3e50; margin: 30px; border-radius: 8px; text-align: center;">
+                    <div style="background-color: #1abc9c; padding: 15px; border-radius: 4px;">
+                        <strong>内容区域</strong><br>
+                        padding: 内边距 (蓝色)<br>
+                        border: 边框 (深蓝色)<br>
+                        margin: 外边距 (透明，但占用空间)
+                    </div>
+                </div>
+                <p>使用浏览器的开发者工具可以直观地查看任何元素的盒子模型。</p>
+            </div>
+
+            <div class="card">
+                <h3>Flexbox布局示例</h3>
+                <p>Flexbox是一种现代的CSS布局模型，可以轻松实现灵活、响应式的布局。</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 1rem 0;">
+                    <div style="flex: 1; min-width: 150px; background-color: #3498db; color: white; padding: 1rem; border-radius: 4px; text-align: center;">Flex项目 1</div>
+                    <div style="flex: 2; min-width: 150px; background-color: #e74c3c; color: white; padding: 1rem; border-radius: 4px; text-align: center;">Flex项目 2 (flex: 2)</div>
+                    <div style="flex: 1; min-width: 150px; background-color: #2ecc71; color: white; padding: 1rem; border-radius: 4px; text-align: center;">Flex项目 3</div>
+                </div>
+                <p>上方的导航栏也使用了Flexbox布局（<span class="highlight">display: flex</span>）。</p>
+            </div>
+        </section>
+
+        <!-- 模块4: 表格 -->
+        <section id="table">
+            <h2>HTML表格</h2>
+            <p>表格用于展示行列数据。HTML提供了完整的表格结构标签。</p>
+
+            <!-- 知识点：创建表格结构 (table, thead, tbody, tr) -->
+            <div class="card">
+                <h3>前端技术学习路径表</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>阶段</th>
+                            <th>技术</th>
+                            <th>掌握内容</th>
+                            <th>预计时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>基础</td>
+                            <td>HTML5</td>
+                            <td>语义化标签、表单、多媒体</td>
+                            <td>2周</td>
+                        </tr>
+                        <tr>
+                            <td>基础</td>
+                            <td>CSS3</td>
+                            <td>选择器、盒子模型、Flexbox</td>
+                            <td>3周</td>
+                        </tr>
+                        <tr>
+                            <td>核心</td>
+                            <td>JavaScript</td>
+                            <td>语法、DOM操作、事件处理</td>
+                            <td>4周</td>
+                        </tr>
+                        <tr>
+                            <td>进阶</td>
+                            <td>响应式设计</td>
+                            <td>媒体查询、移动优先、Grid</td>
+                            <td>2周</td>
+                        </tr>
+                        <tr>
+                            <td>框架</td>
+                            <td>React/Vue</td>
+                            <td>组件化开发、状态管理</td>
+                            <td>6周</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>表格使用 <table>, <thead>, <tbody>, <tr>, <th>, <td> 等标签构建。</p>
+            </div>
+        </section>
+
+        <!-- 模块5: JavaScript交互 -->
+        <section id="interaction">
+            <h2>JavaScript交互功能</h2>
+            <p>JavaScript为网页添加动态行为和交互功能。下面是一些简单的JavaScript演示。</p>
+
+            <div class="card">
+                <h3>动态内容更新</h3>
+                <p>点击按钮可以更新下面的内容：</p>
+                <p id="dynamic-text">这是初始文本。点击按钮会改变我。</p>
+                <button class="btn" onclick="changeText()">更改文本</button>
+                <button class="btn" onclick="resetText()" style="background-color: #95a5a6; margin-left: 10px;">重置文本</button>
+            </div>
+
+            <div class="card">
+                <h3>计数器示例</h3>
+                <p>这是一个简单的计数器：</p>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="btn" onclick="decrement()">-</button>
+                    <span id="counter" style="font-size: 1.8rem; font-weight: bold; min-width: 50px; text-align: center;">0</span>
+                    <button class="btn" onclick="increment()">+</button>
+                </div>
+                <p id="counter-status" style="margin-top: 1rem;">计数器值: 0</p>
+            </div>
+
+            <div class="card">
+                <h3>卡片颜色切换</h3>
+                <p>点击下方卡片可以切换其背景颜色：</p>
+                <div id="color-card" style="padding: 2rem; text-align: center; border-radius: 8px; cursor: pointer; background-color: #3498db; color: white; transition: background-color 0.3s ease;">
+                    <p>点击我切换颜色！</p>
+                    <p>当前颜色: <span id="color-name">蓝色</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 总结区域 -->
+        <section>
+            <h2>知识总结</h2>
+            <p>本教学页面涵盖了前端开发的以下核心知识点：</p>
+            <ul>
+                <li><strong>HTML结构</strong>: 文档结构、语义化标签、标题与段落、表格</li>
+                <li><strong>CSS样式</strong>: 全局样式、文本装饰、颜色、字体</li>
+                <li><strong>布局技术</strong>: 盒子模型、Flexbox、响应式设计、居中布局</li>
+                <li><strong>视觉效果</strong>: 圆角、阴影、过渡动画</li>
+                <li><strong>JavaScript基础</strong>: DOM操作、事件处理、动态内容更新</li>
+            </ul>
+            <p>建议使用浏览器的开发者工具查看本页面的HTML结构和CSS样式，这是学习前端开发的最佳方式之一。</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>前端基础教学演示页面 © 2023</p>
+            <p>本页面根据知识图谱生成，用于教学演示目的。</p>
+            <p>知识点覆盖: HTML5 | CSS3 | JavaScript基础 | 响应式设计</p>
+            <nav style="justify-content: center; margin-top: 1rem;">
+                <a href="#structure" style="color: #bdc3c7;">HTML结构</a>
+                <a href="#styling" style="color: #bdc3c7; margin: 0 15px;">CSS样式</a>
+                <a href="#layout" style="color: #bdc3c7;">布局技术</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- JavaScript交互功能 -->
+    <script>
+        // 动态文本更改功能
+        function changeText() {
+            const texts = [
+                "文本已更新！JavaScript可以动态修改页面内容。",
+                "这是另一个文本示例。DOM操作是JavaScript的核心功能。",
+                "再次更改！事件处理让网页具有交互性。",
+                "前端开发很有趣！继续学习更多知识。"
+            ];
+            const randomIndex = Math.floor(Math.random() * texts.length);
+            document.getElementById('dynamic-text').textContent = texts[randomIndex];
+        }
+
+        function resetText() {
+            document.getElementById('dynamic-text').textContent = "这是初始文本。点击按钮会改变我。";
+        }
+
+        // 计数器功能
+        let count = 0;
+        const counterElement = document.getElementById('counter');
+        const counterStatus = document.getElementById('counter-status');
+
+        function updateCounter() {
+            counterElement.textContent = count;
+            counterStatus.textContent = `计数器值: ${count}`;
+            
+            // 根据数值改变颜色
+            if (count > 0) {
+                counterElement.style.color = "#2ecc71";
+            } else if (count < 0) {
+                counterElement.style.color = "#e74c3c";
+            } else {
+                counterElement.style.color = "#2c3e50";
+            }
+        }
+
+        function increment() {
+            count++;
+            updateCounter();
+        }
+
+        function decrement() {
+            count--;
+            updateCounter();
+        }
+
+        // 初始化计数器
+        updateCounter();
+
+        // 颜色卡片切换功能
+        const colorCard = document.getElementById('color-card');
+        const colorName = document.getElementById('color-name');
+        const colors = [
+            { name: "蓝色", value: "#3498db" },
+            { name: "绿色", value: "#2ecc71" },
+            { name: "红色", value: "#e74c3c" },
+            { name: "紫色", value: "#9b59b6" },
+            { name: "橙色", value: "#e67e22" },
+            { name: "青色", value: "#1abc9c" }
+        ];
+        let colorIndex = 0;
+
+        colorCard.addEventListener('click', function() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            const newColor = colors[colorIndex];
+            colorCard.style.backgroundColor = newColor.value;
+            colorName.textContent = newColor.name;
+        });
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("前端教学页面加载完成！");
+            console.log("本页面展示了HTML、CSS和JavaScript的基础知识。");
+            
+            // 平滑滚动到锚点
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
