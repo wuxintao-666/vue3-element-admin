@@ -170,8 +170,6 @@ def extract_html_code(text):
             # 取最后一个匹配（通常是答案代码）
             code = matches[-1].strip()
             # 清理常见的转义序列
-            code = code.replace('\\\\n', '\n').replace('\\n', '\n')
-            code = code.replace('\\\\t', '\t').replace('\\t', '\t')
             return code
 
     # 如果没有代码块，直接查找HTML结构
@@ -183,15 +181,10 @@ def extract_html_code(text):
         html_end = decoded_text.find('</html>', html_start)
         if html_end != -1:
             code = decoded_text[html_start:html_end+7].strip()
-            # 清理转义
-            code = code.replace('\\\\n', '\n').replace('\\n', '\n')
-            code = code.replace('\\\\t', '\t').replace('\\t', '\t')
             return code
 
-    # 返回清理后的文本
-    cleaned = decoded_text.replace('\\\\n', '\n').replace('\\n', '\n')
-    cleaned = cleaned.replace('\\\\t', '\t').replace('\\t', '\t')
-    return cleaned.strip()
+
+    return decoded_text.strip()
 
 def build_html_from_code_dict(code_dict):
     """从代码字典构建完整的HTML"""

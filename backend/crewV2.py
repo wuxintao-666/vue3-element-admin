@@ -16,7 +16,7 @@ os.environ["CREWAI_TELEMETRY"] = "false"
 # ==================== 1. 配置魔搭API ====================
 os.environ["DASHSCOPE_API_KEY"] = "sk-7581f392cad348b5bb60384d15a7a064"
 os.environ["OPENAI_API_BASE"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-os.environ["MODEL_NAME"] = "deepseek-v3.2"
+os.environ["MODEL_NAME"] = "qwen-plus-2025-12-01"
 
 print("🚀 魔搭API配置就绪，开始构建生成引擎...")
 
@@ -70,20 +70,56 @@ def generate_example_from_knowledge_graph(kg_file, agent):
         print(f"读取知识图谱失败: {e}")
         return get_default_example()
 
-    # 准备知识图谱摘要
-    nodes_summary = []
+    # 准备知识图谱摘要 - 按照章节分组
+    chapters = {}
+    knowledge_points = {}
+
+    # 第一遍：收集所有节点信息
     for node in kg_data.get('nodes', []):
         node_data = node.get('data', {})
-        if node_data.get('type') == 'knowledge':
-            label = node_data.get('label', '')
-            elements = node_data.get('select_element', [])
-            nodes_summary.append(f"- {label} (相关元素: {', '.join(elements) if elements else '无'})")
+        node_type = node_data.get('type')
+        node_id = node_data.get('id')
+        label = node_data.get('label', '')
 
-    knowledge_summary = "\n".join(nodes_summary)
-    print(f"知识图谱摘要：\n{knowledge_summary}")
+        if node_type == 'chapter':
+            chapters[node_id] = {
+                'label': label,
+                'knowledge_points': []
+            }
+        elif node_type == 'knowledge':
+            elements = node_data.get('select_element', [])
+            knowledge_points[node_id] = {
+                'label': label,
+                'elements': elements
+            }
+
+    # 第二遍：根据边关系建立章节和知识点的关联
+    for edge in kg_data.get('edges', []):
+        edge_data = edge.get('data', {})
+        source_id = edge_data.get('source')
+        target_id = edge_data.get('target')
+
+        # 如果源是章节，目标是知识点，则建立关联
+        if source_id in chapters and target_id in knowledge_points:
+            kp_info = knowledge_points[target_id]
+            chapters[source_id]['knowledge_points'].append(
+                f"- {kp_info['label']} (相关元素: {', '.join(kp_info['elements']) if kp_info['elements'] else '无'})"
+            )
+
+    # 生成按章节分组的摘要
+    summary_lines = []
+    for chapter_id, chapter_info in chapters.items():
+        summary_lines.append(f"## 章节: {chapter_info['label']}")
+        if chapter_info['knowledge_points']:
+            summary_lines.extend(chapter_info['knowledge_points'])
+        else:
+            summary_lines.append("- 暂无具体知识点")
+
+    full_summary = "\n".join(summary_lines)
+    print(f"知识图谱摘要：\n{full_summary}")
 
     # 创建生成全局教学HTML的任务
-    example_task = task_factory['create_example_task'](knowledge_summary)
+    example_task = task_factory['create_example_task'](full_summary)
     example_task.agent = agent
     print("task已经构建...")
 
@@ -94,7 +130,7 @@ def generate_example_from_knowledge_graph(kg_file, agent):
             tasks=[example_task],
             process="sequential",
             verbose=True,
-            name="全局教学HTML生成Crew"
+            name="示例HTML生成Crew"
         )
 
         result = example_crew.kickoff()
@@ -103,15 +139,24 @@ def generate_example_from_knowledge_graph(kg_file, agent):
         example_html = ""
         if result:
             example_html = extract_html_code(str(result))
-        print("HTML代码:"+example_html)
-        print("长度："+str(len(example_html))+"字")
+        #print("HTML代码:"+example_html)
+        #print("长度："+str(len(example_html))+"字")
 
-        # 使用固定的知识库描述
-        knowledge_base = """
-HTML（超文本标记语言）是构建网页的基础。HTML元素由标签、属性和内容组成。
-常用标签：<h1>-<h6>标题，<p>段落，<a>链接，<img>图片，<div>容器。
-CSS用于样式设计，JavaScript用于交互逻辑。
-网页开发遵循结构、表现、行为分离的原则。
+        print("清洗后的html："+repr(example_html))
+        # 保存并在默认浏览器打开
+        # with open("debug_output.html", "w", encoding="utf-8") as f:
+        #     f.write(example_html)
+        # 使用动态生成的知识库描述，基于知识图谱内容
+        knowledge_base = f"""基于知识图谱的教学内容：
+
+{full_summary}
+
+核心技术栈说明：
+- HTML（超文本标记语言）：网页的结构和内容基础
+- CSS（层叠样式表）：控制网页的外观和布局
+- JavaScript：为网页添加交互功能和动态行为
+
+开发原则：结构、表现、行为分离，提升代码可维护性和用户体验。
 """
 
         return example_html, knowledge_base
@@ -120,18 +165,262 @@ CSS用于样式设计，JavaScript用于交互逻辑。
         print(f"生成示例代码失败: {e}")
         return get_default_example()
 
-# ==================== 6. 核心函数：生成单个章节（只包含知识点和练习题） ====================
-def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, previous_answer_code=""):
+# ==================== 6. 核心函数：生成单个知识点 ====================
+def generate_single_knowledge_point(knowledge_point_info, global_html_ref, knowledge_base_ref, main_dir=""):
     """
-    生成单个章节的知识点和练习题
+    生成单个知识点的知识点内容和测试题
+    :param knowledge_point_info: 知识点信息字典，如 {"id": "1_1", "label": "HTML元素与结构", "select_element": ["html", "head", "body"]}
+    :param global_html_ref: 全局教学HTML参考（字符串）
+    :param knowledge_base_ref: 相关知识库摘要（字符串）
+    :param main_dir: 主文件夹路径
+    :return: 包含本知识点知识点内容和测试题的字典
+    """
+    print(f"\n🔍 正在生成知识点: {knowledge_point_info['label']} (ID: {knowledge_point_info['id']})")
+
+    # 如果没有传入main_dir，则使用默认的ai_generation_content文件夹
+    if not main_dir:
+        import time
+        timestamp = int(time.time())
+        main_dir = os.path.join("ai_generation_content", str(timestamp))
+
+    # 第一步：生成知识点内容
+    try:
+        # 创建知识点内容生成任务
+        
+        knowledge_point_task = task_factory['create_knowledge_point_task'](
+            knowledge_point_info=knowledge_point_info,
+            knowledge_base_ref=knowledge_base_ref
+        )
+        knowledge_point_task.agent = knowledge_expert
+        # 创建Crew并执行任务
+        knowledge_point_crew = Crew(
+            agents=[knowledge_expert],
+            tasks=[knowledge_point_task],
+            verbose=True,
+            process="sequential",
+            name="小节识点内容生成Crew"
+        )
+
+        knowledge_result = knowledge_point_crew.kickoff()
+        knowledge_output = str(knowledge_result) if knowledge_result else ""
+        print(f"✅ 知识点内容生成完成，输出长度: {len(knowledge_output)}")
+
+        # 解析知识点JSON
+        if knowledge_output.strip():
+            try:
+                # 尝试解析为JSON
+                import json
+                import pprint
+                knowledge_json = json.loads(knowledge_output)
+                print(f"📋 知识点JSON解析成功，包含键: {list(knowledge_json.keys())}")
+                print("📖 知识点JSON键结构:")
+
+                def print_keys_recursive(obj, indent=0, prefix=""):
+                    """递归打印JSON的所有键"""
+                    indent_str = "  " * indent
+                    if isinstance(obj, dict):
+                        for key in obj.keys():
+                            print(f"{indent_str}{prefix}{key}")
+                            if isinstance(obj[key], (dict, list)):
+                                print_keys_recursive(obj[key], indent + 1, "")
+                    elif isinstance(obj, list) and obj:
+                        print(f"{indent_str}[{len(obj)} items]")
+                        # 只显示第一个元素的结构作为示例
+                        if obj and isinstance(obj[0], (dict, list)):
+                            print_keys_recursive(obj[0], indent + 1, "0: ")
+
+                print_keys_recursive(knowledge_json)
+
+            except json.JSONDecodeError:
+                print("📝 知识点输出为非JSON格式，尝试提取...")
+                try:
+                    knowledge_json = extract_html_code.extract_html_code(knowledge_output)
+                    if knowledge_json:
+                        print("📝 知识点JSON提取成功")
+                        import pprint
+                        print("📋 知识点JSON结构概览:")
+                        def print_keys_recursive(obj, indent=0, prefix=""):
+                            indent_str = "  " * indent
+                            if isinstance(obj, dict):
+                                for key in obj.keys():
+                                    print(f"{indent_str}{prefix}{key}")
+                                    if isinstance(obj[key], (dict, list)):
+                                        print_keys_recursive(obj[key], indent + 1, "")
+                            elif isinstance(obj, list) and obj:
+                                print(f"{indent_str}[{len(obj)} items]")
+                                if obj and isinstance(obj[0], (dict, list)):
+                                    print_keys_recursive(obj[0], indent + 1, "0: ")
+
+                        print_keys_recursive(knowledge_json)
+                    else:
+                        print("❌ 知识点JSON提取失败")
+                        knowledge_json = None
+                except Exception as parse_error:
+                    print(f"❌ 知识点JSON提取错误: {parse_error}")
+                    knowledge_json = None
+        else:
+            print("❌ 知识点输出为空")
+            knowledge_json = None
+
+    except Exception as e:
+        print(f"❌ 知识点内容任务执行失败: {e}")
+        knowledge_output = ""
+        knowledge_json = None
+    # 保存知识点JSON到单独文件
+    import os
+
+    # 使用函数开始处生成的时间戳
+    knowledge_dir = os.path.join(main_dir, "knowledge")
+    os.makedirs(knowledge_dir, exist_ok=True)
+
+    # 文件名格式：knowledge_point_id.json (如 1_1.json)
+    knowledge_filename = os.path.join(knowledge_dir, f"{knowledge_point_info['id']}.json")
+    try:
+        with open(knowledge_filename, 'w', encoding='utf-8') as f:
+            json.dump(knowledge_json, f, ensure_ascii=False, indent=2)
+        print(f"💾 知识点JSON已保存到: {knowledge_filename}")
+    except Exception as save_error:
+        print(f"❌ 保存知识点JSON失败: {save_error}")
+    # 第二步：生成测试题
+    try:
+        # 准备测试题生成所需的信息
+        levels_description = ""
+        if knowledge_json and 'levels' in knowledge_json:
+            levels_description = "\n".join([
+                f"Level {level['level']}: {level['description'][:100]}..."
+                for level in knowledge_json['levels']
+            ])
+        else:
+            levels_description = f"知识点: {knowledge_point_info['label']}"
+
+        # 创建测试题生成任务
+        test_task = task_factory['create_knowledge_point_test_task'](
+            knowledge_point_info=knowledge_point_info,
+            levels_description=levels_description,
+            global_html_ref=global_html_ref
+        )
+        test_task.agent = test_designer
+        # 创建Crew并执行任务
+        test_crew = Crew(
+            agents=[test_designer],
+            tasks=[test_task],
+            verbose=True,
+            process="sequential",
+            name="小节测试题生成Crew"
+        )
+
+        test_result = test_crew.kickoff()
+        test_output = str(test_result) if test_result else ""
+        print(f"✅ 测试题生成完成，输出长度: {len(test_output)}")
+
+        # 解析测试题JSON
+        if test_output.strip():
+            try:
+                # 尝试解析为JSON
+                import json
+                import pprint
+                test_json = json.loads(test_output)
+                print(f"📋 测试题JSON解析成功，包含键: {list(test_json.keys())}")
+                print("📖 测试题JSON键结构:")
+
+                def print_keys_recursive(obj, indent=0, prefix=""):
+                    """递归打印JSON的所有键"""
+                    indent_str = "  " * indent
+                    if isinstance(obj, dict):
+                        for key in obj.keys():
+                            print(f"{indent_str}{prefix}{key}")
+                            if isinstance(obj[key], (dict, list)):
+                                print_keys_recursive(obj[key], indent + 1, "")
+                    elif isinstance(obj, list) and obj:
+                        print(f"{indent_str}[{len(obj)} items]")
+                        # 只显示第一个元素的结构作为示例
+                        if obj and isinstance(obj[0], (dict, list)):
+                            print_keys_recursive(obj[0], indent + 1, "0: ")
+
+                print_keys_recursive(test_json)
+
+            except json.JSONDecodeError:
+                print("📝 测试题输出为非JSON格式，尝试提取...")
+                try:
+                    test_json = extract_html_code.extract_html_code(test_output)
+                    if test_json:
+                        print("📝 测试题JSON提取成功")
+                        import pprint
+                        print("📋 测试题JSON结构概览:")
+                        def print_keys_recursive(obj, indent=0, prefix=""):
+                            indent_str = "  " * indent
+                            if isinstance(obj, dict):
+                                for key in obj.keys():
+                                    print(f"{indent_str}{prefix}{key}")
+                                    if isinstance(obj[key], (dict, list)):
+                                        print_keys_recursive(obj[key], indent + 1, "")
+                            elif isinstance(obj, list) and obj:
+                                print(f"{indent_str}[{len(obj)} items]")
+                                if obj and isinstance(obj[0], (dict, list)):
+                                    print_keys_recursive(obj[0], indent + 1, "0: ")
+
+                        print_keys_recursive(test_json)
+                    else:
+                        print("❌ 测试题JSON提取失败")
+                        test_json = None
+                except Exception as parse_error:
+                    print(f"❌ 测试题JSON提取错误: {parse_error}")
+                    test_json = None
+        else:
+            print("❌ 测试题输出为空")
+            test_json = None
+
+    except Exception as e:
+        print(f"❌ 测试题任务执行失败: {e}")
+        test_output = ""
+        test_json = None
+
+    
+
+    # 保存测试题JSON到单独文件
+    import os
+
+    # 使用函数开始处生成的时间戳
+    test_dir = os.path.join(main_dir, "test")
+    os.makedirs(test_dir, exist_ok=True)
+
+    # 文件名格式：knowledge_point_id.json (如 1_1.json)
+    test_filename = os.path.join(test_dir, f"{knowledge_point_info['id']}.json")
+    try:
+        with open(test_filename, 'w', encoding='utf-8') as f:
+            json.dump(test_json, f, ensure_ascii=False, indent=2)
+        print(f"💾 测试题JSON已保存到: {test_filename}")
+    except Exception as save_error:
+        print(f"❌ 保存测试题JSON失败: {save_error}")
+
+    # 返回结果
+    return {
+        "knowledge_point_id": knowledge_point_info['id'],
+        "knowledge_point_title": knowledge_point_info['label'],
+        "knowledge_content": knowledge_json,
+        "test_content": test_json,
+        "answer_code_for_next": ""  # 知识点测试题不传递答案代码
+    }
+
+# ==================== 7. 核心函数：生成单个章节（只包含知识点和练习题） ====================
+def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, previous_answer_code="", main_dir=""):
+    """
+    生成单个章节的测试题
     :param chapter_info: 章节信息字典，如 {"title": "HTML基础", "key_concepts": ["标签", "属性"]}
     :param global_html_ref: 全局教学HTML参考（字符串）
     :param knowledge_base_ref: 相关知识库摘要（字符串）
     :param previous_answer_code: 上一章的完整答案代码，用于本章的起始代码
-    :return: 包含本章知识点和练习题的字典
+    :param main_dir: 主文件夹路径
+    :return: 包含本章测试题的字典
     """
     print(f"\n📖 正在生成章节: {chapter_info['title']}")
     print(f"   起始代码长度: {len(previous_answer_code) if previous_answer_code else 0} 字符")
+
+    # 如果没有传入main_dir，则使用默认的ai_generation_content文件夹
+    if not main_dir:
+        import time
+        timestamp = int(time.time())
+        main_dir = os.path.join("ai_generation_content", str(timestamp))
 
     # 清理起始代码中的转义
     clean_previous = ""
@@ -141,11 +430,7 @@ def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, p
         print(f"✅清理后起始代码长度: {len(clean_previous)} 字符")
         print(f"✅清理后起始代码: {clean_previous}")
 
-    # 任务1：生成结构化的学习内容
-    knowledge_task = task_factory['create_knowledge_task'](chapter_info, knowledge_base_ref)
-    knowledge_task.agent = knowledge_expert
-
-    # 任务2：生成结构化的测试题
+    # 生成结构化的测试题
     # 构建学习内容描述（基于章节的知识点）
     levels_description = ""
     for i, concept in enumerate(chapter_info.get('key_concepts', []), 1):
@@ -159,41 +444,79 @@ def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, p
     test_task = task_factory['create_test_task'](chapter_info, levels_description, starter_context, global_html_ref)
     test_task.agent = test_designer
 
-    # 执行本章的Crew（只有知识点和练习题两个任务）
-    chapter_crew = Crew(
-        agents=[knowledge_expert, test_designer],
-        tasks=[knowledge_task, test_task],
-        process="sequential",  # 章节内顺序执行
-        verbose=True,  # 启用调试信息
-        name=f"{chapter_info['title']}章节Crew"
+    # 执行测试题生成任务
+    print("❓ 执行测试题生成任务...")
+
+    # 为测试题任务创建单独的Crew
+    test_crew = Crew(
+        agents=[test_designer],
+        tasks=[test_task],
+        process="sequential",
+        verbose=True,
+        name="章节测试题生成Crew"
     )
 
-    result = chapter_crew.kickoff()
+    try:
+        test_result = test_crew.kickoff()
+        test_output = str(test_result) if test_result else ""
+        print(f"✅ 测试题任务完成，输出长度: {len(test_output)}")
+        print(f"📝 测试题内容预览: {test_output[:500]}...")
+
+        # 解析测试题输出
+        if test_output.strip():
+            try:
+                import json
+                import pprint
+                test_json = json.loads(test_output)
+                print(f"📋 测试题JSON解析成功，包含键: {list(test_json.keys())}")
+                print("📝 测试题JSON键结构:")
+
+                def print_keys_recursive(obj, indent=0, prefix=""):
+                    """递归打印JSON的所有键"""
+                    indent_str = "  " * indent
+                    if isinstance(obj, dict):
+                        for key in obj.keys():
+                            print(f"{indent_str}{prefix}{key}")
+                            if isinstance(obj[key], (dict, list)):
+                                print_keys_recursive(obj[key], indent + 1, "")
+                    elif isinstance(obj, list) and obj:
+                        print(f"{indent_str}[{len(obj)} items]")
+                        # 只显示第一个元素的结构作为示例
+                        if obj and isinstance(obj[0], (dict, list)):
+                            print_keys_recursive(obj[0], indent + 1, "0: ")
+
+                print_keys_recursive(test_json)
+
+                # 保存测试题JSON到单独文件
+                import os
+
+                # 使用函数开始处生成的时间戳
+                test_dir = os.path.join(main_dir, "test")
+                os.makedirs(test_dir, exist_ok=True)
+
+                # 文件名格式：chapter_id.json (如 1_end.json)
+                test_filename = os.path.join(test_dir, f"{chapter_info['id']}.json")
+                try:
+                    with open(test_filename, 'w', encoding='utf-8') as f:
+                        json.dump(test_json, f, ensure_ascii=False, indent=2)
+                    print(f"💾 测试题JSON已保存到: {test_filename}")
+                except Exception as save_error:
+                    print(f"❌ 保存测试题JSON失败: {save_error}")
+
+            except json.JSONDecodeError:
+                print("📝 测试题输出为非JSON格式")
+            except ImportError:
+                print("⚠️ pprint模块不可用，使用普通打印")
+                print(f"📝 测试题JSON: {test_output[:500]}...")
+
+    except Exception as e:
+        print(f"❌ 测试题任务执行失败: {e}")
+        test_output = ""
 
 
-    knowledge_output = ""
-    test_output = ""
-
-    # 尝试获取任务的真实输出
-    if hasattr(knowledge_task, 'output') and knowledge_task.output:
-        # 检查输出类型，可能是字符串或其他对象
-        task_output = knowledge_task.output
-        if hasattr(task_output, 'raw_output'):
-            # 如果是TaskOutput对象，获取原始输出
-            knowledge_output = task_output.raw_output
-        elif hasattr(task_output, '__str__'):
-            knowledge_output = str(task_output)
-        else:
-            knowledge_output = str(task_output)
-
-    if hasattr(test_task, 'output') and test_task.output:
-        task_output = test_task.output
-        if hasattr(task_output, 'raw_output'):
-            test_output = task_output.raw_output
-        elif hasattr(task_output, '__str__'):
-            test_output = str(task_output)
-        else:
-            test_output = str(task_output)
+    # 查看test_output
+    # print("测试题输出类型2："+type(test_output))
+    # print("测试题输出2："+str(test_output))
 
     # 提取本章的参考答案，供下一章使用
     # 编程练习题的参考答案包含了学生应该实现的目标代码
@@ -210,13 +533,13 @@ def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, p
         else:
             print(f"   ⚠️ 无法解析JSON，尝试直接提取HTML")
             chapter_answer_code = extract_html_code(test_output)
-
+        print(f"   提取的答案代码: {chapter_answer_code}")
         print(f"   提取的答案代码长度: {len(chapter_answer_code)}")
 
     return {
         "chapter_title": chapter_info["title"],
+        "chapter_id": chapter_info["id"],
         "start_html": clean_previous,
-        "knowledge_output": knowledge_output,
         "test_output": test_output,
         "answer_code_for_next": chapter_answer_code
     }
@@ -224,9 +547,17 @@ def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, p
 # ==================== 7. 主流程：生成多章节课程 ====================
 def main():
     """主生成流程"""
+    import time
+    start_time = time.time()  # 记录开始时间
+
     print("\n" + "="*60)
     print("开始生成课程（基于知识图谱）- V2版本")
     print("="*60)
+
+    # 生成时间戳作为文件夹名
+    timestamp = int(time.time())
+    main_dir = os.path.join("ai_generation_content", str(timestamp))
+    os.makedirs(main_dir, exist_ok=True)
 
     # 第一步：设置知识图谱文件路径
     knowledge_graph_file = "data/knowledge/0adfc7ee-8ae7-42ee-9e06-43e6579189df.json"
@@ -235,7 +566,13 @@ def main():
     print("🎨 正在根据知识图谱生成全局教学HTML...")
     global_html, knowledge_base = generate_example_from_knowledge_graph(knowledge_graph_file, example_generator)
     print("✅ 全局教学HTML生成完成")
-    print("知识库已获取："+knowledge_base)
+
+    # 直接保存全局教学HTML为文件
+    html_file = os.path.join(main_dir, "example_page.html")
+    with open(html_file, 'w', encoding='utf-8') as f:
+        f.write(global_html)
+    print(f"🌐 全局教学HTML已保存至: {html_file}")
+    #print("知识库已获取："+knowledge_base)
 
     # 第四步：读取知识图谱文件
     try:
@@ -251,6 +588,7 @@ def main():
     # 第五步：从知识图谱中提取章节信息
     chapters_to_generate = []
     knowledge_points = {}
+    knowledge_points_list = []  # 新增：存储所有知识点信息的列表
 
     # 解析节点
     for node in knowledge_graph.get("nodes", []):
@@ -268,10 +606,13 @@ def main():
             })
         elif node_type == "knowledge":
             # 知识点节点
-            knowledge_points[node_id] = {
+            knowledge_point_info = {
+                "id": node_id,
                 "label": node_label,
                 "select_element": node_data.get("select_element", [])
             }
+            knowledge_points[node_id] = knowledge_point_info
+            knowledge_points_list.append(knowledge_point_info)  # 添加到列表中
 
     # 根据边关系建立章节和知识点的关联
     chapter_knowledge_map = {}
@@ -296,27 +637,50 @@ def main():
             chapter["key_concepts"] = ["HTML标签", "文档结构", "基本元素"]
 
     # 调试输出：显示知识图谱解析结果
-    print(f"📊 知识图谱统计:")
-    print(f"   总节点数: {len(knowledge_graph['nodes'])}")
-    print(f"   总边数: {len(knowledge_graph['edges'])}")
-    print(f"   章节节点: {len([n for n in knowledge_graph['nodes'] if n['data']['type'] == 'chapter'])}")
-    print(f"   知识点节点: {len([n for n in knowledge_graph['nodes'] if n['data']['type'] == 'knowledge'])}")
+    # print(f"📊 知识图谱统计:")
+    # print(f"   总节点数: {len(knowledge_graph['nodes'])}")
+    # print(f"   总边数: {len(knowledge_graph['edges'])}")
+    # print(f"   章节节点: {len([n for n in knowledge_graph['nodes'] if n['data']['type'] == 'chapter'])}")
+    # print(f"   知识点节点: {len([n for n in knowledge_graph['nodes'] if n['data']['type'] == 'knowledge'])}")
 
-    print(f"\n📚 解析出的章节:")
-    for i, chapter in enumerate(chapters_to_generate, 1):
-        print(f"  {i}. {chapter['title']} (ID: {chapter['id']})")
-        print(f"     关联知识点 ({len(chapter['key_concepts'])} 个):")
-        for j, concept in enumerate(chapter['key_concepts'], 1):
-            print(f"       {j}. {concept}")
+    # print(f"\n📚 解析出的章节:")
+    # for i, chapter in enumerate(chapters_to_generate, 1):
+    #     print(f"  {i}. {chapter['title']} (ID: {chapter['id']})")
+    #     print(f"     关联知识点 ({len(chapter['key_concepts'])} 个):")
+    #     for j, concept in enumerate(chapter['key_concepts'], 1):
+    #         print(f"       {j}. {concept}")
 
-    print(f"\n🔗 章节-知识点关联详情:")
-    for chapter_id, knowledge_list in chapter_knowledge_map.items():
-        chapter_name = next((c['title'] for c in chapters_to_generate if c['id'] == chapter_id), chapter_id)
-        print(f"  {chapter_name}: {len(knowledge_list)} 个知识点")
+    # print(f"\n🔗 章节-知识点关联详情:")
+    # for chapter_id, knowledge_list in chapter_knowledge_map.items():
+    #     chapter_name = next((c['title'] for c in chapters_to_generate if c['id'] == chapter_id), chapter_id)
+    #     print(f"  {chapter_name}: {len(knowledge_list)} 个知识点")
 
-    print(f"\n📚 从知识图谱中解析出 {len(chapters_to_generate)} 个章节:")
-    for i, chapter in enumerate(chapters_to_generate, 1):
-        print(f"  {i}. {chapter['title']} ({len(chapter['key_concepts'])} 个知识点)")
+    # print(f"\n📚 从知识图谱中解析出 {len(chapters_to_generate)} 个章节:")
+    # for i, chapter in enumerate(chapters_to_generate, 1):
+    #     print(f"  {i}. {chapter['title']} ({len(chapter['key_concepts'])} 个知识点)")
+
+    # 第五步：顺序生成所有知识点
+    print(f"\n{'='*60}")
+    print("第五步：生成所有知识点内容")
+    print(f"{'='*60}")
+
+    knowledge_points_results = []
+
+    for i, knowledge_point in enumerate(knowledge_points_list, 1):
+        print(f"\n{'-'*40}")
+        print(f"知识点{i}: {knowledge_point['label']} (ID: {knowledge_point['id']})")
+        print(f"{'-'*40}")
+
+        knowledge_result = generate_single_knowledge_point(
+            knowledge_point_info=knowledge_point,
+            global_html_ref=global_html,
+            knowledge_base_ref=knowledge_base,
+            main_dir=main_dir
+        )
+
+        knowledge_points_results.append(knowledge_result)
+
+    print(f"\n✅ 共生成 {len(knowledge_points_results)} 个知识点")
 
     # 第六步：顺序生成章节，传递代码依赖
     all_results = []
@@ -332,7 +696,8 @@ def main():
             chapter_info=chapter,
             global_html_ref=global_html,
             knowledge_base_ref=knowledge_base,
-            previous_answer_code=previous_answer
+            previous_answer_code=previous_answer,
+            main_dir=main_dir
         )
 
         all_results.append(chapter_result)
@@ -349,25 +714,17 @@ def main():
         serializable_results = {
             "global_html": global_html,
             "knowledge_graph_used": knowledge_graph_file,
+            "knowledge_points": knowledge_points_results,  # 添加知识点结果
             "chapters": []
         }
 
         for r in all_results:
             # 清理转义字符
             clean_start_html = clean_escape_chars(r["start_html"])
-            clean_knowledge = clean_escape_chars(r["knowledge_output"])
             clean_test = clean_escape_chars(r["test_output"])
             clean_answer = clean_escape_chars(r["answer_code_for_next"])
 
             print(f"\n🔍 解析章节 '{r['chapter_title']}' 的输出...")
-
-            # 解析knowledge_output为JSON对象
-            knowledge_json = parse_json_from_text(clean_knowledge)
-            if knowledge_json and isinstance(knowledge_json, dict):
-                print(f"✅ 知识输出解析成功: {type(knowledge_json)}，包含键: {list(knowledge_json.keys())}")
-            else:
-                print(f"⚠️ 知识输出解析失败，使用原始字符串")
-                knowledge_json = clean_knowledge
 
             # 解析test_output为JSON对象
             test_json = parse_json_from_text(clean_test)
@@ -379,29 +736,38 @@ def main():
 
             serializable_results["chapters"].append({
                 "chapter": r["chapter_title"],
+                "chapter_id": r["chapter_id"],
                 "start_html": clean_start_html,
-                "knowledge_preview": knowledge_json,
-                "test_preview": test_json,
+                "test_file": f"chapter_{r['chapter_id']}/test/content.json",
                 "answer_code_summary": clean_answer
             })
 
         # 使用ensure_ascii=False确保中文和特殊字符正确显示
         json.dump(serializable_results, f, indent=2, ensure_ascii=False)
 
-    # 单独保存全局教学HTML为文件
-    html_file = "generated_global_demo_v2.html"
-    with open(html_file, 'w', encoding='utf-8') as f:
-        f.write(global_html)
-    print(f"🌐 全局教学HTML已保存至: {html_file}")
 
     print("\n" + "="*60)
+    # 计算总耗时
+    end_time = time.time()
+    total_time = end_time - start_time
+    hours = int(total_time // 3600)
+    minutes = int((total_time % 3600) // 60)
+    seconds = total_time % 60
+
     print("🎉 课程生成完成！(V2版本)")
     print(f"📁 结果已保存至: {output_file}")
-    print(f"🌐 示例代码已保存至: {html_file}")
+    print(f"📂 所有文件已保存至: {main_dir}")
+    print(f"⏱️ 总耗时: {hours:02d}:{minutes:02d}:{seconds:05.2f}")
+
     print("\n📊 生成摘要:")
+    print(f"  知识点数量: {len(knowledge_points_results)}")
+    for i, kp in enumerate(knowledge_points_results, 1):
+        print(f"    知识点{i}: {kp['knowledge_point_title']} (ID: {kp['knowledge_point_id']})")
+
+    print(f"  章节数量: {len(all_results)}")
     for i, r in enumerate(all_results, 1):
-        print(f"  第{i}章: {r['chapter_title']}")
-        print(f"    答案代码 → 第{i+1}章起始代码: {'✅' if r['answer_code_for_next'] else '❌ 无代码生成'}")
+        print(f"    第{i}章: {r['chapter_title']}")
+        print(f"      答案代码 → 第{i+1}章起始代码: {'✅' if r['answer_code_for_next'] else '❌ 无代码生成'}")
     print("="*60)
 
 # ==================== 8. 运行脚本 ====================

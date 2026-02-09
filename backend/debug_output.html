@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端基础教学示例</title>
+  <style>
+    /* 模块二：全局与文本样式 */
+    body { font-family: "Segoe UI", sans-serif; color: #333; margin: 0; }
+    h1, h2 { color: #2c3e50; }
+    a { text-decoration: none; color: #3498db; }
+    /* 模块三：盒子模型与Flexbox布局 */
+    .header-container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; }
+    header, main, footer { max-width: 1200px; margin: 0 auto; padding: 1.5rem 2rem; }
+    .card { border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); padding: 1.2rem; }
+    /* 模块四：表格样式 */
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { text-align: left; padding: 0.75rem; border: 1px solid #ddd; }
+    th { background-color: #3498db; color: white; }
+  </style>
+</head>
+<body>
+  <!-- 模块一：语义化结构 -->
+  <header>
+    <div class="header-container">
+      <h1>前端学习门户</h1>
+      <nav>
+        <a href="#home">首页</a> | 
+        <a href="#about">关于</a> | 
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h2>核心模块概览</h2>
+      <p>本页面演示HTML语义化、CSS排版、Flexbox布局与表格展示四大核心技能。</p>
+      <div class="card">
+        <h2>学习进度表</h2>
+        <table>
+          <thead>
+            <tr><th>模块</th><th>掌握度</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>页面结构与语义化</td><td>✅ 已完成</td></tr>
+            <tr><td>样式基础与排版</td><td>✅ 已完成</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>© 2024 前端教学示例 | 遵循语义化与可访问性最佳实践</p>
+  </footer>
+  <script>
+    // 模块二/三/四知识点联动：点击导航高亮当前项（轻量交互）
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelectorAll('nav a').forEach(a => a.style.color = '#3498db');
+        link.style.color = '#e74c3c';
+      });
+    });
+  </script>
+</body>
+</html>
