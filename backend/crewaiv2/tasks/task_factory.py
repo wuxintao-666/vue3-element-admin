@@ -16,27 +16,25 @@ def create_knowledge_task(chapter_info, knowledge_base_ref):
 
 请编写适合零基础的学习内容，并严格按照以下 JSON 结构返回（不要添加任何额外说明、前后缀或解释文本）：
 
+【JSON Schema要求】：
+响应必须严格遵循此schema：
 {{
-  "topic_id": "{chapter_info.get('id', 'unknown')}",
-  "title": "{chapter_info['title']}",
-  "levels": [
-    {{
-      "level": 1,
-      "description": "level_1_description"
-    }},
-    {{
-      "level": 2,
-      "description": "level_2_description"
-    }},
-    {{
-      "level": 3,
-      "description": "level_3_description"
-    }},
-    {{
-      "level": 4,
-      "description": "level_4_description"
+  "type": "object",
+  "properties": {{
+    "topic_id": {{"type": "string"}},
+    "title": {{"type": "string"}},
+    "levels": {{
+      "type": "array",
+      "items": {{
+        "type": "object",
+        "properties": {{
+          "level": {{"type": "integer", "enum": [1,2,3,4]}},
+          "description": {{"type": "string"}}
+        }}
+      }}
     }}
-  ]
+  }},
+  "required": ["topic_id", "title", "levels"]
 }}
 
 【关键格式要求】：
@@ -68,8 +66,11 @@ def create_knowledge_task(chapter_info, knowledge_base_ref):
 【JSON字符串转义要求】：
 在JSON字符串中必须正确转义：
 - 换行符：`\\n`
+- 回车符：`\\r`  
+- 制表符：`\\t`
 - 双引号：`\\"`
 - 反斜杠：`\\\\`
+- Unicode转义：`\\uXXXX` (对于特殊字符)
 
 【禁止项】：
 1. 不要在任何字段中使用"概念："、"说明："等标题格式
@@ -156,13 +157,15 @@ def create_test_task(chapter_info, levels_description, starter_context, global_h
 - 使用 ```语言 代码块``` 格式化代码示例
 - 使用空行分隔段落
 
-【代码字段要求】：
-`start_code` 和 `answer` 中的字符串必须：
-1. **必须使用正确的JSON转义字符**：
-   - 换行符：`\\n`（JSON中显示为`\n`）
-   - 双引号：`\"`（JSON中显示为`"`）
-   - 反斜杠：`\\`（JSON中显示为`\`）
-2. 保持代码缩进结构
+【JSON字符串转义要求】：
+在JSON字符串中必须正确转义：
+- 换行符：`\\n`
+- 回车符：`\\r`  
+- 制表符：`\\t`
+- 双引号：`\\"`
+- 反斜杠：`\\\\`
+- Unicode转义：`\\uXXXX` (对于特殊字符)
+
 
 【检查点设计】：
 至少包含3个检查点，类型包括：
@@ -197,12 +200,56 @@ def create_test_task(chapter_info, levels_description, starter_context, global_h
 - **`css`**: 完整的解答CSS样式代码（如果没有css代码，请设为空字符串""）
 - **`js`**: 完整的解答JavaScript代码（如果没有JavaScript代码，请设为空字符串""）
 
-【JSON字符串转义规则】：
-在JSON字符串中，必须对特殊字符进行转义：
-1. 换行符：使用 `\\n`（在JSON字符串中显示为 `\n`）
-2. 双引号：使用 `\"`（在JSON字符串中显示为 `"`）
-3. 反斜杠：使用 `\\`（在JSON字符串中显示为 `\`）
-4. 制表符：使用 `\t`（在JSON字符串中显示为 `\t`）
+【JSON Schema要求】：
+响应必须严格遵循此schema：
+{{
+  "type": "object",
+  "properties": {{
+    "topic_id": {{"type": "string"}},
+    "title": {{"type": "string"}},
+    "description_md": {{"type": "string"}},
+    "start_code": {{
+      "type": "object",
+      "properties": {{
+        "html": {{"type": "string"}},
+        "css": {{"type": "string"}},
+        "js": {{"type": "string"}}
+      }},
+      "required": ["html", "css", "js"]
+    }},
+    "checkpoints": {{
+      "type": "array",
+      "items": {{
+        "type": "object",
+        "properties": {{
+          "name": {{"type": "string"}},
+          "type": {{"type": "string", "enum": ["assert_element", "assert_style", "assert_attribute", "assert_text_content", "interaction_and_assert", "custom_script"]}},
+          "selector": {{"type": "string"}},
+          "assertion_type": {{"type": "string"}},
+          "value": {{}},  // 可选字段
+          "css_property": {{"type": "string"}},  // 可选字段
+          "attribute": {{"type": "string"}},     // 可选字段
+          "action_selector": {{"type": "string"}}, // 可选字段
+          "action_type": {{"type": "string"}},   // 可选字段
+          "assertion": {{}}, // 可选字段
+          "script": {{"type": "string"}},        // 可选字段
+          "feedback": {{"type": "string"}}
+        }},
+        "required": ["name", "type", "assertion_type", "feedback"]
+      }}
+    }},
+    "answer": {{
+      "type": "object",
+      "properties": {{
+        "html": {{"type": "string"}},
+        "css": {{"type": "string"}},
+        "js": {{"type": "string"}}
+      }},
+      "required": ["html", "css", "js"]
+    }}
+  }},
+  "required": ["topic_id", "title", "description_md", "start_code", "checkpoints", "answer"]
+}}
 
 【输出格式示例】（请严格遵循此结构，根据实际内容替换）:
 {{
@@ -248,12 +295,6 @@ def create_test_task(chapter_info, levels_description, starter_context, global_h
 
 请基于学习内容中的知识点设计测试题和配套答案，确保题目内容宽泛且实用，适合初学者练习。答案部分要包含完整、正确的代码，能够通过所有检查点。
 
-【重要提醒】：
-在JSON输出中，代码字符串必须正确转义：
-- 每行代码结尾用 `\\n` 表示换行
-- HTML属性中的引号用 `\"` 表示
-- 反斜杠用 `\\` 表示
-- 确保转义后的JSON可以直接被解析
 
 现在请直接返回JSON格式的响应，不要包含任何其他内容。""",
         expected_output="结构化的测试题 JSON",
@@ -276,27 +317,25 @@ def create_knowledge_point_task(knowledge_point_info, knowledge_base_ref):
 
 请编写适合零基础的学习内容，并严格按照以下 JSON 结构返回（不要添加任何额外说明、前后缀或解释文本）：
 
+【JSON Schema要求】：
+响应必须严格遵循此schema：
 {{
-  "topic_id": "{knowledge_point_info.get('id', 'unknown')}",
-  "title": "{knowledge_point_info['label']}",
-  "levels": [
-    {{
-      "level": 1,
-      "description": "level_1_description"
-    }},
-    {{
-      "level": 2,
-      "description": "level_2_description"
-    }},
-    {{
-      "level": 3,
-      "description": "level_3_description"
-    }},
-    {{
-      "level": 4,
-      "description": "level_4_description"
+  "type": "object",
+  "properties": {{
+    "topic_id": {{"type": "string"}},
+    "title": {{"type": "string"}},
+    "levels": {{
+      "type": "array",
+      "items": {{
+        "type": "object",
+        "properties": {{
+          "level": {{"type": "integer", "enum": [1,2,3,4]}},
+          "description": {{"type": "string"}}
+        }}
+      }}
     }}
-  ]
+  }},
+  "required": ["topic_id", "title", "levels"]
 }}
 
 【关键格式要求】：
@@ -328,8 +367,11 @@ def create_knowledge_point_task(knowledge_point_info, knowledge_base_ref):
 【JSON字符串转义要求】：
 在JSON字符串中必须正确转义：
 - 换行符：`\\n`
+- 回车符：`\\r`  
+- 制表符：`\\t`
 - 双引号：`\\"`
 - 反斜杠：`\\\\`
+- Unicode转义：`\\uXXXX` (对于特殊字符)
 
 【禁止项】：
 1. 不要在任何字段中使用"概念："、"说明："等标题格式
@@ -449,12 +491,65 @@ ID: {knowledge_point_info.get('id', 'unknown')}
 - **`css`**: 完整的解答CSS样式代码（如果没有css代码，请设为空字符串""）
 - **`js`**: 完整的解答JavaScript代码（如果没有JavaScript代码，请设为空字符串""）
 
-【JSON字符串转义规则】：
-在JSON字符串中，必须对特殊字符进行转义：
-1. 换行符：使用 `\\n`（在JSON字符串中显示为 `\n`）
-2. 双引号：使用 `\"`（在JSON字符串中显示为 `"`）
-3. 反斜杠：使用 `\\`（在JSON字符串中显示为 `\`）
-4. 制表符：使用 `\t`（在JSON字符串中显示为 `\t`）
+【JSON字符串转义要求】：
+在JSON字符串中必须正确转义：
+- 换行符：`\\n`
+- 回车符：`\\r`  
+- 制表符：`\\t`
+- 双引号：`\\"`
+- 反斜杠：`\\\\`
+- Unicode转义：`\\uXXXX` (对于特殊字符)
+
+【JSON Schema要求】：
+响应必须严格遵循此schema：
+{{
+  "type": "object",
+  "properties": {{
+    "topic_id": {{"type": "string"}},
+    "title": {{"type": "string"}},
+    "description_md": {{"type": "string"}},
+    "start_code": {{
+      "type": "object",
+      "properties": {{
+        "html": {{"type": "string"}},
+        "css": {{"type": "string"}},
+        "js": {{"type": "string"}}
+      }},
+      "required": ["html", "css", "js"]
+    }},
+    "checkpoints": {{
+      "type": "array",
+      "items": {{
+        "type": "object",
+        "properties": {{
+          "name": {{"type": "string"}},
+          "type": {{"type": "string", "enum": ["assert_element", "assert_style", "assert_attribute", "assert_text_content", "interaction_and_assert", "custom_script"]}},
+          "selector": {{"type": "string"}},
+          "assertion_type": {{"type": "string"}},
+          "value": {{}},  // 可选字段
+          "css_property": {{"type": "string"}},  // 可选字段
+          "attribute": {{"type": "string"}},     // 可选字段
+          "action_selector": {{"type": "string"}}, // 可选字段
+          "action_type": {{"type": "string"}},   // 可选字段
+          "assertion": {{}}, // 可选字段
+          "script": {{"type": "string"}},        // 可选字段
+          "feedback": {{"type": "string"}}
+        }},
+        "required": ["name", "type", "assertion_type", "feedback"]
+      }}
+    }},
+    "answer": {{
+      "type": "object",
+      "properties": {{
+        "html": {{"type": "string"}},
+        "css": {{"type": "string"}},
+        "js": {{"type": "string"}}
+      }},
+      "required": ["html", "css", "js"]
+    }}
+  }},
+  "required": ["topic_id", "title", "description_md", "start_code", "checkpoints", "answer"]
+}}
 
 【输出格式示例】（请严格遵循此结构，根据实际内容替换）:
 {{
@@ -499,13 +594,6 @@ ID: {knowledge_point_info.get('id', 'unknown')}
 }}
 
 请基于学习内容中的知识点设计测试题和配套答案，确保题目内容宽泛且实用，适合初学者练习。答案部分要包含完整、正确的代码，能够通过所有检查点。
-
-【重要提醒】：
-在JSON输出中，代码字符串必须正确转义：
-- 每行代码结尾用 `\\n` 表示换行
-- HTML属性中的引号用 `\"` 表示
-- 反斜杠用 `\\` 表示
-- 确保转义后的JSON可以直接被解析
 
 现在请直接返回JSON格式的响应，不要包含任何其他内容。""",
         expected_output="""结构化的测试题 JSON"""

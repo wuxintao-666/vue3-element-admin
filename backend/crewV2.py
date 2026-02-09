@@ -16,7 +16,7 @@ os.environ["CREWAI_TELEMETRY"] = "false"
 # ==================== 1. 配置魔搭API ====================
 os.environ["DASHSCOPE_API_KEY"] = "sk-7581f392cad348b5bb60384d15a7a064"
 os.environ["OPENAI_API_BASE"] = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-os.environ["MODEL_NAME"] = "qwen-plus-2025-12-01"
+os.environ["MODEL_NAME"] = "qwen3-max-2026-01-23"
 
 print("🚀 魔搭API配置就绪，开始构建生成引擎...")
 
@@ -659,28 +659,57 @@ def main():
     # for i, chapter in enumerate(chapters_to_generate, 1):
     #     print(f"  {i}. {chapter['title']} ({len(chapter['key_concepts'])} 个知识点)")
 
-    # 第五步：顺序生成所有知识点
+    # 第五步：并发生成所有知识点
     print(f"\n{'='*60}")
-    print("第五步：生成所有知识点内容")
+    print("第五步：并发生成所有知识点内容")
     print(f"{'='*60}")
 
-    knowledge_points_results = []
+    import concurrent.futures
+    import time
 
-    for i, knowledge_point in enumerate(knowledge_points_list, 1):
+    def generate_knowledge_point_with_logging(knowledge_point_info, index, global_html_ref, knowledge_base_ref, main_dir):
+        """生成单个知识点并记录日志"""
         print(f"\n{'-'*40}")
-        print(f"知识点{i}: {knowledge_point['label']} (ID: {knowledge_point['id']})")
+        print(f"知识点{index}: {knowledge_point_info['label']} (ID: {knowledge_point_info['id']})")
         print(f"{'-'*40}")
 
-        knowledge_result = generate_single_knowledge_point(
-            knowledge_point_info=knowledge_point,
-            global_html_ref=global_html,
-            knowledge_base_ref=knowledge_base,
+        return generate_single_knowledge_point(
+            knowledge_point_info=knowledge_point_info,
+            global_html_ref=global_html_ref,
+            knowledge_base_ref=knowledge_base_ref,
             main_dir=main_dir
         )
 
-        knowledge_points_results.append(knowledge_result)
+    knowledge_points_results = []
+    start_time = time.time()
 
-    print(f"\n✅ 共生成 {len(knowledge_points_results)} 个知识点")
+    # 使用线程池并发执行知识点生成
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(len(knowledge_points_list), 20)) as executor:
+        # 提交所有任务
+        future_to_index = {
+            executor.submit(generate_knowledge_point_with_logging,
+                          knowledge_point, i+1, global_html, knowledge_base, main_dir): i
+            for i, knowledge_point in enumerate(knowledge_points_list)
+        }
+
+        # 收集结果（按照提交顺序）
+        results_dict = {}
+        for future in concurrent.futures.as_completed(future_to_index):
+            index = future_to_index[future]
+            try:
+                result = future.result()
+                results_dict[index] = result
+                print(f"✅ 知识点{index+1}生成完成")
+            except Exception as exc:
+                print(f"❌ 知识点{index+1}生成失败: {exc}")
+                results_dict[index] = None
+
+        # 按原始顺序整理结果
+        knowledge_points_results = [results_dict[i] for i in range(len(knowledge_points_list))]
+
+    execution_time = time.time() - start_time
+    print(f"\n✅ 共生成 {len([r for r in knowledge_points_results if r is not None])}/{len(knowledge_points_results)} 个知识点")
+    print(f"⚡ 并发执行耗时: {execution_time:.2f}秒")
 
     # 第六步：顺序生成章节，传递代码依赖
     all_results = []
@@ -707,43 +736,7 @@ def main():
         print(f"   生成答案代码长度: {len(previous_answer)} 字符")
         print(f"   供下一章使用的代码摘要: {previous_answer[:100]}...")
 
-    # 第七步：保存所有结果
-    output_file = "course_generation_results_v2.json"
-    with open(output_file, 'w', encoding='utf-8') as f:
-        # 将结果转换为可序列化的格式
-        serializable_results = {
-            "global_html": global_html,
-            "knowledge_graph_used": knowledge_graph_file,
-            "knowledge_points": knowledge_points_results,  # 添加知识点结果
-            "chapters": []
-        }
-
-        for r in all_results:
-            # 清理转义字符
-            clean_start_html = clean_escape_chars(r["start_html"])
-            clean_test = clean_escape_chars(r["test_output"])
-            clean_answer = clean_escape_chars(r["answer_code_for_next"])
-
-            print(f"\n🔍 解析章节 '{r['chapter_title']}' 的输出...")
-
-            # 解析test_output为JSON对象
-            test_json = parse_json_from_text(clean_test)
-            if test_json and isinstance(test_json, dict):
-                print(f"✅ 测试输出解析成功: {type(test_json)}，包含键: {list(test_json.keys())}")
-            else:
-                print(f"⚠️ 测试输出解析失败，使用原始字符串")
-                test_json = clean_test
-
-            serializable_results["chapters"].append({
-                "chapter": r["chapter_title"],
-                "chapter_id": r["chapter_id"],
-                "start_html": clean_start_html,
-                "test_file": f"chapter_{r['chapter_id']}/test/content.json",
-                "answer_code_summary": clean_answer
-            })
-
-        # 使用ensure_ascii=False确保中文和特殊字符正确显示
-        json.dump(serializable_results, f, indent=2, ensure_ascii=False)
+    # 所有结果已分别保存为独立JSON文件，无需额外汇总
 
 
     print("\n" + "="*60)
@@ -755,7 +748,6 @@ def main():
     seconds = total_time % 60
 
     print("🎉 课程生成完成！(V2版本)")
-    print(f"📁 结果已保存至: {output_file}")
     print(f"📂 所有文件已保存至: {main_dir}")
     print(f"⏱️ 总耗时: {hours:02d}:{minutes:02d}:{seconds:05.2f}")
 
