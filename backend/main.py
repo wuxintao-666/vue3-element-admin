@@ -1,5 +1,6 @@
 import logging
-
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="pydantic")
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
@@ -75,6 +76,10 @@ app.include_router(knowledge_graph_router)
 
 # 添加课程管理路由
 app.include_router(course_router)
+
+# 添加课程生成WebSocket路由
+from api.course_generation_ws_router import router as course_generation_ws_router
+app.include_router(course_generation_ws_router, tags=["Course Generation WebSocket"])
 
 # 添加静态文件服务
 # 设置静态文件目录路径

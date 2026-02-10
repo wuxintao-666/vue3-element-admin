@@ -129,7 +129,7 @@ def generate_example_from_knowledge_graph(kg_file, agent):
             agents=[agent],
             tasks=[example_task],
             process="sequential",
-            verbose=True,
+            verbose=False,
             name="示例HTML生成Crew"
         )
 
@@ -196,7 +196,7 @@ def generate_single_knowledge_point(knowledge_point_info, global_html_ref, knowl
         knowledge_point_crew = Crew(
             agents=[knowledge_expert],
             tasks=[knowledge_point_task],
-            verbose=True,
+            verbose=False,
             process="sequential",
             name="小节识点内容生成Crew"
         )
@@ -209,7 +209,6 @@ def generate_single_knowledge_point(knowledge_point_info, global_html_ref, knowl
         if knowledge_output.strip():
             try:
                 # 尝试解析为JSON
-                import json
                 import pprint
                 knowledge_json = json.loads(knowledge_output)
                 print(f"📋 知识点JSON解析成功，包含键: {list(knowledge_json.keys())}")
@@ -304,7 +303,7 @@ def generate_single_knowledge_point(knowledge_point_info, global_html_ref, knowl
         test_crew = Crew(
             agents=[test_designer],
             tasks=[test_task],
-            verbose=True,
+            verbose=False,
             process="sequential",
             name="小节测试题生成Crew"
         )
@@ -317,7 +316,6 @@ def generate_single_knowledge_point(knowledge_point_info, global_html_ref, knowl
         if test_output.strip():
             try:
                 # 尝试解析为JSON
-                import json
                 import pprint
                 test_json = json.loads(test_output)
                 print(f"📋 测试题JSON解析成功，包含键: {list(test_json.keys())}")
@@ -452,7 +450,7 @@ def generate_single_chapter(chapter_info, global_html_ref, knowledge_base_ref, p
         agents=[test_designer],
         tasks=[test_task],
         process="sequential",
-        verbose=True,
+        verbose=False,
         name="章节测试题生成Crew"
     )
 
